@@ -1,3 +1,5 @@
+## REQUIREMENTS
+
 (a) use of immutable data structures like tuples to minimize unnecessary mutability
 
 (b) use of mutable data structures like lists and dictionaries in a thoughtful and correct manner,
