@@ -8,10 +8,10 @@ This is written in markdown. Read about markdown here: [markdowncheatsheet](http
 Caley Rombout & Richie Zhang
 
 ## Your student number:
-A01385183 & 
+A01385183 & A01428846
 
 ## Your GitHub name:
-crombout89 & microwavelinkantenna
+crombout89 & MicrowaveLinkAntenna
 
 ## Any important comments you'd like to make about your work:
 Nov 23: Smaller flowcharts included in the folder 'flowcharts', main game function flowchart is in the main
