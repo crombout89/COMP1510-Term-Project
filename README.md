@@ -14,5 +14,5 @@ A01385183 &
 crombout89 & microwavelinkantenna
 
 ## Any important comments you'd like to make about your work:
-Nov 23: Smaller function flowcharts included in the folder 'flowcharts', main game function flowchart is in the main
+Nov 23: Smaller flowcharts included in the folder 'flowcharts', main game function flowchart is in the main
 project directory.
