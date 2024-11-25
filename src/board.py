@@ -23,15 +23,18 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
 
     >>> generate_board(-1, 1, -1, 1)
     {"meta": {"min_x": -1, "max_x": 1, "min_y": -1, "max_y": 1},
-     (-1, -1): None, (-1, 0): None, (0, -1): None, (0, 0): None}
+     (-1, -1): None, (-1, 0): None, (-1, 1): None, (0, -1): None, (0, 0): None, (0, 1): None,
+     (1, -1): None, (1, 0): None, (1, 1): None}
     >>> generate_board(-2, 2, -1, 1)
     {"meta": {"min_x": -2, "max_x": 2, "min_y": -1, "max_y": 1},
-     (-2, -1): None, (-2, 0): None, (-1, -1): None, (-1, 0): None, (0, -1): None,
-     (0, 0): None, (1, -1): None, (1, 0): None}
+     (-2, -1): None, (-2, 0): None, (-2, 1): None, (-1, -1): None, (-1, 0): None, (-1, 1): None,
+     (0, -1): None, (0, 0): None, (0, 1): None, (1, -1): None, (1, 0): None, (1, 1): None,
+     (2, -1): None, (2, 0): None, (2, 1): None}
     >>> generate_board(-1, 1, -2, 2)
     {"meta": {"min_x": -1, "max_x": 1, "min_y": -2, "max_y": 2},
-     (-1, -2): None, (-1, -1): None, (-1, 0): None, (-1, 1): None, (0, -2): None,
-     (0, -1): None, (0, 0): None, (0, 1): None}
+     (-1, -2): None, (-1, -1): None, (-1, 0): None, (-1, 1): None, (-1, 2): None, (0, -2): None,
+     (0, -1): None, (0, 0): None, (0, 1): None, (0, 2): None, (1, -2): None, (1, -1): None,
+     (1, 0): None, (1, 1): None, (1, 2): None}
     """
     if min_x > max_x:
         raise ValueError("min_x must be less than or equal to max_x")
