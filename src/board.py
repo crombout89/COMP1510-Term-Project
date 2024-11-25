@@ -1,6 +1,7 @@
 import random
 from config import GROUND_X_SCALE, GROUND_Y_SCALE
 
+
 def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
     """
     Generate an empty board of the specified coordinate range.
@@ -53,7 +54,7 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
     return board
 
 
-def populate_board(board: dict, name: str, times: int) -> dict:
+def populate_board(board: dict, name: str, times: int):
     counter = 0
     while counter <= times:
         x_coordinate = random.randint(board["meta"]["min_x"], board["meta"]["max_x"])
@@ -67,7 +68,9 @@ def populate_board(board: dict, name: str, times: int) -> dict:
             counter += 1
 
 
-def generate_ground_board():
+def generate_ground_board() -> dict:
     ground_board = generate_board(-GROUND_X_SCALE, GROUND_X_SCALE, -GROUND_Y_SCALE, GROUND_Y_SCALE)
     populate_board(ground_board, "TreeTrunk", random.randint(30, 60))
     return ground_board
+
+
