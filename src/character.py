@@ -9,7 +9,7 @@ def create_character(name: str) -> dict:
         "Tummy": 100,
         "ExtraEnergy": 0,
         "AnimalsHelped": 0,
-        "FinalChallengeCompleted": 0,
+        "FinalChallengeCompleted": None,
         "Inventory": {
             "Berries": {
                 "Red": 1,
