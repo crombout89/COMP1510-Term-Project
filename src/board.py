@@ -13,8 +13,8 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
     :precondition: min_y must be an integer less than or equal to max_y
     :param max_y: the maximum y coordinate of the board
     :precondition: max_y must be an integer greater than or equal to min_y
-    :postcondition: generates a grid of coordinates with x coordinates from min_x to one less than max_x,
-                    and y coordinates from min_y to one greater than max_y
+    :postcondition: generates a grid of coordinates with x coordinates from min_x to max_x,
+                    and y coordinates from min_y max_y
     :return: a dictionary with a "meta" key containing a nested dictionary with the maximum and minimum x and y
              coordinates; and a set of tuple keys representing an x and y coordinate, and whose values are None
     :raises ValueError: if min_x is greater than max_x
@@ -46,8 +46,8 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
         }
     }
 
-    for current_x in range(min_x, max_x):
-        for current_y in range(min_y, max_y):
+    for current_x in range(min_x, max_x + 1):
+        for current_y in range(min_y, max_y + 1):
             board[(current_x, current_y)] = None
 
     return board
