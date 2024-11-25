@@ -1,5 +1,5 @@
 import random
-from config import GROUND_X_SCALE, GROUND_Y_SCALE
+from config import GROUND_X_SCALE, GROUND_Y_SCALE, TREE_SCALE_OPTIONS
 
 
 def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
@@ -74,3 +74,9 @@ def generate_ground_board() -> dict:
     return ground_board
 
 
+def generate_tree_board() -> dict:
+    tree_scale = random.choice(TREE_SCALE_OPTIONS)
+    tree_board = generate_board(-tree_scale, tree_scale, -tree_scale, tree_scale)
+    tree_board[(0, 0)] = "TreeTrunk"
+    populate_board(tree_board, "Moss", random.randint(0, tree_scale))
+    return tree_board
