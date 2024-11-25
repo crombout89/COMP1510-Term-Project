@@ -1,3 +1,6 @@
+import random
+
+
 def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
     """
     Generate an empty board of the specified coordinate range.
@@ -48,3 +51,17 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
             board[(current_x, current_y)] = None
 
     return board
+
+
+def populate_board(board: dict, name: str, times: int) -> dict:
+    counter = 0
+    while counter <= times:
+        x_coordinate = random.randint(board["meta"]["min_x"], board["meta"]["max_x"])
+        y_coordinate = random.randint(board["meta"]["min_y"], board["meta"]["max_y"])
+        coordinate = (x_coordinate, y_coordinate)
+
+        # Don't generate anything for (0, 0) because it's a reserved tile
+        # Don't generate anything if the selected coordinate is not a blank tile
+        if coordinate != (0, 0) and board[coordinate] is None:
+            board[coordinate] = name
+            counter += 1
