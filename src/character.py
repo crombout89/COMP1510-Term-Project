@@ -22,3 +22,10 @@ def create_character(name: str) -> dict:
             "SilverVine": 0
         }
     }
+
+
+def current_location(character) -> tuple[int, int]:
+    if character["InTree"]:
+        return character["TreeCoordinates"]
+    else:
+        return character["GroundCoordinates"]
