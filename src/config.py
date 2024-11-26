@@ -11,6 +11,9 @@ SILVERVINE_PROBABILITY = 100
 CATNIP_PROBABILITY = 20
 BERRY_PROBABILITY = 5
 
+# Multipliers
+UNTIL_NEXT_LEVEL_MULTIPLIER = 5  # Multiplier for many animals the player has to help before leveling up
+
 # Entity attribute options
 ANIMAL_OPTIONS = ["Mouse", "Squirrel", "Chipmunk", "Mole", "Shrew", "Hedgehog", "Sparrow", "Robin", "Finch", "Crow",
                   "Raven", "Bunny", "Cricket", "Spider", "Snake"]

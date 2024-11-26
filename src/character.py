@@ -1,3 +1,6 @@
+from config import UNTIL_NEXT_LEVEL_MULTIPLIER
+
+
 def create_character(name: str) -> dict:
     return {
         "Name": name,
@@ -48,3 +51,13 @@ def check_tummy(character: dict) -> bool:
             return True
         else:
             return character["Tummy"] > 0
+
+
+def update_level(character: dict) -> bool:
+    if character["UntilNextLevel"] <= 0:
+        character["Level"] += 1
+        character["UntilNextLevel"] = UNTIL_NEXT_LEVEL_MULTIPLIER * character["Level"]
+    if character["Level"] == 3 and character["FinalChallengeCompleted"] is None:
+        character["FinalChallengeCompleted"] = False
+    else:
+        return character["Level"] == 3 and character["FinalChallengeCompleted"]
