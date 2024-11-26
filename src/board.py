@@ -83,3 +83,7 @@ def generate_tree_board() -> dict:
     tree_board[(0, 0)] = "TreeTrunk"
     populate_board(tree_board, "Moss", random.randint(0, tree_scale))
     return tree_board
+
+
+def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
+    return coordinates in board
