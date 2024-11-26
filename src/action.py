@@ -1,4 +1,5 @@
 from board import valid_location
+from src.character import current_location
 
 
 def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
@@ -12,11 +13,26 @@ def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
         return False
 
 
+def climb(character: dict, board) -> bool:
+    location = current_location(character)
+    if board[location] == "TreeTrunk":
+        if character["InTree"]:
+            character["InTree"] = False
+        else:
+            character["TreeCoordinates"] = (0, 0)
+            character["InTree"] = True
+        return True
+    else:
+        # TODO: print a message to the console telling the user that they can't climb because they are not
+        #  at a tree trunk
+        return False
+
+
 def perform_action(character: dict, board: dict, action: dict) -> bool:
     if action["Type"] == "Move":
         return move(character, board, action["data"])
     elif action["Type"] == "Climb":
-        return climb(character)
+        return climb(character, board)
     elif action["Type"] == "Eat":
         return eat(character, action["data"])
     elif action["Type"] == "Nap":
