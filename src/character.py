@@ -1,30 +1,12 @@
-from config import UNTIL_NEXT_LEVEL_MULTIPLIER
+import copy
+
+from config import CHARACTER_DEFAULT_ATTRIBUTES, UNTIL_NEXT_LEVEL_MULTIPLIER
 
 
 def create_character(name: str) -> dict:
-    return {
-        "Name": name,
-        "Level": 1,
-        "UntilNextLevel": 5,
-        "InTree": False,
-        "GroundCoordinates": (0, 0),
-        "TreeCoordinates": (0, 0),
-        "Tummy": 100,
-        "ExtraEnergy": 0,
-        "AnimalsHelped": 0,
-        "FinalChallengeCompleted": None,
-        "Inventory": {
-            "Berries": {
-                "Red": 1,
-                "Green": 1,
-                "Blue": 1,
-                "Yellow": 1,
-                "Purple": 1
-            },
-            "Catnip": 0,
-            "SilverVine": 0
-        }
-    }
+    new_character = copy.deepcopy(CHARACTER_DEFAULT_ATTRIBUTES)
+    new_character["Name"] = name
+    return new_character
 
 
 def current_location(character) -> tuple[int, int]:
