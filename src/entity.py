@@ -56,7 +56,7 @@ def generate_entity(board: dict, character: dict) -> typing.Optional[dict]:
         # Generate a list of ailments where each ailment except "Starving" appears twice
         # The resultant list of ailments will require two of each berry to treat
         ailments = copy.deepcopy(AILMENT_OPTIONS)
-        ailments.remove("Starving")
+        ailments.remove("Starving")  # We remove "Starving" because it would mess up the two of each berry requirement
         ailments *= 2
         return {
             "Type": "Animal",
