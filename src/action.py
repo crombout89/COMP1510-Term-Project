@@ -1,6 +1,7 @@
 from board import valid_location
 from character import current_location, get_item_from_inventory
-from config import (ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY, SILVERVINE_EXTRA_ENERGY,
+from config import (SUBTRACT_FROM_TUMMY_IF_CLIMB, SUBTRACT_FROM_TUMMY_IF_MOVE,
+                    ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY, SILVERVINE_EXTRA_ENERGY,
                     CATNIP_TUMMY_MULTIPLIER, SILVERVINE_TUMMY_MULTIPLIER)
 
 
@@ -10,6 +11,7 @@ def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
                        character[coordinate_type][1] + direction[1])
     if valid_location(board, new_coordinates):
         character[coordinate_type] = new_coordinates
+        character["Tummy"] -= SUBTRACT_FROM_TUMMY_IF_MOVE
         return True
     else:
         return False
@@ -23,6 +25,7 @@ def climb(character: dict, board) -> bool:
         else:
             character["TreeCoordinates"] = (0, 0)
             character["InTree"] = True
+        character["Tummy"] -= SUBTRACT_FROM_TUMMY_IF_CLIMB
         return True
     else:
         # TODO: print a message to the console telling the user that they can't climb because they are not
