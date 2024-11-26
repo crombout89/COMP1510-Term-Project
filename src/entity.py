@@ -2,9 +2,29 @@ import copy
 import random
 import typing
 
-from config import (AILMENT_OPTIONS, BERRY_COLOR_OPTIONS, ANIMAL_PROBABILITY, SILVERVINE_PROBABILITY,
-                    CATNIP_PROBABILITY, BERRY_PROBABILITY)
+from config import (ANIMAL_OPTIONS, AILMENT_OPTIONS, BERRY_COLOR_OPTIONS,
+                    ANIMAL_PROBABILITY, SILVERVINE_PROBABILITY, CATNIP_PROBABILITY, BERRY_PROBABILITY)
 from character import current_location
+
+
+def generate_animal(character):
+    new_animal = {
+        "Type": "Animal",
+        "Name": random.choice(ANIMAL_OPTIONS)
+    }
+
+    # Ailments is a set to ensure an animal (that's not the final challenge) does not have duplicate ailments
+    # If more than one of the same ailment is generated, all but the first instance of the ailment will be ignored
+    ailments = set()
+
+    # An animal's number of ailments is between 1 and the level of the character for whom the animal is generated
+    max_ailments = random.randint(1, character["Level"])
+
+    for _ in range(max_ailments):
+        ailments.add(random.choice(AILMENT_OPTIONS))
+
+    new_animal["Data"] = list(ailments)  # Convert the set of ailments to a list
+    return new_animal
 
 
 def generate_item(character: dict, always: bool = False) -> typing.Optional[dict]:
