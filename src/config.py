@@ -28,3 +28,13 @@ ANIMAL_OPTIONS = ["Mouse", "Squirrel", "Chipmunk", "Mole", "Shrew", "Hedgehog", 
                   "Raven", "Bunny", "Cricket", "Spider", "Snake"]
 AILMENT_OPTIONS = ["Injured", "Poisoned", "Dehydrated", "Burned", "Sad", "Starving"]
 BERRY_COLOR_OPTIONS = ["Red", "Green", "Blue", "Yellow", "Purple"]
+
+# Other configurations
+BERRY_TREATMENTS = {
+    # "Berry colour": "Treats this ailment"
+    "Red": "Injured",
+    "Green": "Poisoned",
+    "Blue": "Dehydrated",
+    "Yellow": "Burned",
+    "Purple": "Sad",
+}
