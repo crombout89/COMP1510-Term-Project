@@ -61,3 +61,10 @@ def update_level(character: dict) -> bool:
         character["FinalChallengeCompleted"] = False
     else:
         return character["Level"] == 3 and character["FinalChallengeCompleted"]
+
+
+def subtract_from_tummy(character: dict, units: int):
+    if character["ExtraEnergy"] > 0:
+        character["ExtraEnergy"] -= 1
+    else:
+        character["Tummy"] -= units
