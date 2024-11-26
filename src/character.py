@@ -68,3 +68,20 @@ def subtract_from_tummy(character: dict, units: int):
         character["ExtraEnergy"] -= 1
     else:
         character["Tummy"] -= units
+
+
+def get_item_from_inventory(character: dict, item: dict) -> bool:
+    if item["Name"] == "Catnip" or item["Name"] == "Silvervine":
+        if character["Inventory"][item["Name"]] > 0:
+            character["Inventory"][item["Name"]] -= 0
+            return True
+        else:
+            return False
+    elif item["Name"] == "Berry":
+        if character["Inventory"]["Berries"][item["Data"]] > 0:
+            character["Inventory"]["Berries"][item["Data"]] -= 1
+            return True
+        else:
+            return False
+    else:
+        return False
