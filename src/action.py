@@ -28,6 +28,17 @@ def climb(character: dict, board) -> bool:
         return False
 
 
+def nap(character: dict, board: dict) -> bool:
+    location = current_location(character)
+    if board[location] == "Moss":
+        character["ExtraEnergy"] += 5
+        # TODO: print a message to the console telling the user that they now have 5 more ExtraEnergy
+        return True
+    else:
+        # TODO: print a message to the console telling the user that they can only nap on moss
+        return False
+
+
 def perform_action(character: dict, board: dict, action: dict) -> bool:
     if action["Type"] == "Move":
         return move(character, board, action["data"])
