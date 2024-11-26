@@ -58,7 +58,7 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
 
 
 def populate_board(board: dict, name: str, times: int):
-    counter = 0
+    counter = 1
     while counter <= times:
         x_coordinate = random.randint(board["meta"]["min_x"], board["meta"]["max_x"])
         y_coordinate = random.randint(board["meta"]["min_y"], board["meta"]["max_y"])
