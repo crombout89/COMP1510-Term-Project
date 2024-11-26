@@ -29,3 +29,22 @@ def current_location(character) -> tuple[int, int]:
         return character["TreeCoordinates"]
     else:
         return character["GroundCoordinates"]
+
+
+def check_tummy(character: dict) -> bool:
+    if character["ExtraEnergy"] > 0:
+        # If the character has extra energy, their tummy cannot run out by definition,
+        # even if the actual level of the tummy is zero or negative. This buys the character time
+        # to refill their tummy.
+        return True
+    else:
+        if character["Tummy"] == 10:
+            # TODO: print a message warning the user that they are getting hungry, and they should eat an item to
+            #  restore their tummy
+            return True
+        elif character["Tummy"] == 1:
+            # TODO: print a message warning the user that they are about to pass out from hunger, and they should eat
+            #  an item to restore their tummy
+            return True
+        else:
+            return character["Tummy"] > 0
