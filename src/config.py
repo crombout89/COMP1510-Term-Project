@@ -13,6 +13,13 @@ BERRY_PROBABILITY = 5
 
 # Multipliers
 UNTIL_NEXT_LEVEL_MULTIPLIER = 5  # Multiplier for many animals the player has to help before leveling up
+CATNIP_TUMMY_MULTIPLIER = 2  # Multiplier for how many points to add to the tummy if a character eats Catnip
+SILVERVINE_TUMMY_MULTIPLIER = 4  # Multiplier for how many points to add to the tummy if a character eats Silvervine
+
+# Base values
+ADD_TO_TUMMY_IF_EAT_ITEM = 25  # How many points to add to the tummy if a character eats an item
+CATNIP_EXTRA_ENERGY = 25   # How much extra energy to give to the player if they eat Catnip
+SILVERVINE_EXTRA_ENERGY = 50  # How much extra energy to give to the player if they eat Silvervine
 
 # Entity attribute options
 ANIMAL_OPTIONS = ["Mouse", "Squirrel", "Chipmunk", "Mole", "Shrew", "Hedgehog", "Sparrow", "Robin", "Finch", "Crow",
