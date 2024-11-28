@@ -43,5 +43,16 @@ def game_complete():
     print("You're truly the hero of Whisker Woods! 🐾✨")
     return
 
-game_complete()
+
+def get_action_input(character: dict, board: dict) -> dict:
+    """
+    Ask the user for an action, process the input, and return an action dictionary.
+
+    :param character: A dictionary containing information about the player character.
+    :param board: A dictionary containing information about the board.
+    :precondition: character must be a dictionary.
+    :precondition: board must be a dictionary.
+    :postcondition: Returns a dictionary representing the processed action with keys "Type" and "Data".
+    :return: A dictionary representing the processed action with keys "Type" and "Data".
+    """
 
