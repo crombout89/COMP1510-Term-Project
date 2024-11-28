@@ -1,5 +1,6 @@
 def print_game_instructions():
-    """ Function to print the game's backstory and instructions for winning. """
+    """ Print the game's backstory and instructions for winning. """
+
     # Backstory
     print("Welcome to Whisker Woods Rescue! 🐾🐈")
     print("Deep in the heart of Whisker Woods, a magical forest brimming with life,\n"
@@ -22,4 +23,11 @@ def print_game_instructions():
     print("\nAre you ready to embark on this berry sweet adventure?")
     print("Paws, think, and heal! The forest is rooting for you. 🐾🍓✨")
 
-print_game_instructions()
+
+def game_over():
+    """ Print a game over message indicating the player has passed out from hunger. """
+
+    print("💔 Oh no! You've passed out from hunger!")
+    print("Without the energy to continue, your adventure comes to an end.")
+    print("But don’t worry —- every hero gets another chance!")
+    return
