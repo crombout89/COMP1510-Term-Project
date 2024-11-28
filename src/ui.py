@@ -22,6 +22,7 @@ def print_game_instructions():
 
     print("\nAre you ready to embark on this berry sweet adventure?")
     print("Paws, think, and heal! The forest is rooting for you. 🐾🍓✨")
+    return
 
 
 def game_over():
@@ -31,3 +32,16 @@ def game_over():
     print("Without the energy to continue, your adventure comes to an end.")
     print("But don’t worry —- every hero gets another chance!")
     return
+
+
+def game_complete():
+    """ Print a congratulatory message to the player for completing the game. """
+
+    print("🎉 Congratulations! You've completed Whisker Woods Rescue! 🎉")
+    print("Thanks to your purrseverance and kindness, the forest is thriving again.")
+    print("Mittens has become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
+    print("You're truly the hero of Whisker Woods! 🐾✨")
+    return
+
+game_complete()
+
