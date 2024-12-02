@@ -62,7 +62,26 @@ def help_animal(character: dict, entity: dict):
 
 
 def pick_up_item(character: dict, entity: dict):
-    pass
+    """
+    Adds an item to the character's inventory and prints a message to the console telling the user
+    what item was picked up.
+
+    :param character: the character to receive the item
+    :precondition: character must be a well-formed dictionary representing a character
+    :param entity: the entity containing the item to be picked up
+    :precondition: character must be a well-formed dictionary representing an entity and whose type is "Item"
+    :postcondition: increments the corresponding item in the inventory of the character by one,
+                    and prints a message to the console telling the user
+    :raises ValueError: if entity is not an item
+    """
+    if entity["Type"] != "Item":
+        raise ValueError(f"The key 'Type' of entity must be 'Item', not '{entity['Type']}'")
+    if entity["Name"] == "Catnip" or entity["Name"] == "Silvervine":
+        print(f"You picked up a {entity['Name']}.")
+        character["Inventory"][entity["Name"]] += 1
+    else:
+        print(f"You picked up a {entity['Data']} Berry.")
+        character["Inventory"]["Berries"][entity["Data"]] += 1
 
 
 def describe_location(character: dict, board: dict):
