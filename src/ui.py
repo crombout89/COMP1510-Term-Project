@@ -56,3 +56,14 @@ def get_action_input(character: dict, board: dict) -> dict:
     :return: A dictionary representing the processed action with keys "Type" and "Data".
     """
 
+
+def help_animal(character: dict, entity: dict):
+    pass
+
+
+def pick_up_item(character: dict, entity: dict):
+    pass
+
+
+def describe_location(character: dict, board: dict):
+    pass
