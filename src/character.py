@@ -1,7 +1,6 @@
 import copy
 
 from .config import CHARACTER_DEFAULT_ATTRIBUTES, UNTIL_NEXT_LEVEL_MULTIPLIER
-from .ui import start_final_challenge
 
 
 def create_character(name: str) -> dict:
@@ -237,3 +236,10 @@ def get_item_from_inventory(character: dict, item: dict) -> bool:
                 return False
     else:
         return False
+
+
+def start_final_challenge(character):
+    character["InTree"] = False
+    character["GroundCoordinates"] = (0, 0)
+    character["FinalChallengeCompleted"] = False
+    # TODO: Print user prompts

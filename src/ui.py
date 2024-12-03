@@ -1,3 +1,11 @@
+import random
+
+from .animal import validate_berry
+from .character import get_item_from_inventory
+from .entity import generate_item, stringify_item
+from .config import UNTIL_NEXT_LEVEL_MULTIPLIER
+
+
 def print_game_instructions():
     """ Print the game's backstory and instructions for winning. """
 
@@ -57,8 +65,6 @@ def get_action_input(character: dict, board: dict) -> dict:
     """
 
 
-import random
-
 def help_animal(character: dict, entity: dict):
     """
     Allow the player to help a sick animal by using berries to cure its ailments.
@@ -68,8 +74,8 @@ def help_animal(character: dict, entity: dict):
     :return: None
     """
     name = entity.get("Name", "")
-    ailments = entity.get("Ailments", [])
-    inventory = character.get("Inventory", {}).get("Berries", {})
+    ailments = entity.get("Data", [])
+    # inventory = character.get("Inventory", {}).get("Berries", {})
     level = character.get("Level", 1)
 
     # Special handling for the Final Challenge
@@ -78,45 +84,51 @@ def help_animal(character: dict, entity: dict):
         print("You need to give the sick animal a special medicine made from a recipe of berries to cure them,"
               "or press ENTER to skip.")
     else:
-        print(f"You have come across a sad {name}, and they aren't doing very well...")
-        print(f"{name}: I don't feel so good, I have {', '.join(ailments) if ailments else 'None'}. Can you help me?")
+        print(f"You have come across a {name}, and they aren't doing very well...")
+        print(f"{name}: I don't feel so good, I am {', '.join(ailments)}. Can you help me?")
         print("You need to give them the correct berries to cure their ailments! Or, press ENTER to skip.")
 
     # Main loop to treat the animal
     while len(ailments) > 0:
-        berry = input("Which color berry would you like to give the animal? ").strip().lower()
-        if not berry:
+        berry_color = input("Which color berry would you like to give the animal? ").strip().lower().title()
+        if not berry_color:
             print("You skipped giving the animal a berry.")
             return
 
-        berry = berry.title()  # Convert to title case for consistency
+        berry = {
+            "Type": "Item",
+            "Name": "Berry",
+            "Data": berry_color
+        }
 
         # Check if the player has the berry in their inventory
         try:
-            has_item = GET_ITEM_FROM_INVENTORY(character, berry)
+            has_item = get_item_from_inventory(character, berry)
         except Exception as e:
             print(f"Error checking inventory for '{berry}': {e}")
             return
         else:
             if not has_item:
-                print(f"Oh no! You don't have any '{berry}' berries in your inventory.")
+                print(f"Oh no! You don't have any '{berry_color}' berries in your inventory.")
                 continue
 
-        print(f"Hooray! You have '{berry}' in your inventory!")
+        print(f"Hooray! You have '{berry_color}' berry in your inventory!")
 
         # Validate the berry as a treatment for the ailments
         try:
-            valid_treatment = VALIDATE_BERRY(berry, ailments)
+            valid_treatment = validate_berry(berry_color, ailments)
         except Exception as e:
             print(f"Error validating '{berry}' as a treatment: {e}")
             return
         else:
             if not valid_treatment:
-                print(f"The '{berry}' was not effective, the animal's ailments were not cured. 😢")
+                print(f"The '{berry_color}' was not effective, the animal's ailments were not cured. 😢")
                 return
 
         print(f"The berry '{berry}' successfully treated one of the animal's ailments! 🩹")
 
+        # This is already implemented by validate_berry
+        """
         # Find and remove the treated ailment
         try:
             treated_ailment = BERRY_TREATMENTS[berry]
@@ -126,7 +138,10 @@ def help_animal(character: dict, entity: dict):
         else:
             if treated_ailment in ailments:
                 ailments.remove(treated_ailment)
+        """
 
+        # This is already implemented by get_item_from_inventory
+        """
         # Deduct the berry from the inventory
         try:
             if inventory.get(berry, 0) > 0:
@@ -138,6 +153,7 @@ def help_animal(character: dict, entity: dict):
             return
         else:
             print(f"You used one '{berry}' berry. Remaining: {inventory[berry]}")
+        """
 
         # Check if all ailments are cured
         if len(ailments) == 0:
@@ -150,17 +166,17 @@ def help_animal(character: dict, entity: dict):
                 print(f"Error generating rewards: {e}")
                 reward = 0
             else:
-                print(f"The {name} is so grateful! It gives you {reward} random items as a reward!")
+                print(f"The {name} is so grateful! It gives you {reward} items as a reward!")
 
             # Reward the player with random items
             for _ in range(reward):
                 try:
-                    reward_item = GENERATE_ITEM(character, True)  # Generate a random item
-                    PICK_UP_ITEM(character, reward_item)  # Add the item to the player's inventory
+                    reward_item = generate_item(character, True)  # Generate a random item
+                    pick_up_item(character, reward_item)  # Add the item to the player's inventory
                 except Exception as e:
                     print(f"Error generating or picking up reward item: {e}")
                 else:
-                    print(f"You received: {reward_item}!")
+                    print(f"You received: {stringify_item(reward_item)}!")
 
             # Update character stats (AnimalsHelped and UntilNextLevel)
             try:
@@ -175,7 +191,8 @@ def help_animal(character: dict, entity: dict):
                     character["FinalChallengeCompleted"] = True
                     print("Congratulations! You have completed the Final Challenge! 🎉")
                     return
-
+                # This is already implemented in update_level
+                """
                 if character["UntilNextLevel"] == 0:
                     try:
                         character["Level"] += 1  # Increment the level in the character dictionary
@@ -186,12 +203,13 @@ def help_animal(character: dict, entity: dict):
                         print(f"Congratulations! You leveled up to Level {character['Level']}!")
 
                         # Reset UntilNextLevel based on the new level
-                        UNTIL_NEXT_LEVEL_MULTIPLIER = 5  # You can adjust this multiplier
+                        # UNTIL_NEXT_LEVEL_MULTIPLIER = 5  # You can adjust this multiplier
                         character["UntilNextLevel"] = UNTIL_NEXT_LEVEL_MULTIPLIER * character["Level"]
                         print(f"You need to help {character['UntilNextLevel']} more animals to reach the next level.")
+                
             finally:
                 print(f"Current Level: {character['Level']}, Animals Helped: {character['AnimalsHelped']}")
-
+            """
             return
 
 
@@ -221,9 +239,3 @@ def pick_up_item(character: dict, entity: dict):
 def describe_location(character: dict, board: dict):
     pass
 
-
-def start_final_challenge(character):
-    character["InTree"] = False
-    character["GroundCoordinates"] = (0, 0)
-    character["FinalChallengeCompleted"] = False
-    # TODO: Print user prompts
