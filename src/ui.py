@@ -53,6 +53,11 @@ def get_action_input(character: dict, board: dict) -> dict:
     :precondition: character must be a dictionary.
     :precondition: board must be a dictionary.
     :postcondition: Returns a dictionary representing the processed action with keys "Type" and "Data".
+    :raises KeyError: If required keys are missing from the `character` or `board` dictionaries.
+    :raises ValueError: If the user enters an unsupported or invalid action.
+    :raises SystemExit: If the user exceeds the maximum number of invalid input attempts
+                        or interrupts the program.
+    :raises Exception: For unexpected errors that occur during action processing.
     :return: A dictionary representing the processed action with keys "Type" and "Data".
 
         >>> character = {
