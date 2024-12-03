@@ -28,7 +28,7 @@ def generate_animal(character: dict) -> dict:
 
 
 def generate_item(character: dict, always: bool = False) -> typing.Optional[dict]:
-    def generate_berry_decision():
+    def generate_berry_decision() -> bool:
         # Normally, berries can only be found in trees, so we only generate a berry if the character is in a tree.
         # Berry has the lowest priority of all item types so if we're decising whether to generate a berry,
         # we know that we're on the last item option. So if the "always" parameter is set, we always need to generate
