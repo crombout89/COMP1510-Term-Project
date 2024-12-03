@@ -144,6 +144,32 @@ def update_level(character: dict) -> bool:
 
 
 def subtract_from_tummy(character: dict, units: int):
+    """
+    Decrease the character's tummy level by a specified number of units, prioritizing extra energy
+    if available.
+
+    :param character: A dictionary representing the character's state, including tummy and energy levels.
+    :param units: An integer representing the number of units to subtract from the tummy level when extra
+                  energy is depleted.
+    :precondition: character must have keys "Tummy" and "ExtraEnergy".
+    :precondition: units must be a non-negative integer.
+    :postcondition: Reduces the character's tummy or extra energy based on availability.
+
+    >>> character = {
+    ...     "Tummy": 10,
+    ...     "ExtraEnergy": 2
+    ... }
+    >>> subtract_from_tummy(character, 3)
+    >>> character["Tummy"]
+    10  # Tummy remains unchanged because extra energy is available
+    >>> character["ExtraEnergy"]
+    1  # Extra energy is reduced by 1
+
+    >>> character["ExtraEnergy"] = 0  # Deplete extra energy
+    >>> subtract_from_tummy(character, 3)
+    >>> character["Tummy"]
+    7  # Tummy reduced by 3
+    """
     if character["ExtraEnergy"] > 0:
         character["ExtraEnergy"] -= 1
     else:
