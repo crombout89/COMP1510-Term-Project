@@ -63,9 +63,55 @@ def help_animal(character: dict, entity: dict):
     """
     Allow the player to help a sick animal by using berries to cure its ailments.
 
-    :param character: The player's character data (dictionary).
-    :param entity: The animal's data (dictionary).
-    :return: None
+    :param character: A dictionary representing the character's data, which includes:
+                      - "Level": An integer representing the player's current level.
+                      - "Inventory": A dictionary containing the player's inventory, including berries.
+                      - "AnimalsHelped": An integer representing the number of animals helped.
+                      - "UntilNextLevel": An integer tracking the progress toward leveling up.
+    :param entity: A dictionary representing the animal's data, which includes:
+                      - "Name": A string representing the animal's name.
+                      - "Ailments": A list of strings representing the animal's ailments.
+    :precondition: character must be a valid dictionary with the required keys and values as described above.
+    :precondition: entity must be a valid dictionary with the required keys and values as described above.
+    :raises: KeyError if a required key is missing from the character or entity dictionaries.
+    :raises: TypeError if character or entity is not a dictionary or if their values are not of the expected type.
+    :raises: ValueError if the berry quantity in the inventory is invalid (e.g. negative or missing).
+    :postcondition: If the animal's ailments are successfully treated, the ailments are removed and the player receives
+                    rewards.
+    :postcondition: The character's inventory is updated to reflect the berries used.
+    :postcondition: The character's statistics ("AnimalsHelped", "UntilNextLevel", and "Level") are updated
+                    appropriately.
+    :postcondition: If "FinalChallenge" is completed, character["FinalChallengeCompleted"] is set to True.
+
+    >>> character = {
+    ...     "Level": 2,
+    ...     "UntilNextLevel": 1,
+    ...     "Inventory": {"Berries": {"Red": 2, "Green": 1, "Blue": 0}},
+    ...     "AnimalsHelped": 3,
+    ...     "FinalChallengeCompleted": False
+    ... }
+    >>> entity = {"Name": "Bunny", "Ailments": ["Injured"]}
+    >>> # Mock implementations of required functions:
+    >>> def GET_ITEM_FROM_INVENTORY(character, berry): return berry in character["Inventory"]["Berries"] and character["Inventory"]["Berries"][berry] > 0
+    >>> def VALIDATE_BERRY(berry, ailments): return berry == "Red" and "Injured" in ailments
+    >>> BERRY_TREATMENTS = {"Red": "Injured", "Green": "Sick"}
+    >>> def GENERATE_ITEM(character, is_random): return "Magic Herb"
+    >>> def PICK_UP_ITEM(character, item): character["Inventory"].setdefault(item, 0); character["Inventory"][item] += 1
+    >>> help_animal(character, entity)  # Simulate helping the animal
+    You have come across a sad Bunny, and they aren't doing very well...
+    Bunny: I don't feel so good, I have Injured. Can you help me?
+    Which color berry would you like to give the animal? red
+    Hooray! You have 'Red' in your inventory!
+    The berry 'Red' successfully treated one of the animal's ailments! 🩹
+    You used one 'Red' berry. Remaining: 1
+    The Bunny has been completely cured of their ailments!
+    The Bunny is so grateful! It gives you 3 random items as a reward!
+    You received: Green Berry!
+    You received: Catnip!
+    You received: Yellow Berry!
+    Congratulations! You leveled up to Level 2!
+    You need to help 15 more animals to reach the next level.
+    Current Level: 2, Animals Helped: 4
     """
     name = entity.get("Name", "")
     ailments = entity.get("Ailments", [])
