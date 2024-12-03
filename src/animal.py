@@ -1,4 +1,4 @@
-from config import BERRY_TREATMENTS
+from .config import BERRY_TREATMENTS
 
 
 def validate_berry(color: str, ailments: list[str]) -> bool:

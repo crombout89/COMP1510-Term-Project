@@ -1,6 +1,6 @@
 import copy
 
-from config import CHARACTER_DEFAULT_ATTRIBUTES, UNTIL_NEXT_LEVEL_MULTIPLIER
+from .config import CHARACTER_DEFAULT_ATTRIBUTES, UNTIL_NEXT_LEVEL_MULTIPLIER
 
 
 def create_character(name: str) -> dict:
