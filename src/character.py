@@ -53,10 +53,10 @@ def subtract_from_tummy(character: dict, units: int):
 
 def get_item_from_inventory(character: dict, item: dict) -> bool:
     """
-    :raises ValueError: if value of key "Type" of item is not "Item"
+    :raises TypeError: if value of key "Type" of item is not "Item"
     """
     if item["Type"] != "Item":
-        raise ValueError(f"Expected entity type 'Item', got '{item['Type']}'")
+        raise TypeError(f"Expected entity type 'Item', got '{item['Type']}'")
     if item["Name"] == "Catnip" or item["Name"] == "Silvervine":
         if character["Inventory"][item["Name"]] > 0:
             character["Inventory"][item["Name"]] -= 1
