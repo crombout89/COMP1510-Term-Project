@@ -96,6 +96,18 @@ def populate_board(board: dict, name: str, times: int):
 
 
 def generate_ground_board() -> dict:
+    """
+    Generate a ground board with tree trunks.
+
+    :postcondition: The board includes a random number of "TreeTrunk" entities populated on it.
+    :return: A dictionary representing the generated ground board with entities.
+
+    >>> ground_board = generate_ground_board()
+    >>> "TreeTrunk" in ground_board.values()
+    True  # At least one TreeTrunk should be present
+    >>> sum(1 for tile in ground_board.values() if tile == "TreeTrunk")
+    30 <= _ <= 60  # Number of TreeTrunks should be within the expected range
+    """
     ground_board = generate_board(-GROUND_X_SCALE, GROUND_X_SCALE, -GROUND_Y_SCALE, GROUND_Y_SCALE)
     populate_board(ground_board, "TreeTrunk", random.randint(30, 60))
     return ground_board
