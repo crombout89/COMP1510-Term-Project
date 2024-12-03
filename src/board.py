@@ -114,6 +114,18 @@ def generate_ground_board() -> dict:
 
 
 def generate_tree_board() -> dict:
+    """
+    Generate a tree board with a central tree trunk and moss.
+
+    :postcondition: The board includes one "TreeTrunk" at the center and a random number of "Moss" entities.
+    :return: A dictionary representing the generated tree board with entities.
+
+    >>> tree_board = generate_tree_board()
+    >>> tree_board[(0, 0)] == "TreeTrunk"
+    True  # The center should contain a TreeTrunk
+    >>> sum(1 for tile in tree_board.values() if tile == "Moss")
+    0 <= _ <= tree_scale  # Number of Moss entities should be within the expected range
+    """
     tree_scale = random.choice(TREE_SCALE_OPTIONS)
     tree_board = generate_board(-tree_scale, tree_scale, -tree_scale, tree_scale)
     tree_board[(0, 0)] = "TreeTrunk"
