@@ -57,8 +57,6 @@ def get_action_input(character: dict, board: dict) -> dict:
     """
 
 
-import random
-
 def help_animal(character: dict, entity: dict):
     """
     Allow the player to help a sick animal by using berries to cure its ailments.
@@ -202,7 +200,7 @@ def help_animal(character: dict, entity: dict):
             for _ in range(reward):
                 try:
                     reward_item = GENERATE_ITEM(character, True)  # Generate a random item
-                    PICK_UP_ITEM(character, reward_item)  # Add the item to the player's inventory
+                    pick_up_item(character, reward_item)  # Add the item to the player's inventory
                 except Exception as e:
                     print(f"Error generating or picking up reward item: {e}")
                 else:
