@@ -8,6 +8,23 @@ from .character import current_location
 
 
 def generate_animal(character: dict) -> dict:
+    """
+    Generate an animal entity with a random name and set of ailments based on the character's level.
+
+    :param character: A dictionary representing the character, which includes the character's level.
+    :postcondition: Returns an animal with a unique set of ailments and the number of ailments based on the
+                    character's level.
+    :return: A dictionary representing the generated animal, including its type, name, and ailments.
+
+    >>> character = {"Level": 3}
+    >>> animal = generate_animal(character)
+    >>> animal["Type"]
+    'Animal'
+    >>> animal["Name"] in ANIMAL_OPTIONS
+    True  # The animal's name should be one of the options
+    >>> 1 <= len(animal["Data"]) <= 3  # Number of ailments should be between 1 and character's level
+    True
+    """
     new_animal = {
         "Type": "Animal",
         "Name": random.choice(ANIMAL_OPTIONS)
