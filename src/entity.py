@@ -91,6 +91,30 @@ def generate_item(character: dict, always: bool = False) -> typing.Optional[dict
 
 
 def generate_entity(board: dict, character: dict) -> typing.Optional[dict]:
+    """
+    Generate an entity (animal or item) based on the character's location and state.
+
+    :param board: A dictionary representing the game board.
+    :param character: A dictionary representing the character's state, including final challenge status.
+    :precondition: board must be a valid dictionary containing the game board coordinates.
+    :precondition: character must be a valid dictionary containing the "FinalChallengeCompleted" key.
+    :postcondition: If the character is at the final challenge location, a specific entity will be generated.
+    :return: A dictionary representing the generated entity (animal or item), or None if no entity is generated.
+
+    >>> board = {
+    ...     (0, 0): None,
+    ...     (1, 1): "TreeTrunk",
+    ... }
+    >>> character = {"FinalChallengeCompleted": False, "InTree": False}
+    >>> entity = generate_entity(board, character)
+    >>> if entity:
+    ...     entity["Type"] in ["Animal", "Item"]
+    ...     True  # The generated entity should be either an Animal or an Item
+    True
+    >>> character["FinalChallengeCompleted"] = True
+    >>> generate_entity(board, character) is None
+    True  # Should not generate an entity if the final challenge is completed
+    """
     def generate_final_challenge_entity() -> dict:
         # Generate a list of ailments where each ailment except "Starving" appears twice
         # The resultant list of ailments will require two of each berry to treat
