@@ -459,8 +459,22 @@ def describe_location(character: dict, board: dict):
     pass
 
 
-def start_final_challenge(character):
+def start_final_challenge(character: dict) -> None:
+    """
+
+    :param character:
+    :return:
+    """
+    # Ensure required keys are in the character dictionary
+    required_keys = ["InTree", "GroundCoordinates", "FinalChallengeCompleted"]
+    for key in required_keys:
+        if key not in character:
+            raise KeyError(f"Missing required key '{key}' in character dictionary.")
+
+    # Update character attributes for the final challenge
     character["InTree"] = False
     character["GroundCoordinates"] = (0, 0)
     character["FinalChallengeCompleted"] = False
-    # TODO: Print user prompts
+
+    # Print the final challenge instructions
+
