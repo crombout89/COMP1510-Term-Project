@@ -61,6 +61,32 @@ def current_location(character: dict) -> tuple[int, int]:
 
 
 def check_tummy(character: dict) -> bool:
+    """
+    Check the character's tummy level and determine if they are in a hungry state.
+
+    :param character: A dictionary representing the character's state, including tummy and energy levels.
+    :precondition: character must have the keys "Tummy" and "ExtraEnergy".
+    :postcondition: Displays warnings based on the character's tummy level.
+    :return: True if the character is safe (not starving) or has extra energy; False if the character's
+             tummy is empty.
+
+    >>> character = {
+    ...     "Tummy": 10,
+    ...     "ExtraEnergy": 0
+    ... }
+    >>> check_tummy(character)
+    ⚠️ You're getting hungry! You should eat an item soon to restore your tummy!
+    True
+
+    >>> character["Tummy"] = 1
+    >>> check_tummy(character)
+    ⚠️ You're about to pass out from hunger! Eat an item now to restore your tummy!
+    True
+
+    >>> character["Tummy"] = 0
+    >>> check_tummy(character)
+    False
+    """
     if character["ExtraEnergy"] > 0:
         # If the character has extra energy, their tummy cannot run out by definition,
         # even if the actual level of the tummy is zero or negative. This buys the character time
