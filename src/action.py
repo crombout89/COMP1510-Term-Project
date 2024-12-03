@@ -120,11 +120,11 @@ def climb(character: dict, board) -> bool:
 
     >>> character = {
     ...     "InTree": False,
-    ...     "TreeCoordinates": (0, 0)
+    ...     "TreeCoordinates": (5, 5)
     ... }
     >>> board = {
     ...     (5, 5): "TreeTrunk",
-    ...     (6, 5): "Empty"
+    ...     (6, 5): None
     ... }
     >>> climb(character, board)  # At tree trunk
     True
@@ -134,6 +134,14 @@ def climb(character: dict, board) -> bool:
     True
     >>> character["InTree"]
     False
+    >>> character = {
+    ...     "InTree": False,
+    ...     "TreeCoordinates": (6, 5)
+    ... }
+    >>> board = {
+    ...     (5, 5): "TreeTrunk",
+    ...     (6, 5): None
+    ... }
     >>> climb(character, board)  # Attempt to climb again without being at a tree trunk
     False
     🚫 You can't climb because you're not at a tree trunk!
@@ -163,41 +171,46 @@ def eat(character: dict, item: dict) -> bool:
     :postcondition: Updates the character's energy and tummy levels based on the item consumed.
     :return: True if item was successfully eaten, False if the item is not in the inventory.
 
-        >>> character = {
+        >>> example_character = {
     ...     "Tummy": 5,
     ...     "ExtraEnergy": 10,
-    ...     "Inventory": []
+    ...     "Inventory": {
+    ...         "Silvervine": 1,
+    ...         "Catnip": 0
+    ...     }
     ... }
-    >>> item = {
+    >>> example_item = {
     ...     "Type": "Item",
     ...     "Name": "SilverVine"
     ... }
-    >>> character["Inventory"].append(item)
-    >>> eat(character, item)
+    >>> eat(example_character, example_item)
     True
     >>> character["Tummy"]
-    15  # Assuming SILVERVINE_TUMMY_MULTIPLIER is set accordingly
+    105
     >>> character["ExtraEnergy"]
-    15  # Assuming SILVERVINE_EXTRA_ENERGY is set accordingly
+    60
+    >>> character["Inventory"]["Silvervine"]
+    0
 
     >>> item_invalid = {
     ...     "Type": "Food",
     ...     "Name": "Apple"
     ... }
-    >>> eat(character, item_invalid)  # Raises TypeError
+    >>> eat(example_character, item_invalid)  # Raises TypeError
     Traceback (most recent call last):
         ...
     TypeError: Expected entity type 'Item', got 'Food'
 
-    >>> item2 = {
+    >>> example_item_2 = {
     ...     "Type": "Item",
     ...     "Name": "Catnip"
     ... }
-    >>> character["Inventory"].append(item2)  # Add item to inventory
-    >>> eat(character, item2)
-    True
+    >>> eat(example_character, example_item_2)  # Attempt to eat an item not in inventory
+    False
     >>> character["Tummy"]
-    10  # Assuming CATNIP_TUMMY_MULTIPLIER is set accordingly
+    105
+    >>> character["ExtraEnergy"]
+    60
     """
     if item["Type"] != "Item":
         raise TypeError(f"Expected entity type 'Item', got '{item['Type']}'")
@@ -309,7 +322,6 @@ def perform_action(character: dict, board: dict, action: dict) -> bool:
     >>> perform_action(character, board, action_invalid)  # Invalid action
     🚫 You can't perform this action!
     False
-    """
     """
     if action["Type"] == "Move":
         return move(character, board, action["data"])

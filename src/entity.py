@@ -137,3 +137,35 @@ def generate_entity(board: dict, character: dict) -> typing.Optional[dict]:
         return generate_animal(character)
     else:
         return generate_item(character)
+
+
+def stringify_item(entity: dict) -> str:
+    """
+    Convert an item into a string representation.
+
+    :param entity: the item to be converted to string
+    :precondition: entity must be a well-formed dictionary representing the item
+    :postcondition: if the item is a berry, return the colour of the berry concatenated with "Berry",
+                    otherwise, return the name of the item
+    :raises TypeError:
+    :return: a string representation of the item
+
+    >>> example_item = {
+    ...     "Type": "Item",
+    ...     "Name": "Berry",
+    ...     "Data": "Red"}
+    >>> stringify_item(example_item)
+    "Red Berry"
+    >>> example_item = {
+    ...     "Type": "Item",
+    ...     "Name": "Catnip",
+    ...     "Data": None}
+    >>> stringify_item(example_item)
+    "Catnip"
+    """
+    if entity["Type"] != "Item":
+        raise TypeError(f"Expected entity type 'Item', got '{entity['Type']}'")
+    if entity["Name"] == "Berry":
+        return entity["Data"] + " Berry"
+    else:
+        return entity["Name"]
