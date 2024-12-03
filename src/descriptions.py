@@ -6,6 +6,8 @@ def sick_animal_description(animal: dict) -> str:
 
     :param animal: A dictionary representing the animal entity.
                    Example: {"Type": "Animal", "Name": "Rabbit", "Data": ["Injury", "Exhaustion"]}
+    :precondition: animal must be a dictionary representing the animal entity.
+    :postcondition: Returns a randomly selected string from the list of descriptions.
     :return: A string describing the sick animal.
 
     >>> animal = {"Type": "Animal", "Name": "Rabbit", "Data": ["Injury", "Exhaustion"]}
@@ -42,3 +44,28 @@ def sick_animal_description(animal: dict) -> str:
     description += f" It appears to be suffering from {ailments}."
 
     return description
+
+
+def cured_animal_description(animal: dict) -> str:
+    """
+
+    :param animal:
+    :return:
+    """
+    # Ensure the animal has a "Name" key
+    name = animal.get("Name", "creature")  # Default to creature if no name is specified
+
+    descriptions = [
+        f"The {name} nuzzles against you, its trust in you clear, before hopping off happily.",
+        f"The {name} looks at you with kind, shining eyes before brushing against your fur in gratitude.",
+        f"The {name} stays close to you for a moment, as if reluctant to leave, before scampering off.",
+        f"The {name} lets out a cheerful sound, hopping in circles around you before bounding away.",
+        f"The {name} gently presses its head against yours in a loving gesture, then runs off into the forest.",
+        f"The {name}'s tail wags happily, and it playfully nudges you before heading off.",
+        f"The {name} gives you a final, grateful glance, as though promising to remember your kindness.",
+        f"The {name} frolics around you for a moment, thrilled to be well again, before disappearing into the woods.",
+        f"The {name} softly chirps and stays by your side for a while before leaving.",
+        f"The {name} leaps away joyfully, but not before giving you a warm, trusting look."
+    ]
+
+    return random.choice(descriptions)
