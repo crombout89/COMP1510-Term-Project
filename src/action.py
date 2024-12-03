@@ -6,6 +6,37 @@ from .config import (SUBTRACT_FROM_TUMMY_IF_CLIMB, SUBTRACT_FROM_TUMMY_IF_MOVE,
 
 
 def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
+    """
+    Move the character in the specified direction if the new location is valid.
+
+    :param character: A dictionary representing the character's state, including its current coordinates.
+    :param board: A dictionary representing the game board with valid location.
+    :param direction: A tuple indicating the direction to move (x, y).
+    :precondition: character must have keys for "InTree" and appropriate coordinate keys ("GroundCoordinates
+                    or "TreeCoordinates")
+    :precondition: board must be a valid representation of the game area.
+    :postcondition: Updates the character's coordinates if the move is valid, and subtracts from the character's
+                    Tummy Meter.
+    :return: True if the move was successful, False otherwise.
+
+    >>> character = {
+    ...     "InTree": False,
+    ...     "GroundCoordinates": [5, 5]
+    ... }
+    >>> board = {
+    ...     (5, 5): "Empty",
+    ...     (6, 5): "Empty",
+    ...     (6, 5): "TreeTrunk"  # Assuming (6, 5) has a tree trunk
+    ... }
+    >>> move(character, board, (1, 0))  # Move right
+    True
+    >>> character["GroundCoordinates"]
+    [6, 5]
+    >>> move(character, board, (1, 0))  # Attempt to move right into a tree trunk
+    False
+    >>> character["GroundCoordinates"]
+    [6, 5]
+    """
     coordinate_type = ("Tree" if character["InTree"] else "Ground") + "Coordinates"
     new_coordinates = (character[coordinate_type][0] + direction[0],
                        character[coordinate_type][1] + direction[1])
