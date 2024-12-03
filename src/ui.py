@@ -54,6 +54,50 @@ def get_action_input(character: dict, board: dict) -> dict:
     :precondition: board must be a dictionary.
     :postcondition: Returns a dictionary representing the processed action with keys "Type" and "Data".
     :return: A dictionary representing the processed action with keys "Type" and "Data".
+
+        >>> character = {
+    ...     "Position": (0, 0),
+    ...     "Tummy": 50,
+    ...     "ExtraEnergy": 0,
+    ...     "Inventory": ["Catnip", "Fish"],
+    ...     "Level": 2
+    ... }
+    >>> board = {
+    ...     "Tiles": [["Grass", "Moss"], ["Tree", "Rock"]]
+    ... }
+
+    # Example 1: User enters a movement command
+    >>> get_action_input(character, board)  # User enters 'W' +SKIP
+    Enter an action: W
+    {'Type': 'Move', 'Data': (0, -1)}
+
+    # Example 2: User enters an Eat command
+    >>> get_action_input(character, board)  # User enters 'Eat Catnip' +SKIP
+    Enter an action: Eat Catnip
+    You eat the Catnip. Yum!
+    {'Type': 'Eat', 'Data': ['Catnip']}
+
+    # Example 3: User enters a Check command
+    >>> get_action_input(character, board)  # User enters 'Check Tummy' +SKIP
+    Enter an action: Check Tummy
+    Your tummy level is: 50
+    {'Type': 'Check', 'Data': ['Tummy']}
+
+    # Example 4: User enters an invalid action
+    >>> get_action_input(character, board)  # User enters 'Fly' +SKIP
+    Enter an action: Fly
+    Invalid action. Valid actions are: W, A, S, D, Climb, Eat, Nap, Check, Help.
+
+    # Example 5: User attempts to Nap in an invalid location
+    >>> get_action_input(character, board)  # User enters 'Nap' +SKIP
+    Enter an action: Nap
+    You can't nap here! You are at (0, 0), but you need to find some moss.
+
+    # Example 6: User calls Help
+    >>> get_action_input(character, board)  # User enters 'Help' +SKIP
+    Enter an action: Help
+    Available actions: W, A, S, D (move), Climb, Eat, Nap, Check, Help.
+    Use 'Check <Tummy|Level|Inventory>' to check specific attributes.
     """
     valid_actions = ["W", "A", "S", "D", "Climb", "Eat", "Nap", "Check", "Help"]
     valid_attributes = ["Tummy", "Level", "Inventory"]
