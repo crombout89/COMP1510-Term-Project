@@ -5,7 +5,7 @@ from unittest.mock import patch
 from src.character import check_tummy
 
 
-class TestCurrentLocation(TestCase):
+class TestCheckTummy(TestCase):
     def test_current_location_tummy_greater_than_10_extra_energy_not_0_return_value(self):
         example_character = {
             "ExtraEnergy": 1,
