@@ -134,4 +134,23 @@ def generate_tree_board() -> dict:
 
 
 def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
+    """
+    Check if the specified coordinates are valid locations on the board.
+
+    :param board: A dictionary representing the game board.
+    :param coordinates: A tuple of integers representing the coordinates to check.
+    :return: True if the coordinates are valid, False otherwise.
+
+    >>> board = {
+    ...     (1, 1): None,
+    ...     (0, 0): "Reserved",
+    ...     (2, 2): "TreeTrunk"
+    ... }
+    >>> valid_location(board, (1, 1))
+    True  # (1, 1) is a valid location
+    >>> valid_location(board, (3, 3))
+    False  # (3, 3) does not exist on the board
+    >>> valid_location(board, (0, 0))
+    True  # (0, 0) is valid but reserved
+    """
     return coordinates in board
