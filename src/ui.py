@@ -86,3 +86,10 @@ def pick_up_item(character: dict, entity: dict):
 
 def describe_location(character: dict, board: dict):
     pass
+
+
+def start_final_challenge(character):
+    character["InTree"] = False
+    character["GroundCoordinates"] = (0, 0)
+    character["FinalChallengeCompleted"] = False
+    # TODO: Print user prompts

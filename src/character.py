@@ -38,7 +38,8 @@ def update_level(character: dict) -> bool:
         character["Level"] += 1
         character["UntilNextLevel"] = UNTIL_NEXT_LEVEL_MULTIPLIER * character["Level"]
     if character["Level"] == 3 and character["FinalChallengeCompleted"] is None:
-        character["FinalChallengeCompleted"] = False
+        # TODO: start_final_challenge(character)
+
     else:
         return character["Level"] == 3 and character["FinalChallengeCompleted"]
 
