@@ -461,9 +461,35 @@ def describe_location(character: dict, board: dict):
 
 def start_final_challenge(character: dict) -> None:
     """
+    Initialize the final challenge for the character.
 
-    :param character:
-    :return:
+    :param character: A dictionary containing information about the player character.
+    :precondition: character must be a dictionary with keys for "InTree", "GroundCoordinates",
+                   and "FinalChallengeCompleted".
+    :raises KeyError: If required keys are missing from the character dictionary.
+    :postcondition: Sets up the character for the final challenge by updating relevant keys and printing instructions.
+
+    This function:
+    - Sets the "InTree" key to False.
+    - Sets the "GroundCoordinates" key to (0, 0).
+    - Sets the "FinalChallengeCompleted" key to False.
+    - Prints a message to the user explaining the final challenge and how to complete it.
+
+    >>> character = {
+    ...     "InTree": True,
+    ...     "GroundCoordinates": (5, 5),
+    ...     "FinalChallengeCompleted": True
+    ... }
+    >>> start_final_challenge(character)
+    The final challenge is to find the hidden treasure on the ground.
+    Search carefully and use all your skills to complete the task!
+    Beware of obstacles and enemies that may block your path.
+    >>> character["InTree"]
+    False
+    >>> character["GroundCoordinates"]
+    (0, 0)
+    >>> character["FinalChallengeCompleted"]
+    False
     """
     # Ensure required keys are in the character dictionary
     required_keys = ["InTree", "GroundCoordinates", "FinalChallengeCompleted"]
