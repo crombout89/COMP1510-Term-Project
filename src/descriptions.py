@@ -71,11 +71,11 @@ def cured_animal_description(animal: Dict[str, str]) -> str:
     return random.choice(descriptions)
 
 
-def forest_patch_description(forest: Dict[str, str]) -> str:
+def forest_patch_description() -> str:
     """
+    Generate a random description for an empty forest patch.
 
-    :param forest:
-    :return:
+    :return: A string describing a randomized forest patch.
     """
     grass_descriptions = [
         "A patch of soft green grass sways gently in the breeze.🌱",
