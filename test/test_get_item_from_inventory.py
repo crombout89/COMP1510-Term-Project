@@ -198,6 +198,42 @@ class TestUpdateLevel(TestCase):
         expected = 0
         self.assertEqual(expected, actual)
 
+    def test_get_item_from_inventory_get_nonexistant_item_return_value(self):
+        example_character = {
+            "Inventory": {
+                "Catnip": 1,
+                "Berries": {
+                    "Red": 1
+                }
+            }
+        }
+        example_item = {
+            "Type": "Item",
+            "Name": "Lightsaber",
+            "Data": None
+        }
+        actual = get_item_from_inventory(example_character, example_item)
+        expected = False
+        self.assertEqual(expected, actual)
+
+    def test_get_item_from_inventory_get_nonexistant_berry_return_value(self):
+        example_character = {
+            "Inventory": {
+                "Catnip": 1,
+                "Berries": {
+                    "Red": 1
+                }
+            }
+        }
+        example_item = {
+            "Type": "Item",
+            "Name": "Berry",
+            "Data": "Grey"
+        }
+        actual = get_item_from_inventory(example_character, example_item)
+        expected = False
+        self.assertEqual(expected, actual)
+
     def test_get_item_from_inventory_entity_type_not_item(self):
         example_character = {
             "Inventory": {
@@ -209,7 +245,7 @@ class TestUpdateLevel(TestCase):
         example_item = {
             "Type": "Animal",
             "Name": "Mouse",
-            "Data": ["Starving"]
+            "Data": ["Injured"]
         }
         with self.assertRaises(TypeError) as context:
             get_item_from_inventory(example_character, example_item)

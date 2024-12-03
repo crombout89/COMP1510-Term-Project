@@ -64,10 +64,15 @@ def get_item_from_inventory(character: dict, item: dict) -> bool:
         else:
             return False
     elif item["Name"] == "Berry":
-        if character["Inventory"]["Berries"][item["Data"]] > 0:
-            character["Inventory"]["Berries"][item["Data"]] -= 1
-            return True
-        else:
+        try:
+            berry_in_inventory = character["Inventory"]["Berries"][item["Data"]]
+        except KeyError:
             return False
+        else:
+            if berry_in_inventory > 0:
+                character["Inventory"]["Berries"][item["Data"]] -= 1
+                return True
+            else:
+                return False
     else:
         return False
