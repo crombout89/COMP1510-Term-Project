@@ -45,11 +45,29 @@ def generate_animal(character: dict) -> dict:
 
 
 def generate_item(character: dict, always: bool = False) -> typing.Optional[dict]:
+    """
+    Generate an item entity, which can be Silvervine, Catnip, or Berry, based on certain conditions.
+    :param character: A dictionary representing the character's state, including if they are in a tree or not.
+    :param always: A boolean indicating whether to always generate a berry.
+    :postcondition: The generated item will have a type and name, and may include additional data (like berry
+                    color).
+    :return: A dictionary representing the generated item, or None if no item is generated.
+
+    >>> character = {"InTree": True}
+    >>> item = generate_item(character)
+    >>> item["Type"] == "Item"
+    True  # The item should be of type Item
+    >>> item["Name"] in ["Silvervine", "Catnip", "Berry", None]
+    True  # The item should be one of the defined options
+    >>> item["Name"] == "Berry" and item["Data"] in BERRY_COLOR_OPTIONS
+    True  # If the item is a Berry, it should have a valid color
+    """
     def generate_berry_decision() -> bool:
-        # Normally, berries can only be found in trees, so we only generate a berry if the character is in a tree.
+        # Normally, berries can only be found in trees, so we only generate a berry if the character
+        # is in a tree.
         # Berry has the lowest priority of all item types so if we're deciding whether to generate a berry,
-        # we know that we're on the last item option. So if the "always" parameter is set, we always need to generate
-        # a berry as the default item.
+        # we know that we're on the last item option. So if the "always" parameter is set, we always need
+        # to generate a berry as the default item.
         return always or character["InTree"] and random.randint(1, BERRY_PROBABILITY) == 1
 
     new_item = {
