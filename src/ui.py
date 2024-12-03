@@ -55,6 +55,50 @@ def get_action_input(character: dict, board: dict) -> dict:
     :postcondition: Returns a dictionary representing the processed action with keys "Type" and "Data".
     :return: A dictionary representing the processed action with keys "Type" and "Data".
     """
+    # Validate the parameters
+    if not isinstance(character, dict):
+        raise TypeError("'character' must be a dictionary.")
+    if not isinstance(board, dict):
+        raise TypeError("'board' must be a dictionary.")
+
+    valid_actions = ["W", "A", "S", "D", "Climb", "Eat", "Nap", "Check", "Help"]
+    valid_attributes = ["Tummy", "Level", "Inventory"]
+
+    while True:
+        # Get the user's selected action
+        try:
+            selected_action = input("Enter an action: ").strip()
+        except KeyboardInterrupt:
+            print("\nInput interrupted. Exiting...")
+            raise
+        except EOFError:
+            print("\nInput terminated unexpectedly.")
+
+        # Check if the input is empty
+        if not selected_action:
+            print("Invalid action. Please enter a valid action to continue.")
+            continue
+
+        # Convert to title case and tokenize
+        selected_action = selected_action.title()
+        action_tokens = selected_action.split()
+        action = {
+            "Type": action_tokens[0],
+            "Data": action_tokens[1:] if len(action_tokens) > 1 else []
+        }
+
+        # Validate "Type" cases
+        if action["Type"] not in valid_actions:
+            print(f"Invalid action. Valid actions are: {', '.join(valid_actions)}")
+
+        # Handle specific "Type" cases
+        if action["Type"] == "Check":
+            # Validate the attributes in "Data"
+            if not action["Data"] or action["Data"][0] not in valid_attributes:
+                print(f"Invalid attribute. Valid attributes are: {', '.join(valid_attributes)}")
+
+
+
 
 
 def help_animal(character: dict, entity: dict):
