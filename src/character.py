@@ -5,12 +5,55 @@ from .ui import start_final_challenge
 
 
 def create_character(name: str) -> dict:
+    """
+    Create a new character with default attributes and a specified name.
+
+    :param name: A string representing the name of the new character.
+    :precondition: name must be a non-empty string.
+    :postcondition: Returns a dictionary representing the new character with default attributes.
+    :return: A dictionary containing the new character's attributes, including the provided name.
+
+    >>> CHARACTER_DEFAULT_ATTRIBUTES = {
+    ...     "Tummy": 10,
+    ...     "ExtraEnergy": 0,
+    ...     "Inventory": [],
+    ...     "GroundCoordinates": [0, 0]
+    ... }
+    >>> new_character = create_character("Whiskers")
+    >>> new_character["Name"]
+    'Whiskers'
+    >>> new_character["Tummy"]
+    10  # Default value
+    >>> new_character["Inventory"]
+    []  # Default empty inventory
+    """
     new_character = copy.deepcopy(CHARACTER_DEFAULT_ATTRIBUTES)
     new_character["Name"] = name
     return new_character
 
 
-def current_location(character) -> tuple[int, int]:
+def current_location(character: dict) -> tuple[int, int]:
+    """
+    Retrieve the current coordinates of the character based on their position.
+
+    :param character: A dictionary representing the character's state, including location attributes.
+    :precondition: character must have keys "InTree", "TreeCoordinates", and "GroundCoordinates".
+    :postcondition: Returns a tuple representing the current coordinates of the character.
+    :return: A tuple of two integers representing the character's current location (x, y).
+
+    >>> character = {
+    ...     "InTree": False,
+    ...     "GroundCoordinates": (5, 5),
+    ...     "TreeCoordinates": (0, 0)
+    ... }
+    >>> current_location(character)
+    (5, 5)
+
+    >>> character["InTree"] = True
+    >>> character["TreeCoordinates"] = (3, 4)
+    >>> current_location(character)
+    (3, 4)
+    """
     if character["InTree"]:
         return character["TreeCoordinates"]
     else:
