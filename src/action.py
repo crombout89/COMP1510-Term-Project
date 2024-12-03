@@ -158,6 +158,37 @@ def eat(character: dict, item: dict) -> bool:
 
 
 def nap(character: dict, board: dict) -> bool:
+    """
+    Allow the character to take a nap on moss, restoring extra energy.
+
+    :param character: A dictionary representing the character's state, including energy levels.
+    :param board: A dictionary representing the game board with locations, including mossy squares.
+    :precondition: character must have a key "ExtraEnergy" to track energy levels.
+    :precondition: board must be a dictionary representing the game board with locations.
+    :postcondition: Increases the character's extra energy if napping on moss.
+    :return: True if the nap was successful, False if the character is not on moss.
+
+    >>> character = {
+    ...     "ExtraEnergy": 0
+    ... }
+    >>> board = {
+    ...     (5, 5): "Moss",
+    ...     (6, 5): "Empty"
+    ... }
+    >>> current_location = lambda character: (5, 5)  # Mocking the current_location function
+    >>> nap(character, board)
+    😴 You took a nap on the moss.
+    ⚡ You now have extra energy for 5 moves!
+    True
+    >>> character["ExtraEnergy"]
+    5
+
+    >>> character["ExtraEnergy"] = 0  # Reset energy for next test
+    >>> current_location = lambda character: (6, 5)  # Move to a different location
+    >>> nap(character, board)  # Attempt to nap on "Empty"
+    🚫 You can't nap here because you're not on moss!
+    False
+    """
     location = current_location(character)
     if board[location] == "Moss":
         character["ExtraEnergy"] += 5
