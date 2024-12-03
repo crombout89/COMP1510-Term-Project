@@ -245,6 +245,39 @@ def get_action_input(character: dict, board: dict) -> dict:
             raise SystemExit
 
 
+def check(character: dict, attribute: str) -> None:
+    """
+    Check a specific attribute of the character and display its value.
+
+    :param character: A dictionary containing information about the player character.
+    :param attribute: The attribute to check (e.g., 'Tummy', 'Level', 'Inventory').
+    :precondition: character must be a dictionary containing the relevant attributes.
+    :precondition: attribute must be a string representing a valid character attribute.
+    :postcondition: Displays the value of the specified attribute.
+    :raises KeyError: If the specified attribute does not exist in the character dictionary.
+    :raises ValueError: If the attribute name is invalid or unsupported.
+
+    >>> character = {
+    ...     "Tummy": 50,
+    ...     "Level": 2,
+    ...     "Inventory": ["Catnip", "Silvervine"]
+    ... }
+    >>> CHECK(character, "Tummy")
+    Your tummy level is: 50
+    >>> CHECK(character, "Level")
+    Your current level is: 2
+    >>> CHECK(character, "Inventory")
+    Your inventory contains: Catnip, Silvervine
+    >>> CHECK(character, "Health")
+    Traceback (most recent call last):
+    ...
+    KeyError: "The attribute 'Health' does not exist."
+    >>> CHECK(character, "Hunger")
+    Traceback (most recent call last):
+    ...
+    ValueError: 'Hunger' is not a supported attribute to check.
+    """
+
 def help_animal(character: dict, entity: dict):
     """
     Allow the player to help a sick animal by using berries to cure its ailments.
