@@ -59,7 +59,7 @@ def get_item_from_inventory(character: dict, item: dict) -> bool:
         raise ValueError(f"Expected entity type 'Item', got '{item['Type']}'")
     if item["Name"] == "Catnip" or item["Name"] == "Silvervine":
         if character["Inventory"][item["Name"]] > 0:
-            character["Inventory"][item["Name"]] -= 0
+            character["Inventory"][item["Name"]] -= 1
             return True
         else:
             return False
