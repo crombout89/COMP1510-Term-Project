@@ -49,6 +49,37 @@ def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
 
 
 def climb(character: dict, board) -> bool:
+    """
+    Allow the character to climb a tree trunk if they are currently at one.
+
+    :param character: A dictionary representing the character's state, including if they are in a tree.
+    :param board: A dictionary representing the game board with location.
+    :precondition: character must have keys for "InTree" and "TreeCoordinates".
+    :precondition: board must represent a valid location, including "TreeTrunk".
+    :postcondition: Updates the character's state as being in a tree, and subtracts from the character's
+                    Tummy Meter.
+    :return: True if the climb was successful, False if the character is not at a tree trunk.
+
+    >>> character = {
+    ...     "InTree": False,
+    ...     "TreeCoordinates": (0, 0)
+    ... }
+    >>> board = {
+    ...     (5, 5): "TreeTrunk",
+    ...     (6, 5): "Empty"
+    ... }
+    >>> climb(character, board)  # At tree trunk
+    True
+    >>> character["InTree"]
+    True
+    >>> climb(character, board)  # Climbing again
+    True
+    >>> character["InTree"]
+    False
+    >>> climb(character, board)  # Attempt to climb again without being at a tree trunk
+    False
+    🚫 You can't climb because you're not at a tree trunk!
+    """
     location = current_location(character)
     if board[location] == "TreeTrunk":
         if character["InTree"]:
