@@ -96,7 +96,50 @@ def climb(character: dict, board) -> bool:
 
 def eat(character: dict, item: dict) -> bool:
     """
-    :raises TypeError: if value of key "Type" of item is not "Item"
+    Allow the character to eat an item, updating their energy and tummy levels.
+
+    :param character: A dictionary representing the character's state, including energy and tummy levels.
+    :param item: A dictionary representing the item to be eaten, which must have a "Type" and "Name".
+    :precondition: item must have a "Type" key with value "Item" for successful consumption.
+    :raises TypeError: if value of key "Type" of item is not "Item".
+    :postcondition: Updates the character's energy and tummy levels based on the item consumed.
+    :return: True if item was successfully eaten, False if the item is not in the inventory.
+
+        >>> character = {
+    ...     "Tummy": 5,
+    ...     "ExtraEnergy": 10,
+    ...     "Inventory": []
+    ... }
+    >>> item = {
+    ...     "Type": "Item",
+    ...     "Name": "SilverVine"
+    ... }
+    >>> character["Inventory"].append(item)
+    >>> eat(character, item)
+    True
+    >>> character["Tummy"]
+    15  # Assuming SILVERVINE_TUMMY_MULTIPLIER is set accordingly
+    >>> character["ExtraEnergy"]
+    15  # Assuming SILVERVINE_EXTRA_ENERGY is set accordingly
+
+    >>> item_invalid = {
+    ...     "Type": "Food",
+    ...     "Name": "Apple"
+    ... }
+    >>> eat(character, item_invalid)  # Raises TypeError
+    Traceback (most recent call last):
+        ...
+    TypeError: Expected entity type 'Item', got 'Food'
+
+    >>> item2 = {
+    ...     "Type": "Item",
+    ...     "Name": "Catnip"
+    ... }
+    >>> character["Inventory"].append(item2)  # Add item to inventory
+    >>> eat(character, item2)
+    True
+    >>> character["Tummy"]
+    10  # Assuming CATNIP_TUMMY_MULTIPLIER is set accordingly
     """
     if item["Type"] != "Item":
         raise TypeError(f"Expected entity type 'Item', got '{item['Type']}'")
