@@ -69,3 +69,71 @@ def cured_animal_description(animal: Dict[str, str]) -> str:
     ]
 
     return random.choice(descriptions)
+
+
+def forest_patch_description(forest: Dict[str, str]) -> str:
+    """
+
+    :param forest:
+    :return:
+    """
+    grass_descriptions = [
+        "A patch of soft green grass sways gently in the breeze.🌱",
+        "A small clearing reveals lush grass, speckled with dew.🌱💦",
+        "The ground here is covered in short, vibrant grass, cool beneath your paws.🌱",
+        "A patch of grass grows unevenly here, with tufts sticking out at odd angles.🌾",
+        "The grass here is dotted with tiny wildflowers, adding bursts of color.🌿🪻"
+    ]
+
+    flower_descriptions = [
+        "A cluster of delicate wildflowers blooms here, their petals swaying gently.🌺",
+        "Bright yellow daisies pop up from the ground, cheerful and vibrant.🌼🌿",
+        "Tiny bluebells grow together in a small patch, their color vivid against the green.🪻🌿",
+        "A scattering of white flowers dots the forest floor, their scent faint but pleasant.🤍🌸",
+        "A few small flowers grow here, their colors muted but beautiful.🌹🌷"
+    ]
+
+    rock_descriptions = [
+        "A smooth, flat stone lies here, partially covered in dirt.🪨",
+        "A cluster of small, round rocks is scattered across the ground.🪨🪨",
+        "A single large boulder juts out of the ground, its surface cool and rough.🪨🧊",
+        "Pebbles and stones litter the area, their patterns and shapes fascinating.⚪🪨",
+        "A jagged rock rises from the dirt, its surface weathered by time.🗿"
+    ]
+
+    dirt_descriptions = [
+        "The ground here is bare, with patches of dry grass exposed.🌾🟤",
+        "Loose soil covers the area, scattered with fallen leaves.🟤🍂",
+        "A patch of dirt interrupts the grass, its surface soft and crumbly.🟤🌱",
+        "The earth here is packed tightly, with a few cracks running through it.🟤⚡",
+        "Bare dirt stretches across this spot, with a faint trail left by passing animals.🟤🐾"
+    ]
+
+    leaf_descriptions = [
+        "A thick layer of fallen leaves carpets the ground, crunching softly underfoot.🍂🍁",
+        "Golden and brown leaves are scattered here, remnants of autumn.🍁🍂",
+        "Dry leaves lie in a small pile, rustling slightly in the breeze.🍂🍃",
+        "The forest floor is littered with leaves, their edges curled and brittle.🥀🍂",
+        "A single, vibrant red leaf lies here, standing out against the earthy tones.🍁❤️"
+    ]
+
+    mushroom_descriptions = [
+        "A small cluster of mushrooms sprouts here, their caps dotted with white specks.🍄⚪",
+        "Tiny mushrooms grow in a ring, their delicate shapes almost magical.🍄✨",
+        "A single large mushroom stands here, its cap wide and flat.🍄🟤",
+        "Several small, brightly colored mushrooms grow here, adding a splash of red and yellow.🍄🔴🟡",
+        "A few pale mushrooms sprout from the dirt, their stems thin and fragile.🍄🤍"
+    ]
+
+    # Combine all descriptions into one list
+    all_descriptions = (
+        grass_descriptions +
+        flower_descriptions +
+        rock_descriptions +
+        dirt_descriptions +
+        leaf_descriptions +
+        mushroom_descriptions
+    )
+
+    # Return a random choice
+    return random.choice(all_descriptions)
