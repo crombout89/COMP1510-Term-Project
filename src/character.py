@@ -104,6 +104,36 @@ def check_tummy(character: dict) -> bool:
 
 
 def update_level(character: dict) -> bool:
+    """
+    Update the character's current level based on experience points and check for the final challenge.
+
+    :param character: A dictionary representing the character's state, including level and challenge status.
+    :precondition: character must have keys "Level", "UntilNextLevel", and "FinalChallengeCompleted".
+    :postcondition: Increments the character's level if the threshold is met and checks if the final challenge
+                    should start.
+    :return: True if the character has completed the final challenge, False otherwise.
+
+    >>> character = {
+    ...     "Level": 2,
+    ...     "UntilNextLevel": 0,
+    ...     "FinalChallengeCompleted": None
+    ... }
+    >>> UNTIL_NEXT_LEVEL_MULTIPLIER = 10
+    >>> update_level(character)
+    >>> character["Level"]
+    3
+    >>> character["UntilNextLevel"]
+    30  # Assuming UNTIL_NEXT_LEVEL_MULTIPLIER is set to 10
+
+    >>> character["FinalChallengeCompleted"] = None  # Not completed yet
+    >>> update_level(character)  # Should start the final challenge
+    >>> character["FinalChallengeCompleted"] is None
+    True  # Indicates the final challenge has started
+
+    >>> character["FinalChallengeCompleted"] = True
+    >>> update_level(character)  # Should return True now
+    True
+    """
     if character["UntilNextLevel"] <= 0:
         character["Level"] += 1
         character["UntilNextLevel"] = UNTIL_NEXT_LEVEL_MULTIPLIER * character["Level"]
