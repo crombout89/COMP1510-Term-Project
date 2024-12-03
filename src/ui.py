@@ -254,7 +254,7 @@ def check(character: dict, attribute: str) -> None:
     :precondition: character must be a dictionary containing the relevant attributes.
     :precondition: attribute must be a string representing a valid character attribute.
     :postcondition: Displays the value of the specified attribute.
-    :raises KeyError: If the specified attribute does not exist in the character dictionary.
+    :raises ValueError: If the specified attribute does not exist in the character dictionary.
     :raises ValueError: If the attribute name is invalid or unsupported.
 
     >>> character = {
@@ -262,21 +262,46 @@ def check(character: dict, attribute: str) -> None:
     ...     "Level": 2,
     ...     "Inventory": ["Catnip", "Silvervine"]
     ... }
-    >>> CHECK(character, "Tummy")
+    >>> check(character, "Tummy")
     Your tummy level is: 50
-    >>> CHECK(character, "Level")
+    >>> check(character, "Level")
     Your current level is: 2
-    >>> CHECK(character, "Inventory")
-    Your inventory contains: Catnip, Silvervine
-    >>> CHECK(character, "Health")
+    >>> check(character, "Inventory")
+    Your inventory contains:
+     - Catnip
+     - Silvervine
+    >>> check(character, "Health")
     Traceback (most recent call last):
     ...
-    KeyError: "The attribute 'Health' does not exist."
-    >>> CHECK(character, "Hunger")
+    ValueError: The attribute 'Health' does not exist.
+    >>> check(character, "Hunger")
     Traceback (most recent call last):
     ...
     ValueError: 'Hunger' is not a supported attribute to check.
     """
+    valid_attributes = ["Tummy", "Level", "Inventory"]
+
+    # Ensure the attribute is valid
+    if attribute not in valid_attributes:
+        raise ValueError(f"'{attribute}' is not a supported attribute to check.")
+
+    # Check if the attribute exists in the character dictionary
+    if attribute not in character:
+        raise ValueError(f"The attribute '{attribute}' does not exist.")
+
+    # Display the attribute value in a user-friendly way
+    if attribute == "Tummy":
+        print(f"Your tummy level is: {character['Tummy']}")
+    elif attribute == "Level":
+        print(f"Your current level is: {character['Level']}")
+    elif attribute == "Inventory":
+        inventory = character["Inventory"]
+        if inventory:
+            print("Your inventory contains:")
+            print("\n - ".join([""] + inventory))
+        else:
+            print("Your inventory is empty.")
+
 
 def help_animal(character: dict, entity: dict):
     """
