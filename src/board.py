@@ -59,6 +59,29 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
 
 
 def populate_board(board: dict, name: str, times: int):
+    """
+    Populate the game board with a specified entity at random coordinates.
+
+    :param board: A dictionary representing the game board, including metadata and tile states.
+    :param name: A string representing the name of the entity to place on the board.
+    :param times: An integer representing the number of times the entity will be placed on the board.
+    :precondition: board must have a "meta" key with "min_x", "max_x", "min_y", and "max_y" values.
+    :precondition: times must be a positive, non-zero integer.
+    :postcondition: Places the entity on the board at random coordinates, ensuring no overlap with
+                    existing entities or the reserved tile (0, 0).
+
+    >>> board = {
+    ...     "meta": {"min_x": 1, "max_x": 5, "min_y": 1, "max_y": 5},
+    ...     (1, 1): None,
+    ...     (2, 2): None,
+    ...     (0, 0): None  # Reserved tile
+    ... }
+    >>> populate_board(board, "Tree", 3)
+    >>> sum(1 for tile in board.values() if tile == "Tree")
+    3  # Should place 3 Trees on the board
+    >>> (0, 0) in board and board[(0, 0)] is None
+    True  # Reserved tile remains unchanged
+    """
     counter = 1
     while counter <= times:
         x_coordinate = random.randint(board["meta"]["min_x"], board["meta"]["max_x"])
