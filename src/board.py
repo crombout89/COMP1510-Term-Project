@@ -53,7 +53,7 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
 
     for current_x in range(min_x, max_x + 1):
         for current_y in range(min_y, max_y + 1):
-            board[(current_x, current_y)] = None
+            board[(current_x, current_y)] = "An empty patch of grass sways gently in the breeze."
 
     return board
 
@@ -91,7 +91,11 @@ def populate_board(board: dict, name: str, times: int):
         # Don't generate anything for (0, 0) because it's a reserved tile
         # Don't generate anything if the selected coordinate is not a blank tile
         if coordinate != (0, 0) and board[coordinate] is None:
-            board[coordinate] = name
+            # Add a detailed description for the entity
+            if name == "TreeTrunk":
+                board[coordinate] = "A sturdy tree trunk rises above you, its smooth bark perfect for climbing."
+            else:
+                board[coordinate] = f"A mysterious entity: {name}."
             counter += 1
 
 
