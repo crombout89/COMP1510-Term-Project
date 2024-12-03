@@ -24,12 +24,10 @@ def check_tummy(character: dict) -> bool:
         return True
     else:
         if character["Tummy"] == 10:
-            # TODO: print a message warning the user that they are getting hungry, and they should eat an item to
-            #  restore their tummy
+            print("⚠️ You're getting hungry! You should eat an item soon to restore your tummy!")
             return True
         elif character["Tummy"] == 1:
-            # TODO: print a message warning the user that they are about to pass out from hunger, and they should eat
-            #  an item to restore their tummy
+            print("⚠️ You're about to pass out from hunger! Eat an item now to restore your tummy!")
             return True
         else:
             return character["Tummy"] > 0
