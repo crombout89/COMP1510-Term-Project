@@ -66,6 +66,7 @@ def help_animal(character: dict, entity: dict):
     """
     name = entity.get("Name", "")
     ailments = entity.get("Ailments", [])
+    level = character.get("Level", 1)
 
     if name == "FinalChallenge":
         print("You are accepting the Final Challenge!")
@@ -80,10 +81,19 @@ def help_animal(character: dict, entity: dict):
     if len(ailments) > 0:
         berry = input("Which color berry would you like to give the animal?").strip().lower()
         if berry:
-            print(f"You gave the animal a {berry} berry!")
+            berry = berry.title()
+            has_item = GET_ITEM_FROM_INVENTORY(character, berry)
+            if has_item:
+                print(f"Hooray! You have '{berry}' in your inventory!")
+            else:
+                print(f"Oh no! You don't have any '{berry}' berries in your inventory.)
 
         else:
             print("You skipped giving the animal a berry.")
+    else:
+        print("The animal has been cured of their ailments!")
+        reward = random.randint(2, 1 + level)
+        print(f"You received a reward of {reward} points!")
 
 
 def pick_up_item(character: dict, entity: dict):
