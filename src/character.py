@@ -1,6 +1,7 @@
 import copy
 
 from .config import CHARACTER_DEFAULT_ATTRIBUTES, UNTIL_NEXT_LEVEL_MULTIPLIER
+from .ui import start_final_challenge
 
 
 def create_character(name: str) -> dict:
@@ -38,8 +39,7 @@ def update_level(character: dict) -> bool:
         character["Level"] += 1
         character["UntilNextLevel"] = UNTIL_NEXT_LEVEL_MULTIPLIER * character["Level"]
     if character["Level"] == 3 and character["FinalChallengeCompleted"] is None:
-        # TODO: start_final_challenge(character)
-
+        start_final_challenge(character)
     else:
         return character["Level"] == 3 and character["FinalChallengeCompleted"]
 
