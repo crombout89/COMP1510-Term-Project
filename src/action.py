@@ -201,6 +201,58 @@ def nap(character: dict, board: dict) -> bool:
 
 
 def perform_action(character: dict, board: dict, action: dict) -> bool:
+    """
+    Execute a specified action for the character based on the action type.
+
+    :param character: A dictionary representing the character's state, including position and attributes.
+    :param board: A dictionary representing the game board with locations.
+    :param action: A dictionary representing the action to be performed, including its type and associated
+                   data.
+    :precondition: character must have the necessary keys related to its actions (e.g. "Inventory",
+                   "GroundCoordinates").
+    :precondition: board must be a valid dictionary where the keys are coordinates and values are the types
+                   of terrain or obstacles.
+    :precondition: action dictionary must have a "Type" key that indicates the action type (e.g. "Move", "Climb"
+                   "Eat", "Nap").
+    :postcondition: Executes the corresponding function for the specified action type.
+    :return: True if the action was successfully performed, False if the action type is invalid or unsuccessful.
+        >>> character = {
+    ...     "Tummy": 5,
+    ...     "ExtraEnergy": 10,
+    ...     "GroundCoordinates": [5, 5],
+    ...     "Inventory": []
+    ... }
+    >>> board = {
+    ...     (5, 5): "Moss",
+    ...     (6, 5): "Empty"
+    ... }
+    >>> action_move = {"Type": "Move", "data": (1, 0)}
+    >>> perform_action(character, board, action_move)  # Move right
+    True
+    >>> character["GroundCoordinates"]
+    [6, 5]
+
+    >>> action_climb = {"Type": "Climb"}
+    >>> perform_action(character, board, action_climb)  # Climb a tree
+    True
+
+    >>> action_eat = {"Type": "Eat", "data": {"Type": "Item", "Name": "SilverVine"}}
+    >>> character["Inventory"].append(action_eat["data"])  # Add item to inventory
+    >>> perform_action(character, board, action_eat)
+    True
+
+    >>> action_nap = {"Type": "Nap"}
+    >>> perform_action(character, board, action_nap)  # Take a nap
+    😴 You took a nap on the moss.
+    ⚡ You now have extra energy for 5 moves!
+    True
+
+    >>> action_invalid = {"Type": "Dance"}
+    >>> perform_action(character, board, action_invalid)  # Invalid action
+    🚫 You can't perform this action!
+    False
+    """
+    """
     if action["Type"] == "Move":
         return move(character, board, action["data"])
     elif action["Type"] == "Climb":
