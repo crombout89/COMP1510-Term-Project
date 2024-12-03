@@ -91,7 +91,11 @@ def populate_board(board: dict, name: str, times: int):
         # Don't generate anything for (0, 0) because it's a reserved tile
         # Don't generate anything if the selected coordinate is not a blank tile
         if coordinate != (0, 0) and board[coordinate] is None:
-            board[coordinate] = name
+            # Add a detailed description for the entity
+            if name == "TreeTrunk":
+                board[coordinate] = "A sturdy tree trunk rises above you, its smooth bark perfect for climbing."
+            else:
+                board[coordinate] = f"A mysterious entity: {name}."
             counter += 1
 
 
