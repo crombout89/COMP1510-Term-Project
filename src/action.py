@@ -34,6 +34,11 @@ def climb(character: dict, board) -> bool:
 
 
 def eat(character: dict, item: dict) -> bool:
+    """
+    :raises TypeError: if value of key "Type" of item is not "Item"
+    """
+    if item["Type"] != "Item":
+        raise TypeError(f"Expected entity type 'Item', got '{item['Type']}'")
     if get_item_from_inventory(character, item):
         if item["Name"] == "SilverVine":
             character["ExtraEnergy"] += SILVERVINE_EXTRA_ENERGY
