@@ -28,8 +28,7 @@ def climb(character: dict, board) -> bool:
         character["Tummy"] -= SUBTRACT_FROM_TUMMY_IF_CLIMB
         return True
     else:
-        # TODO: print a message to the console telling the user that they can't climb because they are not
-        #  at a tree trunk
+        print("🚫 You can't climb because you're not at a tree trunk!")
         return False
 
 
@@ -49,8 +48,7 @@ def eat(character: dict, item: dict) -> bool:
         else:
             character["Tummy"] += ADD_TO_TUMMY_IF_EAT_ITEM
     else:
-        # TODO: print a message to the console telling  the user that they cannot eat the selected item because they
-        #  don't have it in their inventory
+        print("🚫 You can't eat this item because it's not in your inventory!")
         return False
 
 
@@ -58,10 +56,11 @@ def nap(character: dict, board: dict) -> bool:
     location = current_location(character)
     if board[location] == "Moss":
         character["ExtraEnergy"] += 5
-        # TODO: print a message to the console telling the user that they now have 5 more ExtraEnergy
+        print("😴 You took a nap on the moss.")
+        print("⚡ You now have extra energy for 5 moves!")
         return True
     else:
-        # TODO: print a message to the console telling the user that they can only nap on moss
+        print("🚫 You can't nap here because you're not on moss!")
         return False
 
 
@@ -75,4 +74,5 @@ def perform_action(character: dict, board: dict, action: dict) -> bool:
     elif action["Type"] == "Nap":
         return nap(character, board)
     else:
+        print("🚫 You can't perform this action!")
         return False
