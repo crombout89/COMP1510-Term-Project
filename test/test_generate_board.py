@@ -110,13 +110,16 @@ class TestGenerateBoard(TestCase):
         self.assertEqual(expected, actual)
 
     def test_generate_board_min_x_greater_than_max_x(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as context:
             generate_board(1, -1, 0, 0)
+        self.assertEqual("min_x must be less than or equal to max_x", str(context.exception))
 
     def test_generate_board_min_y_greater_than_max_y(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as context:
             generate_board(0, 0, 1, -1)
+        self.assertEqual("min_y must be less than or equal to max_y", str(context.exception))
 
     def test_generate_board_min_x_greater_than_max_x_and_min_y_greater_than_max_y(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as context:
             generate_board(1, -1, 1, -1)
+        self.assertEqual("min_x must be less than or equal to max_x", str(context.exception))
