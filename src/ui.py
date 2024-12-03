@@ -38,7 +38,7 @@ def game_complete():
     """ Print a congratulatory message to the player for completing the game. """
 
     print("🎉 Congratulations! You've completed Whisker Woods Rescue! 🎉")
-    print("Thanks to your purrseverance and kindness, the forest is thriving again.")
+    print("Thanks to your purr-severance and kindness, the forest is thriving again.")
     print("Mittens has become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
     print("You're truly the hero of Whisker Woods! 🐾✨")
     return
@@ -58,12 +58,37 @@ def get_action_input(character: dict, board: dict) -> dict:
 
 
 def help_animal(character: dict, entity: dict):
-    pass
+    """
+
+    :param character:
+    :param entity:
+    :return:
+    """
+    name = entity.get("Name", "")
+    ailments = entity.get("Ailments", [])
+
+    if name == "FinalChallenge":
+        print("You are accepting the Final Challenge!")
+        print("You need to give the sick animal a special medicine made from a recipe of berries to cure them,"
+              "or press ENTER to skip.")
+    else:
+        print(f"You have come across a sad {name}, and they aren't doing very well...")
+        print(f"{Name}: I don't feel so good, I have {', '.join(ailments) if ailments else 'None'}. Can you help me?")
+        print("You need to give them the correct berries to cure their ailments! Or, press ENTER to skip.")
+
+    # Check if the animal has any ailments
+    if len(ailments) > 0:
+        berry = input("Which color berry would you like to give the animal?").strip().lower()
+        if berry:
+            print(f"You gave the animal a {berry} berry!")
+
+        else:
+            print("You skipped giving the animal a berry.")
 
 
 def pick_up_item(character: dict, entity: dict):
     """
-    Adds an item to the character's inventory and prints a message to the console telling the user
+    Add an item to the character's inventory and prints a message to the console telling the user
     what item was picked up.
 
     :param character: the character to receive the item
