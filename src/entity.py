@@ -7,7 +7,7 @@ from .config import (ANIMAL_OPTIONS, AILMENT_OPTIONS, BERRY_COLOR_OPTIONS,
 from .character import current_location
 
 
-def generate_animal(character):
+def generate_animal(character: dict) -> dict:
     new_animal = {
         "Type": "Animal",
         "Name": random.choice(ANIMAL_OPTIONS)
@@ -75,6 +75,6 @@ def generate_entity(board: dict, character: dict) -> typing.Optional[dict]:
         # Don't generate any entities on tree trunks or moss
         return None
     if random.randint(1, ANIMAL_PROBABILITY) == 1:
-        return generate_animal()
+        return generate_animal(character)
     else:
         return generate_item(character)
