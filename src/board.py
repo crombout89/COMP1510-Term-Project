@@ -53,7 +53,7 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
 
     for current_x in range(min_x, max_x + 1):
         for current_y in range(min_y, max_y + 1):
-            board[(current_x, current_y)] = None
+            board[(current_x, current_y)] = "An empty patch of grass sways gently in the breeze."
 
     return board
 
