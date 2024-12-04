@@ -131,8 +131,8 @@ def help_animal(character: dict, entity: dict):
                 print(f"You received: {stringify_item(reward_item)}!")
 
             # Update character stats (AnimalsHelped and UntilNextLevel)
-            character["AnimalsHelped"] = character.get("AnimalsHelped", 0) + 1
-            character["UntilNextLevel"] = max(0, character.get("UntilNextLevel", 0) - 1)
+            character["AnimalsHelped"] += 1
+            character["UntilNextLevel"] -= 1
             # Handle Final Challenge or Level Up
             if name == "FinalChallenge":
                 character["FinalChallengeCompleted"] = True
