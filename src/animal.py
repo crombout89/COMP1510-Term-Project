@@ -4,6 +4,7 @@ from .character import get_item_from_inventory
 from .config import BERRY_TREATMENTS
 from .descriptions import sick_animal_description, cured_animal_description
 from .entity import stringify_item, generate_item, pick_up_item, generate_reward
+from .ui import get_berry_input
 
 
 def validate_berry(color: str, ailments: list[str]) -> bool:
@@ -14,7 +15,8 @@ def validate_berry(color: str, ailments: list[str]) -> bool:
     :param ailments: A list of strings representing the character's current ailments.
     :precondition: color must be a valid key in the BERRY_TREATMENTS dictionary.
     :precondition: ailments must be a list of strings representing the animal's ailments.
-    :postcondition: If the berry can treat an ailment, it will be removed from the list of ailments.
+    :postcondition: If the berry can treat an ailment, it will be removed from the list of ailments;
+                    prints a message to the console telling the user whether the treatment was valid
     :return: True if an ailment was successfully treated, False otherwise.
 
     >>> BERRY_TREATMENTS = {
@@ -38,15 +40,28 @@ def validate_berry(color: str, ailments: list[str]) -> bool:
     >>> validate_berry("Yellow", ["Starving"])  # Yellow berry does not exist in BERRY_TREATMENTS
     False  # No treatment available
     """
-    if BERRY_TREATMENTS[color] in ailments:
-        ailments.remove(BERRY_TREATMENTS[color])
+    if BERRY_TREATMENTS[color] in ailments or "Starving" in ailments:
+        ailments.remove(BERRY_TREATMENTS[color]) if BERRY_TREATMENTS[color] in ailments else ailments.remove("Starving")
+        print(f"The {color} Berry successfully treated one of the animal's ailments! 🩹")
         return True
     else:
-        if "Starving" in ailments:
-            ailments.remove("Starving")
-            return True
-        else:
-            return False
+        print(f"The {color} Berry was not effective, the animal's ailments were not cured. 😢")
+        return False
+
+
+def help_animal_success(character: dict, entity: dict):
+    print(f"The {entity['Name']} has been completely cured of their ailments!")
+    print(cured_animal_description(entity))
+
+    generate_reward(character, entity["Name"])
+
+    # Update character stats (AnimalsHelped and UntilNextLevel)
+    character["AnimalsHelped"] += 1
+    character["UntilNextLevel"] -= 1
+    # Handle Final Challenge
+    if entity["Name"] == "FinalChallenge":
+        character["FinalChallengeCompleted"] = True
+        print("Congratulations! You have completed the Final Challenge! 🎉")
 
 
 def help_animal(character: dict, entity: dict):
@@ -84,38 +99,10 @@ def help_animal(character: dict, entity: dict):
 
     # Main loop to treat the animal
     while len(entity["Data"]) > 0:
-        berry_color = input("Which color berry would you like to give the animal? ").strip().lower().title()
-        if not berry_color:
-            print("You skipped giving the animal a berry.")
-            return
-
-        berry = {
-            "Type": "Item",
-            "Name": "Berry",
-            "Data": berry_color
-        }
-
-        # Check if the player has the berry in their inventory
-        if not get_item_from_inventory(character, berry):
-            print(f"Oh no! You don't have any '{berry_color}' berries in your inventory.")
-            continue
+        berry = get_berry_input(character)
 
         # Validate the berry as a treatment for the ailments
-        if not validate_berry(berry_color, entity["Data"]):
-            print(f"The '{stringify_item(berry)}' was not effective, the animal's ailments were not cured. 😢")
+        if not validate_berry(berry['Data'], entity["Data"]):
             return
 
-        print(f"The berry '{stringify_item(berry)}' successfully treated one of the animal's ailments! 🩹")
-
-    print(f"The {entity['Name']} has been completely cured of their ailments!")
-    print(cured_animal_description(entity))
-
-    generate_reward(character, entity["Name"])
-
-    # Update character stats (AnimalsHelped and UntilNextLevel)
-    character["AnimalsHelped"] += 1
-    character["UntilNextLevel"] -= 1
-    # Handle Final Challenge
-    if entity["Name"] == "FinalChallenge":
-        character["FinalChallengeCompleted"] = True
-        print("Congratulations! You have completed the Final Challenge! 🎉")
+    help_animal_success(character, entity)

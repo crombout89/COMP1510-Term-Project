@@ -1,3 +1,6 @@
+import typing
+
+from .character import get_item_from_inventory
 from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING
 from .entity import item_input_to_entity
 from .action import check, direction_input_to_action
@@ -167,3 +170,18 @@ def get_action_input(character: dict, board: dict) -> dict:
             if action["Data"][0] not in ["Tummy", "Level", "Inventory"]:
                 raise ValueError("Invalid attribute to check.")
         """
+
+
+def get_berry_input( character) -> typing.Optional[dict]:
+    while True:
+        berry_color = input("Which color berry would you like to give the animal? ").strip().lower().title()
+        if not berry_color:
+            print("You skipped giving the animal a berry.")
+            return None
+        else:
+            # Check if the player has the berry in their inventory
+            berry = {"Type": "Item", "Name": "Berry", "Data": berry_color}
+            if get_item_from_inventory(character, berry):
+                return berry
+            else:
+                print(f"Oh no! You don't have any '{berry['Data']}' berries in your inventory.")
