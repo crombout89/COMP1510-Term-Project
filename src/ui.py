@@ -136,6 +136,9 @@ def get_action_input(character: dict) -> dict:
     while True:
         selected_action = (input("What do you want to do? (Just press ENTER if you don't know) ")
                            .strip().title().split())
+        if len(selected_action) < 2:
+            # If the selected action has less than 2 tokens, pad it with empty strings to prevent an index error
+            selected_action += [""] * (2 - len(selected_action))
         action["Type"], action["Data"] = selected_action[0], selected_action[1:]
 
         if action["Type"] in EXTERNAL_ACTIONS:
