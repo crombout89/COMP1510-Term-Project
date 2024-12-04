@@ -1,9 +1,11 @@
+import unittest
 from unittest import TestCase
 
 from src.character import create_character
 
 
 class TestCreateCharacter(TestCase):
+
     def test_create_character_name(self):
         test_character = create_character("TestCharacterName")
         actual = test_character["Name"]
@@ -105,3 +107,7 @@ class TestCreateCharacter(TestCase):
         actual = test_character["Inventory"]["Berries"]["Purple"]
         expected = 1
         self.assertEqual(expected, actual)
+
+if __name__ == "__main__":
+    unittest.main()
+
