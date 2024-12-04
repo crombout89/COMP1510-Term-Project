@@ -3,6 +3,7 @@ from .character import current_location, get_item_from_inventory, subtract_from_
 from .config import (SUBTRACT_FROM_TUMMY_IF_CLIMB, SUBTRACT_FROM_TUMMY_IF_MOVE,
                      ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY, SILVERVINE_EXTRA_ENERGY,
                      CATNIP_TUMMY_MULTIPLIER, SILVERVINE_TUMMY_MULTIPLIER)
+from .entity import stringify_item
 
 
 def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
@@ -223,6 +224,9 @@ def eat(character: dict, item: dict) -> bool:
             character["Tummy"] += ADD_TO_TUMMY_IF_EAT_ITEM * CATNIP_TUMMY_MULTIPLIER
         else:
             character["Tummy"] += ADD_TO_TUMMY_IF_EAT_ITEM
+        print(f"🍽️ You ate a {stringify_item(item)}.\n",
+              f"⚡ Your Tummy is now at {character['Tummy']} and you have {character['ExtraEnergy']} extra energy.")
+        return True
     else:
         print("🚫 You can't eat this item because it's not in your inventory!")
         return False
