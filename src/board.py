@@ -1,7 +1,7 @@
 import random
 
 from .config import GROUND_X_SCALE, GROUND_Y_SCALE, TREE_SCALE_OPTIONS
-from .descriptions import forest_patch_description, tree_patch_description, moss_description, sick_animal_description
+from .descriptions import forest_patch_description, tree_patch_description, moss_description
 
 
 def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
@@ -60,14 +60,13 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
     return board
 
 
-def populate_board(board: dict, name: str, times: int, animal_data=None):
+def populate_board(board: dict, name: str, times: int):
     """
     Populate the game board with a specified entity at random coordinates.
 
     :param board: A dictionary representing the game board, including metadata and tile states.
     :param name: A string representing the name of the entity to place on the board.
     :param times: An integer representing the number of times the entity will be placed on the board.
-    :param animal_data: A dictionary representing the sick animal, if applicable.
     :precondition: board must have a "meta" key with "min_x", "max_x", "min_y", and "max_y" values.
     :precondition: times must be a positive, non-zero integer.
     :postcondition: Places the entity on the board at random coordinates, ensuring no overlap with
@@ -80,8 +79,6 @@ def populate_board(board: dict, name: str, times: int, animal_data=None):
     ...     (0, 0): None  # Reserved tile
     ... }
     >>> populate_board(game_board, "TreeTrunk", 3)
-    >>> tree_count = sum(1 for tile in game_board.values() if tile == "TreeTrunk")
-    3  # Should place 3 TreeTrunks on the board
     >>> reserved_tile_check = (0, 0) in game_board and board[(0, 0)] is None
     True  # Reserved tile remains unchanged
     """
@@ -127,7 +124,7 @@ def generate_ground_board() -> dict:
     >>> ground_board_result = generate_ground_board()  # Generate the ground board
     >>> "TreeTrunk" in ground_board_result.values()  # Check that TreeTrunks exist
     True
-    >>> tree_trunk_count = sum(1 for tile in ground_board_result.values() if tile == "TreeTrunk")  # Count TreeTrunks
+    >>> test_tree_trunk_count = sum(1 for tile in ground_board_result.values() if tile == "TreeTrunk")  # Count TreeTrunks
     30 <= tree_trunk_count <= 60  # Randomized, skip the exact count check
     """
     ground_board = generate_board(-GROUND_X_SCALE, GROUND_X_SCALE, -GROUND_Y_SCALE, GROUND_Y_SCALE)
@@ -156,8 +153,8 @@ def generate_tree_board() -> dict:
     >>> tree_board_result = generate_tree_board()
     >>> tree_board_result[(0, 0)] == "TreeTrunk"
     True  # The center should contain a TreeTrunk
-    >>> total_moss_count = sum(1 for moss_entity in tree_board_result.values() if moss_entity == "Moss")
-    0 <= total_moss_count <= tree_scale  # Number of Moss entities should be within the expected range
+    >>> test_moss_count = sum(1 for tile in tree_board_result.values() if tile == "Moss")
+    0 <= test_moss_count <= tree_scale  # Number of Moss entities should be within the expected range
     """
     tree_scale = random.choice(TREE_SCALE_OPTIONS)
     # Ensure at least one moss tile is placed

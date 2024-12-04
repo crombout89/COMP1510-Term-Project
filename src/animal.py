@@ -19,12 +19,12 @@ def validate_berry(color: str, ailments: list[str]) -> bool:
                     prints a message to the console telling the user whether the treatment was valid
     :return: True if an ailment was successfully treated, False otherwise.
 
-    >>> BERRY_TREATMENTS = {
+    >>> TEST_BERRY_TREATMENTS = {
     ...     "Red": "Burn",
     ...     "Blue": "Fever",
     ...     "Green": "Nausea"
     ... }
-    >>> ailments = ["Burn", "Starving"]
+    >>> test_ailments = ["Burn", "Starving"]
     >>> validate_berry("Red", ailments)
     True
     >>> ailments
