@@ -289,13 +289,13 @@ def perform_action(character: dict, board: dict, action: dict) -> bool:
                    "Eat", "Nap").
     :postcondition: Executes the corresponding function for the specified action type.
     :return: True if the action was successfully performed, False if the action type is invalid or unsuccessful.
-        >>> character = {
+    >>> game_character = {
     ...     "Tummy": 5,
     ...     "ExtraEnergy": 10,
     ...     "GroundCoordinates": [5, 5],
     ...     "Inventory": []
     ... }
-    >>> board = {
+    >>> game_board = {
     ...     (5, 5): "Moss",
     ...     (6, 5): "Empty"
     ... }
