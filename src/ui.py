@@ -3,7 +3,7 @@ import random
 from .animal import validate_berry
 from .character import get_item_from_inventory, current_location, check_tummy
 from .config import ADD_TO_TUMMY_IF_EAT_ITEM
-from .descriptions import sick_animal_description, cured_animal_description
+from .descriptions import sick_animal_description, cured_animal_description, forest_patch_description, tree_patch_description
 from .entity import generate_item, stringify_item
 from .action import check
 
@@ -392,7 +392,25 @@ def pick_up_item(character: dict, entity: dict):
         print(f"Cannot pick up {entity['Name']} without valid data.")
 
 
-def describe_location(character: dict, board: dict):
-    pass
+def describe_current_location(character: dict) -> str:
+    """
+    Describe the current location of the character based on their state.
+
+    :param character: A dictionary representing the character's state, including whether they are in a tree.
+    :return: A string description of the current location.
+
+    >>> my_character = {"InTree": False}
+    >>> describe_current_location(my_character)
+    'You are in a forest: A patch of soft green grass sways gently in the breeze.🌱'
+    >>> my_character["InTree"] = True
+    >>> describe_current_location(my_character)
+    'You are in a treetop: The treetop sways gently in the breeze, a serene spot high above the ground.🍃🌬️'
+    """
+    if character.get("InTree"):
+        description = tree_patch_description()
+        return f"You are in a treetop: {description}"
+    else:
+        description = forest_patch_description()
+        return f"You are on the forest floor: {description}"
 
 
