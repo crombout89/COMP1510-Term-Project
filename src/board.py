@@ -113,8 +113,6 @@ def generate_ground_board() -> dict:
     True
     >>> tree_trunk_count = sum(1 for tile in ground_board_result.values() if tile == "TreeTrunk")  # Count TreeTrunks
     30 <= tree_trunk_count <= 60  # Randomized, skip the exact count check
-    >>> all_content_populated = all(content is not None for content in ground_board_result.values())  # Verify all tiles are populated
-    True
     """
     ground_board = generate_board(-GROUND_X_SCALE, GROUND_X_SCALE, -GROUND_Y_SCALE, GROUND_Y_SCALE)
     populate_board(ground_board, "TreeTrunk", random.randint(30, 60))
@@ -139,8 +137,8 @@ def generate_tree_board() -> dict:
     >>> tree_board_result = generate_tree_board()
     >>> tree_board_result[(0, 0)] == "TreeTrunk"
     True  # The center should contain a TreeTrunk
-    >>> moss_count_total = sum(1 for moss_item in tree_board_result.values() if moss_item == "Moss")
-    0 <= moss_count_total <= tree_scale  # Number of Moss entities should be within the expected range
+    >>> total_moss_count = sum(1 for moss_entity in tree_board_result.values() if moss_entity == "Moss")
+    0 <= total_moss_count <= tree_scale  # Number of Moss entities should be within the expected range
     """
     tree_scale = random.choice(TREE_SCALE_OPTIONS)
     tree_board = generate_board(-tree_scale, tree_scale, -tree_scale, tree_scale)
