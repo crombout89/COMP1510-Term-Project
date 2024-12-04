@@ -1,9 +1,9 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from src.ui import help_animal
 from src.character import get_item_from_inventory
 from src.entity import stringify_item, generate_item
-from src.animal import validate_berry
+from src.animal import validate_berry, help_animal
+
 
 class TestHelpAnimal(unittest.TestCase):
 

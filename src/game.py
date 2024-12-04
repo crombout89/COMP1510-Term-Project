@@ -2,8 +2,9 @@ from src.action import perform_action
 from src.board import generate_ground_board, generate_tree_board
 from src.character import create_character, update_level, check_tummy
 from src.entity import generate_entity, pick_up_item
-from src.ui import (print_game_backstory, get_action_input, game_over, help_animal, describe_location,
+from src.ui import (print_game_backstory, get_action_input, game_over, describe_location,
                     game_complete)
+from src.animal import help_animal
 
 
 def game():
