@@ -1,5 +1,3 @@
-import itertools
-
 from .board import valid_location
 from .character import current_location, get_item_from_inventory, subtract_from_tummy, restore_points
 from .config import (SUBTRACT_FROM_TUMMY_IF_CLIMB, SUBTRACT_FROM_TUMMY_IF_MOVE,
@@ -81,26 +79,25 @@ def check(character: dict, attribute: str) -> None:
 
     # Ensure the attribute is valid
     if attribute not in valid_attributes:
-        raise ValueError(f"🚫 That's not a valid attribute to check!")
+        raise ValueError(f"'{attribute}' is not a supported attribute to check.")
+
+    # Check if the attribute exists in the character dictionary
+    if attribute not in character:
+        raise ValueError(f"The attribute '{attribute}' does not exist.")
 
     # Display the attribute value in a user-friendly way
     if attribute == "Tummy":
-        print(f"Your tummy level is: {character['Tummy']}.\n"
-              + "You have"
-              + f"extra energy for the next {character['ExtraEnergy']} moves" if character['ExtraEnergy'] > 0
-                else "no extra energy"
-              + ".")
+        print(f"Your tummy level is: {character['Tummy']}")
     elif attribute == "Level":
-        print(f"Your current level is: {character['Level']}.\n"
-              f"You have to help {character['UntilNextLevel']} more animals to level up.")
+        print(f"Your current level is: {character['Level']}")
     elif attribute == "Inventory":
-        print("Your inventory contains:")
-        inventory_iterable = itertools.chain(
-            [item for item in character["Inventory"].items() if type(item[1]) is int],
-            map(lambda b: (f"{b[0]} Berry" if b[1] == 1 else f"{b[0]} Berries", b[1]),
-                character["Inventory"]["Berries"].items()))
-        for inventory_item in inventory_iterable:
-            print(f" - {inventory_item[1]} {inventory_item[0]}")
+        inventory = character["Inventory"]
+        if inventory:
+            print("Your inventory contains:")
+            for item in inventory:
+                print(f" - {item}")
+        else:
+            print("Your inventory is empty.")
 
 
 def climb(character: dict, board) -> bool:
@@ -143,17 +140,17 @@ def climb(character: dict, board) -> bool:
     False
     🚫 You can't climb because you're not at a tree trunk!
     """
-    location = character["GroundCoordinates"]
-    if board.get(location) == "TreeTrunk":
-        if character["InTree"]:
-            return False  # Already in tree, cannot climb again
-        else:
-            character["InTree"] = True
-            character["TreeCoordinates"] = location  # Store current location
-            subtract_from_tummy(character, SUBTRACT_FROM_TUMMY_IF_CLIMB)
-            return True
+    location = current_location(character)
+    print(f"Current location: {location}")  # Debug output
+
+    # Check if the character is in a tree and the current location is moss
+    if character["InTree"] and board.get(location) == "Moss":
+        restore_points(character, extra_energy=NAP_EXTRA_ENERGY)  # Only restore extra energy
+        print("😴 You took a nap on the moss.")
+        print(f"⚡ You now have extra energy for {NAP_EXTRA_ENERGY} moves!")
+        return True
     else:
-        print("🚫 You can't climb because you're not at a tree trunk!")
+        print("🚫 You can't nap here because you're not in a tree or not on moss!")
         return False
 
 
@@ -250,13 +247,16 @@ def nap(character: dict, board: dict) -> bool:
     False
     """
     location = current_location(character)
-    if board.get(location) == "Moss":
-        restore_points(character, NAP_EXTRA_ENERGY)
+    print(f"Current location: {location}")  # Debug output
+
+    # Check if the character is in a tree and the current location is moss
+    if character["InTree"] and board.get(location) == "Moss":
+        restore_points(character, extra_energy=NAP_EXTRA_ENERGY)  # Only restore extra energy
         print("😴 You took a nap on the moss.")
         print(f"⚡ You now have extra energy for {NAP_EXTRA_ENERGY} moves!")
         return True
     else:
-        print("🚫 You can't nap here because you're not on moss!")
+        print("🚫 You can't nap here because you're not in a tree or not on moss!")
         return False
 
 

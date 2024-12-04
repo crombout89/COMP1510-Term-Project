@@ -185,7 +185,7 @@ def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
     >>> valid_location(board, (0, 0))
     True  # (0, 0) is valid but reserved
     """
-    return coordinates in board
+    return coordinates in board and board[coordinates] != "TreeTrunk"
 
 
 def describe_current_location(character: dict, board: dict) -> str:

@@ -1,11 +1,12 @@
 import io
-from unittest import TestCase
+import unittest
 from unittest.mock import patch
 
 from src.action import perform_action
 
 
 class TestPerformAction(TestCase):
+
     @patch("src.action.move")
     def test_perform_action_move(self, mock_function):
         mock_function.return_value = "move() called"
@@ -145,3 +146,6 @@ class TestPerformAction(TestCase):
         actual = mock_output.getvalue()
         expected = "🚫 You can't perform this action!\n"
         self.assertEqual(expected, actual)
+
+if __name__ == "__main__":
+    unittest.main()
