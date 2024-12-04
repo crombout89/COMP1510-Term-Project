@@ -43,12 +43,29 @@ class TestHelpAnimal(unittest.TestCase):
             mock_print.assert_any_call("You received: Red Berry!")
 
     @patch('builtins.print')
-    @patch('builtins.input', side_effect=["Blue"]) # Simulate giving a Blue berry
-    def test_help_animal_invalid_berry(self, mock_input, mock_print):
+    @patch('builtins.input', side_effect=["Blue"])  # Simulate giving a Blue berry
+    def test_help_animal_invalid_berry(self, mock_print):
         with patch('src.character.get_item_from_inventory', return_value=False):
             help_animal(self.character, self.animal)
 
             mock_print.assert_called_once_with("Oh no! You don't have any 'Blue' berries in your inventory.")
+
+    @patch('builtins.print')
+    @patch('builtins.input', side_effect=[""])  # Simulate skipping the berry
+    def test_skip_treatment(self, mock_input, mock_print):
+        help_animal(self.character, self.animal)
+
+        mock_print.assert_called_once_with("You skipped giving the animal a berry.")
+
+    @patch('builtins.print')
+    def test_no_ailments(self, mock_print):
+        animal_without_ailments = {
+            "Name": "Snake 🐍"
+            "Ailments": []
+        }
+        help_animal(self.character, animal_without_ailments)
+
+        mock_print.assert_called_once_with("The Snake 🐍 has been completely cured of their ailments!")
 
 
 if __name__ == '__main__':
