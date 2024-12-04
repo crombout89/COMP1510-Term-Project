@@ -91,17 +91,16 @@ def game_complete():
 
     print("🎉 Congratulations! You've completed Whisker Woods Rescue! 🎉")
     print("Thanks to your purr-severance and kindness, the forest is thriving again.")
-    print("Mittens has become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
+    print("You have become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
     print("You're truly the hero of Whisker Woods! 🐾✨")
     return
 
 
-def get_action_input(character: dict, board: dict) -> dict:
+def get_action_input(character: dict) -> dict:
     """
     Ask the user for an action, process the input, and return an action dictionary.
 
     :param character: A dictionary containing information about the player character.
-    :param board: A dictionary containing information about the board.
     :raises ValueError: If the user enters an unsupported or invalid action.
     :raises KeyError: If required keys are missing from the `character` or `board` dictionaries.
     :return: A dictionary representing the processed action with keys "Type" and "Data".
