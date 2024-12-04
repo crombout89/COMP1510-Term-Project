@@ -94,7 +94,8 @@ def check(character: dict, attribute: str) -> None:
         inventory = character["Inventory"]
         if inventory:
             print("Your inventory contains:")
-            print("\n - ".join([""] + inventory))
+            for item in inventory:
+                print(f" - {item}")
         else:
             print("Your inventory is empty.")
 
