@@ -100,13 +100,31 @@ def game_complete():
 
 
 def direction_input_to_action(direction_input: str) -> dict:
+    """
+    Determines the correct action dictionary for a selected movement direction.
+
+    Uses WASD mapping, where W is up, A is left, S is down, and D is right.
+
+    :param direction_input: a string representing the selected direction
+    :precondition: direction_input must be one of "W", "A", "S" or "D" (non-case-sensitive)
+    :postcondition: determines the correct action for the chosen direction
+    :raises ValueError: if direction_input is not one of "W", "A", "S" or "D"
+    :return: an action dictionary with "Move" as the key "Type" and the correct direction vector as the key "Data"
+
+    >>> direction_input_to_action("W")
+    {'Type': 'Move', 'Data': (0, -1)}
+    >>> direction_input_to_action("A")
+    {'Type': 'Move', 'Data': (-1, 0)}
+    >>> direction_input_to_action("S")
+    {'Type': 'Move', 'Data': (0, 1)}
+    """
     action = {
         "Type": "Move"
     }
     try:
         action["Data"] = DIRECTION_MAPPING[direction_input.upper()]
     except KeyError:
-        raise ValueError("Invalid direction input.")
+        raise ValueError("Invalid direction input")
     else:
         return action
 
