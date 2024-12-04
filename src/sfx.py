@@ -33,6 +33,7 @@ def play_finale_music():
 def play_heal_sfx():
     """ Play the healed animal sound effect. """
     pygame.mixer.music.stop()
+    pygame.time.delay(800)
     animal_healed_sfx.play()
 
 def stop_music():

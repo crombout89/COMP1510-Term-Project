@@ -20,13 +20,13 @@ SILVERVINE_TUMMY_MULTIPLIER = 4  # Multiplier for how many points to add to the 
 SUBTRACT_FROM_TUMMY_IF_MOVE = 1  # How many points to subtract from the tummy if a character moves one tile
 SUBTRACT_FROM_TUMMY_IF_CLIMB = 5  # How many points to subtract from the tummy if a character climbs up or down a tree
 ADD_TO_TUMMY_IF_EAT_ITEM = 25  # How many points to add to the tummy if a character eats an item
-CATNIP_EXTRA_ENERGY = 25   # How much extra energy to give to the player if they eat Catnip
+CATNIP_EXTRA_ENERGY = 25  # How much extra energy to give to the player if they eat Catnip
 SILVERVINE_EXTRA_ENERGY = 50  # How much extra energy to give to the player if they eat Silvervine
 NAP_EXTRA_ENERGY = 5  # How much extra energy to give to the player if they take a nap
 
 # Entity attribute options
-ANIMAL_OPTIONS = ["Mouse 🐁", "Squirrel 🐿️", "Duck 🪿", "Mole 🐀", "Skunk 🦨", "Hedgehog 🦔", "Grasshopper 🦗",
-                  "Robin 🐦", "Raccoon 🦝", "Owl 🦉", "Raven 🐦‍⬛", "Bunny 🐇", "Cricket 🪳", "Spider 🕷", "Snake 🐍"]
+ANIMAL_OPTIONS = ("Mouse 🐁", "Squirrel 🐿️", "Duck 🪿", "Mole 🐀", "Skunk 🦨", "Hedgehog 🦔", "Grasshopper 🦗",
+                  "Robin 🐦", "Raccoon 🦝", "Owl 🦉", "Raven 🐦‍⬛", "Bunny 🐇", "Cricket 🪳", "Spider 🕷", "Snake 🐍")
 AILMENT_OPTIONS = ["Injured", "Poisoned", "Dehydrated", "Burned", "Sad", "Starving"]
 BERRY_COLOR_OPTIONS = ["Red", "Green", "Blue", "Yellow", "Purple"]
 
