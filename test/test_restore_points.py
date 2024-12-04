@@ -1,9 +1,9 @@
-from unittest import TestCase
-
+import unittest
 from src.character import restore_points
 
 
-class TestRestorePoints(TestCase):
+class TestRestorePoints(unittest.TestCase):
+
     def test_restore_points_tummy_0_extra_energy_0_tummy_change(self):
         example_character = {
             "Tummy": 0,
@@ -190,3 +190,6 @@ class TestRestorePoints(TestCase):
         with self.assertRaises(ValueError) as context:
             restore_points(example_character, -1, -1)
         self.assertEqual("tummy must be an integer greater than or equal to 0", str(context.exception))
+
+if __name__ == "__main__":
+    unittest.main()
