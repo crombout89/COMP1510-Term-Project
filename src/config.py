@@ -22,6 +22,7 @@ SUBTRACT_FROM_TUMMY_IF_CLIMB = 5  # How many points to subtract from the tummy i
 ADD_TO_TUMMY_IF_EAT_ITEM = 25  # How many points to add to the tummy if a character eats an item
 CATNIP_EXTRA_ENERGY = 25   # How much extra energy to give to the player if they eat Catnip
 SILVERVINE_EXTRA_ENERGY = 50  # How much extra energy to give to the player if they eat Silvervine
+NAP_EXTRA_ENERGY = 5  # How much extra energy to give to the player if they take a nap
 
 # Entity attribute options
 ANIMAL_OPTIONS = ["Mouse 🐁", "Squirrel 🐿️", "Duck 🪿", "Mole 🐀", "Skunk 🦨", "Hedgehog 🦔", "Grasshopper 🦗",

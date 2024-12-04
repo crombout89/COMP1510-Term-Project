@@ -1,7 +1,7 @@
 from .board import valid_location
-from .character import current_location, get_item_from_inventory, subtract_from_tummy
+from .character import current_location, get_item_from_inventory, subtract_from_tummy, restore_points
 from .config import (SUBTRACT_FROM_TUMMY_IF_CLIMB, SUBTRACT_FROM_TUMMY_IF_MOVE,
-                     ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY, SILVERVINE_EXTRA_ENERGY,
+                     ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY, SILVERVINE_EXTRA_ENERGY, NAP_EXTRA_ENERGY,
                      CATNIP_TUMMY_MULTIPLIER, SILVERVINE_TUMMY_MULTIPLIER)
 from .entity import stringify_item
 
@@ -217,13 +217,11 @@ def eat(character: dict, item: dict) -> bool:
         raise TypeError(f"Expected entity type 'Item', got '{item['Type']}'")
     if get_item_from_inventory(character, item):
         if item["Name"] == "SilverVine":
-            character["ExtraEnergy"] += SILVERVINE_EXTRA_ENERGY
-            character["Tummy"] += ADD_TO_TUMMY_IF_EAT_ITEM * SILVERVINE_TUMMY_MULTIPLIER
+            restore_points(character, ADD_TO_TUMMY_IF_EAT_ITEM * SILVERVINE_TUMMY_MULTIPLIER, SILVERVINE_EXTRA_ENERGY)
         elif item["Name"] == "Catnip":
-            character["ExtraEnergy"] += CATNIP_EXTRA_ENERGY
-            character["Tummy"] += ADD_TO_TUMMY_IF_EAT_ITEM * CATNIP_TUMMY_MULTIPLIER
+            restore_points(character, ADD_TO_TUMMY_IF_EAT_ITEM * CATNIP_TUMMY_MULTIPLIER, CATNIP_EXTRA_ENERGY)
         else:
-            character["Tummy"] += ADD_TO_TUMMY_IF_EAT_ITEM
+            restore_points(character, ADD_TO_TUMMY_IF_EAT_ITEM)
         print(f"🍽️ You ate a {stringify_item(item)}.\n",
               f"⚡ Your Tummy is now at {character['Tummy']} and you have {character['ExtraEnergy']} extra energy.")
         return True
@@ -266,9 +264,9 @@ def nap(character: dict, board: dict) -> bool:
     """
     location = current_location(character)
     if board[location] == "Moss":
-        character["ExtraEnergy"] += 5
+        restore_points(character, NAP_EXTRA_ENERGY)
         print("😴 You took a nap on the moss.")
-        print("⚡ You now have extra energy for 5 moves!")
+        print(f"⚡ You now have extra energy for {NAP_EXTRA_ENERGY} moves!")
         return True
     else:
         print("🚫 You can't nap here because you're not on moss!")
