@@ -1,7 +1,7 @@
 # Board sizes
 GROUND_X_SCALE = 12
 GROUND_Y_SCALE = 12
-TREE_SCALE_OPTIONS = [1, 3, 5, 7, 9]
+TREE_SCALE_OPTIONS = (1, 3, 5, 7, 9)
 
 # Probabilities
 # Higher number is less likely because they are used as the upper bound of random.randint
@@ -27,45 +27,45 @@ NAP_EXTRA_ENERGY = 5  # How much extra energy to give to the player if they take
 # Entity attribute options
 ANIMAL_OPTIONS = ("Mouse 🐁", "Squirrel 🐿️", "Duck 🪿", "Mole 🐀", "Skunk 🦨", "Hedgehog 🦔", "Grasshopper 🦗",
                   "Robin 🐦", "Raccoon 🦝", "Owl 🦉", "Raven 🐦‍⬛", "Bunny 🐇", "Cricket 🪳", "Spider 🕷", "Snake 🐍")
-AILMENT_OPTIONS = ["Injured", "Poisoned", "Dehydrated", "Burned", "Sad", "Starving"]
-BERRY_COLOR_OPTIONS = ["Red", "Green", "Blue", "Yellow", "Purple"]
+AILMENT_OPTIONS = ("Injured", "Poisoned", "Dehydrated", "Burned", "Sad", "Starving")
+BERRY_COLOR_OPTIONS = ("Red", "Green", "Blue", "Yellow", "Purple")
 
 # Other configurations
-BERRY_TREATMENTS = {
+BERRY_TREATMENTS = (
     # "Berry colour": "Treats this ailment"
-    "Red": "Injured",
-    "Green": "Poisoned",
-    "Blue": "Dehydrated",
-    "Yellow": "Burned",
-    "Purple": "Sad",
-}
-CHARACTER_DEFAULT_ATTRIBUTES = {
-    "Name": "CHARACTER_NAME_PLACEHOLDER",
-    "Level": 1,
-    "UntilNextLevel": 5,
-    "InTree": False,
-    "GroundCoordinates": (0, 0),
-    "TreeCoordinates": (0, 0),
-    "Tummy": 100,
-    "ExtraEnergy": 0,
-    "AnimalsHelped": 0,
-    "FinalChallengeCompleted": None,
-    "Inventory": {
-        "Berries": {
-            "Red": 1,
-            "Green": 1,
-            "Blue": 1,
-            "Yellow": 1,
-            "Purple": 1
-        },
-        "Catnip": 0,
-        "SilverVine": 0
-    }
-}
-DIRECTION_MAPPING = {
+    ("Red", "Injured"),
+    ("Green", "Poisoned"),
+    ("Blue", "Dehydrated"),
+    ("Yellow", "Burned"),
+    ("Purple", "Sad")
+)
+CHARACTER_DEFAULT_ATTRIBUTES = (
+    ("Name", "CHARACTER_NAME_PLACEHOLDER"),
+    ("Level", 1),
+    ("UntilNextLevel", 5),
+    ("InTree", False),
+    ("GroundCoordinates", (0, 0)),
+    ("TreeCoordinates", (0, 0)),
+    ("Tummy", 100),
+    ("ExtraEnergy", 0),
+    ("AnimalsHelped", 0),
+    ("FinalChallengeCompleted", None),
+    ("Inventory", (
+        ("Berries", (
+            ("Red", 1),
+            ("Green", 1),
+            ("Blue", 1),
+            ("Yellow", 1),
+            ("Purple", 1)
+        )),
+        ("Catnip", 0),
+        ("Silvervine", 0)
+    ))
+)
+DIRECTION_MAPPING = (
     # "Direction input": (Direction vector)
-    "W": (0, -1),  # Decriment y coordinate to move up
-    "A": (-1, 0),  # Decriment x coordinate to move left
-    "S": (0, 1),  # Incriment y coordinate to move down
-    "D": (1, 0)  # Incriment x coordinate to move right
-}
+    ("W", (0, -1)),  # Decrement y coordinate to move up
+    ("A", (-1, 0)),  # Decrement x coordinate to move left
+    ("S", (0, 1)),  # Increment y coordinate to move down
+    ("D", (1, 0))  # Increment x coordinate to move right
+)
