@@ -173,6 +173,8 @@ def subtract_from_tummy(character: dict, units: int):
         character["ExtraEnergy"] -= 1
     else:
         character["Tummy"] -= units
+        if character["Tummy"] < 0:
+            character["Tummy"] = 0  # Prevent tummy from going negative
 
 
 def get_item_from_inventory(character: dict, item: dict) -> bool:
