@@ -1,7 +1,9 @@
+import pygame
 from .config import BERRY_TREATMENTS
 from .description import sick_animal_description, cured_animal_description
 from .entity import generate_reward
 from .ui import get_berry_input
+from .sfx import play_heal_sfx, play_finale_music
 
 
 def validate_berry(color: str, ailments: list[str]) -> bool:
@@ -47,6 +49,7 @@ def validate_berry(color: str, ailments: list[str]) -> bool:
 
 
 def help_animal_success(character: dict, entity: dict):
+    play_heal_sfx()
     print(f"The {entity['Name']} has been completely cured of their ailments!")
     print(cured_animal_description(entity))
 
@@ -58,6 +61,7 @@ def help_animal_success(character: dict, entity: dict):
     # Handle Final Challenge
     if entity["Name"] == "FinalChallenge":
         character["FinalChallengeCompleted"] = True
+        play_finale_music()
         print("Congratulations! You have completed the Final Challenge! 🎉")
 
 
