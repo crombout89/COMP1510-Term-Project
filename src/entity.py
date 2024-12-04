@@ -139,6 +139,62 @@ def generate_entity(board: dict, character: dict) -> typing.Optional[dict]:
         return generate_item(character)
 
 
+def generate_final_challenge_recipe() -> list:
+    """
+    Generate a recipe specifically for the final challenge with 5 ingredients.
+
+    :return: A list representing the final challenge recipe.
+    """
+    max_ingredients = 5
+    ingredients = BERRY_COLOR_OPTIONS + ["Catnip", "Silvervine"]
+
+    # Ensure enough ingredients for the final challenge
+    selected_ingredients = random.sample(ingredients, max_ingredients)
+
+    return selected_ingredients
+
+
+def generate_recipe(max_ingredients=3) -> list:
+    """
+    Generate a random recipe using a combination of berries and special items.
+
+    :param max_ingredients: Maximum number of ingredients in the recipe (default is 3).
+    :return: A list representing the generated recipe.
+    """
+    # Define the possible ingredients
+    ingredients = BERRY_COLOR_OPTIONS + ["Catnip", "Silvervine"]
+
+    # Randomly choose the number of ingredients for the recipe
+    num_ingredients = random.randint(1, max_ingredients)
+
+    # Randomly select ingredients without replacement
+    selected_ingredients = random.sample(ingredients, num_ingredients)
+
+    return selected_ingredients
+
+
+def generate_reward(character: dict, animal_name: str):
+    """
+    Generate a reward for helping an animal.
+
+    Randomly generates between 1 and a number of items corresponding to the level of the character.
+
+    :param animal_name: the name of the animal giving the reward
+    :precondition: animal_name must be a string representing an animal
+    :param character: the character being rewarded
+    :precondition: character must be a well-formed dictionary representing a character
+    :postcondition: adds between 1 and a number of random items corresponding to the level of the character to the
+                    inventory of the character
+    """
+    rewards_count = random.randint(1, character["Level"])
+    print(f"The {animal_name} gave you {rewards_count} items as a sign of their gratitude!")
+    print("You received the following items:")
+    for reward in zip(range(rewards_count), itertools.count(1)):
+        reward_item = generate_item(character, True)  # Generate a random item
+        pick_up_item(character, reward_item)  # Add the item to the player's inventory
+        print(f" {reward[1]}. a {stringify_item(reward_item)}")
+
+
 def stringify_item(entity: dict) -> str:
     """
     Convert an item into a string representation.
@@ -258,24 +314,3 @@ def pick_up_item(character: dict, entity: dict):
     else:
         print(f"The item is malformed and could not be picked up!")
 
-
-def generate_reward(character: dict, animal_name: str):
-    """
-    Generate a reward for helping an animal.
-
-    Randomly generates between 1 and a number of items corresponding to the level of the character.
-
-    :param animal_name: the name of the animal giving the reward
-    :precondition: animal_name must be a string representing an animal
-    :param character: the character being rewarded
-    :precondition: character must be a well-formed dictionary representing a character
-    :postcondition: adds between 1 and a number of random items corresponding to the level of the character to the
-                    inventory of the character
-    """
-    rewards_count = random.randint(1, character["Level"])
-    print(f"The {animal_name} gave you {rewards_count} items as a sign of their gratitude!")
-    print("You received the following items:")
-    for reward in zip(range(rewards_count), itertools.count(1)):
-        reward_item = generate_item(character, True)  # Generate a random item
-        pick_up_item(character, reward_item)  # Add the item to the player's inventory
-        print(f" {reward[1]}. a {stringify_item(reward_item)}")
