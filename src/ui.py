@@ -146,7 +146,7 @@ def get_action_input(character: dict) -> dict:
         if action["Type"] in EXTERNAL_ACTIONS:
             return action
         elif action["Type"] in DIRECTION_MAPPING.keys():
-            return direction_input_to_action(action["Data"][0])
+            return direction_input_to_action(action["Type"])
         elif action["Type"] in INFORMATION_ACTIONS.keys():
             INFORMATION_ACTIONS[action["Type"]](character, action["Data"][0])
         else:
