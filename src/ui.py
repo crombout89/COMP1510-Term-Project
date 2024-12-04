@@ -178,37 +178,6 @@ def help_animal(character: dict, entity: dict):
     :postcondition: The character's statistics ("AnimalsHelped", "UntilNextLevel", and "Level") are updated
                     appropriately.
     :postcondition: If "FinalChallenge" is completed, character["FinalChallengeCompleted"] is set to True.
-
-    >>> character = {
-    ...     "Level": 2,
-    ...     "UntilNextLevel": 1,
-    ...     "Inventory": {"Berries": {"Red": 2, "Green": 1, "Blue": 0}},
-    ...     "AnimalsHelped": 3,
-    ...     "FinalChallengeCompleted": False
-    ... }
-    >>> entity = {"Name": "Bunny", "Ailments": ["Injured"]}
-    >>> # Mock implementations of required functions:
-    >>> def GET_ITEM_FROM_INVENTORY(character, berry): return berry in character["Inventory"]["Berries"] and character["Inventory"]["Berries"][berry] > 0
-    >>> def VALIDATE_BERRY(berry, ailments): return berry == "Red" and "Injured" in ailments
-    >>> BERRY_TREATMENTS = {"Red": "Injured", "Green": "Sick"}
-    >>> def GENERATE_ITEM(character, is_random): return "Magic Herb"
-    >>> def PICK_UP_ITEM(character, item): character["Inventory"].setdefault(item, 0); character["Inventory"][item] += 1
-
-    >>> help_animal(character, entity)  # Simulate helping the animal
-    You have come across a sad Bunny, and they aren't doing very well...
-    Bunny: I don't feel so good, I have Injured. Can you help me?
-    Which color berry would you like to give the animal? red
-    Hooray! You have 'Red' in your inventory!
-    The berry 'Red' successfully treated one of the animal's ailments! 🩹
-    You used one 'Red' berry. Remaining: 1
-    The Bunny has been completely cured of their ailments!
-    The Bunny is so grateful! It gives you 3 random items as a reward!
-    You received: Green Berry!
-    You received: Catnip!
-    You received: Yellow Berry!
-    Congratulations! You leveled up to Level 2!
-    You need to help 15 more animals to reach the next level.
-    Current Level: 2, Animals Helped: 4
     """
     name = entity.get("Name", "")
     ailments = entity.get("Data", [])
