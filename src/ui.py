@@ -463,16 +463,51 @@ def pick_up_item(character: dict, entity: dict):
     :precondition: character must be a well-formed dictionary representing an entity and whose type is "Item"
     :postcondition: increments the corresponding item in the inventory of the character by one,
                     and prints a message to the console telling the user
-    :raises ValueError: if entity is not an item
+    :raises TypeError: if entity is not an item
+
+    >>> example_character = {
+    ...     "Inventory": {
+    ...         "Catnip": 0,
+    ...         "Silvervine": 0,
+    ...         "Berries": {
+    ...             "Red": 0,
+    ...             "Green": 0,
+    ...             "Blue": 0,
+    ...             "Yellow": 0,
+    ...             "Purple": 0
+    ...         }
+    ...     }
+    ... }
+    >>> example_item = {
+    ...     "Type": "Item",
+    ...     "Name": "Catnip",
+    ...     "Data": None
+    ... }
+    >>> example_character["Inventory"]["Catnip"]
+    0
+    >>> pick_up_item(example_character, example_item)
+    💼 You picked up a Catnip.
+    >>> example_character["Inventory"]["Catnip"]
+    1
+    >>> example_item = {
+    ...     "Type": "Item",
+    ...     "Name": "Berry",
+    ...     "Data": "Red"
+    ... }
+    >>> example_character["Inventory"]["Berries"]["Red"]
+    0
+    >>> pick_up_item(example_character, example_item)
+    💼 You picked up a Red Berry.
+    >>> example_character["Inventory"]["Berries"]["Red"]
+    1
     """
     if entity["Type"] != "Item":
-        raise ValueError(f"The key 'Type' of entity must be 'Item', not '{entity['Type']}'")
+        raise TypeError(f"Expected entity type 'Item', got '{entity['Type']}'")
     if entity["Name"] == "Catnip" or entity["Name"] == "Silvervine":
-        print(f"You picked up a {entity['Name']}.")
         character["Inventory"][entity["Name"]] += 1
     else:
-        print(f"You picked up a {entity['Data']} Berry.")
         character["Inventory"]["Berries"][entity["Data"]] += 1
+    print(f"💼 You picked up a {stringify_item(entity)}.")
 
 
 def describe_location(character: dict, board: dict):
