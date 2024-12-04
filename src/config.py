@@ -24,19 +24,19 @@ CATNIP_EXTRA_ENERGY = 25   # How much extra energy to give to the player if they
 SILVERVINE_EXTRA_ENERGY = 50  # How much extra energy to give to the player if they eat Silvervine
 
 # Entity attribute options
-ANIMAL_OPTIONS = ["Mouse", "Squirrel", "Chipmunk", "Mole", "Shrew", "Hedgehog", "Sparrow", "Robin", "Finch", "Crow",
-                  "Raven", "Bunny", "Cricket", "Spider", "Snake"]
+ANIMAL_OPTIONS = ["Mouse 🐁", "Squirrel 🐿️", "Duck 🪿", "Mole 🐀", "Skunk 🦨", "Hedgehog 🦔", "Grasshopper 🦗",
+                  "Robin 🐦", "Raccoon 🦝", "Owl 🦉", "Raven 🐦‍⬛", "Bunny 🐇", "Cricket 🪳", "Spider 🕷", "Snake 🐍"]
 AILMENT_OPTIONS = ["Injured", "Poisoned", "Dehydrated", "Burned", "Sad", "Starving"]
-BERRY_COLOR_OPTIONS = ["Red", "Green", "Blue", "Yellow", "Purple"]
+BERRY_COLOR_OPTIONS = ["Red 🍒", "Green 🫛", "Blue 🫐", "Yellow 🫘", "Purple 🍇"]
 
 # Other configurations
 BERRY_TREATMENTS = {
     # "Berry colour": "Treats this ailment"
-    "Red": "Injured",
-    "Green": "Poisoned",
-    "Blue": "Dehydrated",
-    "Yellow": "Burned",
-    "Purple": "Sad",
+    "Red 🍒": "Injured",
+    "Green 🫛": "Poisoned",
+    "Blue 🫐": "Dehydrated",
+    "Yellow 🫘": "Burned",
+    "Purple 🍇": "Sad",
 }
 CHARACTER_DEFAULT_ATTRIBUTES = {
     "Name": "CHARACTER_NAME_PLACEHOLDER",

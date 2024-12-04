@@ -1,6 +1,7 @@
 import random
 
 from .config import GROUND_X_SCALE, GROUND_Y_SCALE, TREE_SCALE_OPTIONS
+from .descriptions import forest_patch_description, tree_patch_description, moss_description
 
 
 def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
@@ -65,21 +66,22 @@ def populate_board(board: dict, name: str, times: int):
     :param board: A dictionary representing the game board, including metadata and tile states.
     :param name: A string representing the name of the entity to place on the board.
     :param times: An integer representing the number of times the entity will be placed on the board.
+    :param animal_data: A dictionary representing the sick animal, if applicable.
     :precondition: board must have a "meta" key with "min_x", "max_x", "min_y", and "max_y" values.
     :precondition: times must be a positive, non-zero integer.
     :postcondition: Places the entity on the board at random coordinates, ensuring no overlap with
                     existing entities or the reserved tile (0, 0).
 
-    >>> board = {
+    >>> game_board = {
     ...     "meta": {"min_x": 1, "max_x": 5, "min_y": 1, "max_y": 5},
     ...     (1, 1): None,
     ...     (2, 2): None,
     ...     (0, 0): None  # Reserved tile
     ... }
-    >>> populate_board(board, "Tree", 3)
-    >>> sum(1 for tile in board.values() if tile == "Tree")
-    3  # Should place 3 Trees on the board
-    >>> (0, 0) in board and board[(0, 0)] is None
+    >>> populate_board(game_board, "TreeTrunk", 3)
+    >>> tree_count = sum(1 for tile in game_board.values() if tile == "TreeTrunk")
+    3  # Should place 3 TreeTrunks on the board
+    >>> reserved_tile_check = (0, 0) in game_board and board[(0, 0)] is None
     True  # Reserved tile remains unchanged
     """
     counter = 1
@@ -91,29 +93,38 @@ def populate_board(board: dict, name: str, times: int):
         # Don't generate anything for (0, 0) because it's a reserved tile
         # Don't generate anything if the selected coordinate is not a blank tile
         if coordinate != (0, 0) and board[coordinate] is None:
-            # Add a detailed description for the entity
             if name == "TreeTrunk":
                 board[coordinate] = "A sturdy tree trunk rises above you, its smooth bark perfect for climbing."
-            else:
-                board[coordinate] = f"A mysterious entity: {name}."
+            elif name == "SickAnimal" and animal_data:
+                description = sick_animal_description(animal_data)
+                board[coordinate] = description
             counter += 1
 
 
 def generate_ground_board() -> dict:
     """
-    Generate a ground board with tree trunks.
+    Generate a ground board with tree trunks and randomized forest patch descriptions for empty tiles.
 
-    :postcondition: The board includes a random number of "TreeTrunk" entities populated on it.
-    :return: A dictionary representing the generated ground board with entities.
+    :postcondition: The board includes a random number of "TreeTrunk" entities and randomized forest patch descriptions
+                    for empty tiles.
+    :return: A dictionary representing the generated ground board with entities and descriptions.
 
-    >>> ground_board = generate_ground_board()
-    >>> "TreeTrunk" in ground_board.values()
-    True  # At least one TreeTrunk should be present
-    >>> sum(1 for tile in ground_board.values() if tile == "TreeTrunk")
-    30 <= _ <= 60  # Number of TreeTrunks should be within the expected range
+    >>> ground_board_result = generate_ground_board()  # Generate the ground board
+    >>> "TreeTrunk" in ground_board_result.values()  # Check that TreeTrunks exist
+    True
+    >>> tree_trunk_count = sum(1 for tile in ground_board_result.values() if tile == "TreeTrunk")  # Count TreeTrunks
+    30 <= tree_trunk_count <= 60  # Randomized, skip the exact count check
     """
     ground_board = generate_board(-GROUND_X_SCALE, GROUND_X_SCALE, -GROUND_Y_SCALE, GROUND_Y_SCALE)
     populate_board(ground_board, "TreeTrunk", random.randint(30, 60))
+
+    # Collect empty tiles
+    empty_tiles = [tile for tile, content in ground_board.items() if content is None]
+
+    # Fill empty tiles with forest patch descriptions
+    for tile in empty_tiles:
+        ground_board[tile] = forest_patch_description()
+
     return ground_board
 
 
@@ -124,18 +135,30 @@ def generate_tree_board() -> dict:
     :postcondition: The board includes one "TreeTrunk" at the center and a random number of "Moss" entities.
     :return: A dictionary representing the generated tree board with entities.
 
-    >>> tree_board = generate_tree_board()
-    >>> tree_board[(0, 0)] == "TreeTrunk"
+    >>> tree_board_result = generate_tree_board()
+    >>> tree_board_result[(0, 0)] == "TreeTrunk"
     True  # The center should contain a TreeTrunk
-    >>> sum(1 for tile in tree_board.values() if tile == "Moss")
-    0 <= _ <= tree_scale  # Number of Moss entities should be within the expected range
+    >>> total_moss_count = sum(1 for moss_entity in tree_board_result.values() if moss_entity == "Moss")
+    0 <= total_moss_count <= tree_scale  # Number of Moss entities should be within the expected range
     """
     tree_scale = random.choice(TREE_SCALE_OPTIONS)
     tree_board = generate_board(-tree_scale, tree_scale, -tree_scale, tree_scale)
-    tree_board[(0, 0)] = "TreeTrunk"
-    populate_board(tree_board, "Moss", random.randint(0, tree_scale))
-    return tree_board
 
+    # Place the central TreeTrunk
+    tree_board[(0, 0)] = "TreeTrunk"
+
+    # Populate Moss tiles randomly
+    moss_count = random.randint(0, tree_scale)
+    populate_board(tree_board, "Moss", moss_count)
+
+    # Add descriptions for Moss and empty tiles
+    for position in tree_board.keys():
+        if tree_board[position] == "Moss":
+            tree_board[position] = moss_description()  # Replace with a random moss description
+        elif tree_board[position] is None:
+            tree_board[position] = tree_patch_description()  # Random description for empty tiles
+
+    return tree_board
 
 def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
     """
@@ -145,7 +168,7 @@ def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
     :param coordinates: A tuple of integers representing the coordinates to check.
     :return: True if the coordinates are valid, False otherwise.
 
-    >>> board = {
+    >>> game_board = {
     ...     (1, 1): None,
     ...     (0, 0): "Reserved",
     ...     (2, 2): "TreeTrunk"
