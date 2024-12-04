@@ -1,4 +1,5 @@
 import copy
+import itertools
 import random
 import typing
 
@@ -277,7 +278,8 @@ def generate_reward(character: dict, animal_name: str):
     """
     rewards_count = random.randint(1, character["Level"])
     print(f"The {animal_name} gave you {rewards_count} items as a sign of their gratitude!")
-    for _ in range(rewards_count):
+    print("You received the following items:")
+    for reward in zip(range(rewards_count), itertools.count(1)):
         reward_item = generate_item(character, True)  # Generate a random item
         pick_up_item(character, reward_item)  # Add the item to the player's inventory
-        print(f"You received: {stringify_item(reward_item)}!")
+        print(f" {reward[1]}. a {stringify_item(reward_item)}")
