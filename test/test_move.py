@@ -54,5 +54,13 @@ class TestMoveFunction(unittest.TestCase):
         self.assertEqual(self.character["GroundCoordinates"], (5, 6))
         mock_subtract.assert_called_once_with(self.character, 1)
 
+    @patch('src.character.subtract_from_tummy')
+    def test_move_out_of_bounds(self, mock_subtract):
+        self.board[(16, 15)] = None  # Assume that (16, 15) is out of bounds
+        result = move(self.character, self.board, (1, 0))
+        self.assertFalse(result)
+        self.assertEqual(self.character["GroundCoordinates"], (5, 5))
+        mock_subtract.assert_not_called()
+
 if __name__ == '__main__':
     unittest.main()
