@@ -238,6 +238,28 @@ def get_item_from_inventory(character: dict, item: dict) -> bool:
         return False
 
 
+def restore_points(character: dict, tummy: int = 0, extra_energy: int = 0):
+    """
+    Add points to the Tummy and ExtraEnergy of a character.
+
+    :param character: the character to add points to
+    :precondition: character must be a well-formed dictionary representing a character
+    :param tummy: how many points to add to the Tummy of the character
+    :precondition: tummy must be an integer greater than or equal to 0
+    :param extra_energy: how many points to add to the ExtraEnergy of the character
+    :precondition: extra_energy must be an integer greater than or equal to 0
+    :postcondition: adds the specified points to the Tummy and ExtraEnergy of the character
+    :raises ValueError: if tummy is less than 0
+    :raises ValueError: if extra_energy is less than 0
+    """
+    if tummy < 0:
+        raise ValueError("tummy must be an integer greater than or equal to 0")
+    if extra_energy < 0:
+        raise ValueError("extra_energy must be an integer greater than or equal to 0")
+    character["Tummy"] += tummy
+    character["ExtraEnergy"] += extra_energy
+
+
 def start_final_challenge(character: dict) -> None:
     """
     Initialize the final challenge for the character.
