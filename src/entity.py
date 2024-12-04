@@ -139,40 +139,6 @@ def generate_entity(board: dict, character: dict) -> typing.Optional[dict]:
         return generate_item(character)
 
 
-def generate_final_challenge_recipe() -> list:
-    """
-    Generate a recipe specifically for the final challenge with 5 ingredients.
-
-    :return: A list representing the final challenge recipe.
-    """
-    max_ingredients = 5
-    ingredients = BERRY_COLOR_OPTIONS + ["Catnip", "Silvervine"]
-
-    # Ensure enough ingredients for the final challenge
-    selected_ingredients = random.sample(ingredients, max_ingredients)
-
-    return selected_ingredients
-
-
-def generate_recipe(max_ingredients=3) -> list:
-    """
-    Generate a random recipe using a combination of berries and special items.
-
-    :param max_ingredients: Maximum number of ingredients in the recipe (default is 3).
-    :return: A list representing the generated recipe.
-    """
-    # Define the possible ingredients
-    ingredients = BERRY_COLOR_OPTIONS + ["Catnip", "Silvervine"]
-
-    # Randomly choose the number of ingredients for the recipe
-    num_ingredients = random.randint(1, max_ingredients)
-
-    # Randomly select ingredients without replacement
-    selected_ingredients = random.sample(ingredients, num_ingredients)
-
-    return selected_ingredients
-
-
 def generate_reward(character: dict, animal_name: str):
     """
     Generate a reward for helping an animal.
