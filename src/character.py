@@ -306,20 +306,20 @@ def start_final_challenge(character: dict) -> None:
     - Sets the "FinalChallengeCompleted" key to False.
     - Prints a message to the user explaining the final challenge and how to complete it.
 
-    >>> character = {
+    >>> game_character = {
     ...     "InTree": True,
     ...     "GroundCoordinates": (5, 5),
     ...     "FinalChallengeCompleted": True
     ... }
-    >>> start_final_challenge(character)
+    >>> start_final_challenge(game_character)
     The final challenge is to find the hidden treasure on the ground.
     Search carefully and use all your skills to complete the task!
     Beware of obstacles and enemies that may block your path.
-    >>> character["InTree"]
+    >>> game_character["InTree"]
     False
-    >>> character["GroundCoordinates"]
+    >>> game_character["GroundCoordinates"]
     (0, 0)
-    >>> character["FinalChallengeCompleted"]
+    >>> game_character["FinalChallengeCompleted"]
     False
     """
     # Ensure required keys are in the character dictionary

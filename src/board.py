@@ -180,6 +180,7 @@ def generate_tree_board() -> dict:
 
     return tree_board
 
+
 def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
     """
     Check if the specified coordinates are valid locations on the board.
