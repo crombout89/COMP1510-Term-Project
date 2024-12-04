@@ -326,11 +326,11 @@ def perform_action(character: dict, board: dict, action: dict) -> bool:
     False
     """
     if action["Type"] == "Move":
-        return move(character, board, action["data"])
+        return move(character, board, action["Data"])
     elif action["Type"] == "Climb":
         return climb(character, board)
     elif action["Type"] == "Eat":
-        return eat(character, action["data"])
+        return eat(character, action["Data"])
     elif action["Type"] == "Nap":
         return nap(character, board)
     else:
