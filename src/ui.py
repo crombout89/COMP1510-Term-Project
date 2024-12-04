@@ -168,7 +168,7 @@ def get_berry_input(character) -> typing.Optional[dict]:
     while True:
         berry_color = (input("Which color berry would you like to give the animal?"
                              " (Type 'Help' if you don't know) \n> ")
-                       .strip().lower().title())
+                       .strip().title().split()[0])
         if not berry_color:
             print("You skipped giving the animal a berry.")
             return None
