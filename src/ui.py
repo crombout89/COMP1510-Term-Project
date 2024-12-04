@@ -1,4 +1,4 @@
-from .config import ADD_TO_TUMMY_IF_EAT_ITEM
+from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING
 from .entity import item_input_to_entity
 from .action import check, direction_input_to_action
 
@@ -93,12 +93,11 @@ def game_complete():
     return
 
 
-def get_action_input(character: dict, board: dict) -> dict:
+def get_action_input(character: dict) -> dict:
     """
     Ask the user for an action, process the input, and return an action dictionary.
 
     :param character: A dictionary containing information about the player character.
-    :param board: A dictionary containing information about the board.
     :raises ValueError: If the user enters an unsupported or invalid action.
     :raises KeyError: If required keys are missing from the `character` or `board` dictionaries.
     :return: A dictionary representing the processed action with keys "Type" and "Data".
