@@ -49,5 +49,6 @@ class TestGenerateItem(unittest.TestCase):
         self.assertEqual(item["Name"], "Berry")
         self.assertIn(item["Data"], BERRY_COLOR_OPTIONS)
 
+
 if __name__ == '__main__':
     unittest.main()
