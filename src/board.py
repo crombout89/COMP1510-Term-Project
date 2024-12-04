@@ -1,7 +1,7 @@
 import random
 
 from .config import GROUND_X_SCALE, GROUND_Y_SCALE, TREE_SCALE_OPTIONS
-from .descriptions import forest_patch_description, tree_patch_description, moss_description
+from .descriptions import forest_patch_description, tree_patch_description, moss_description, sick_animal_description
 
 
 def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
@@ -59,7 +59,7 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
     return board
 
 
-def populate_board(board: dict, name: str, times: int):
+def populate_board(board: dict, name: str, times: int, animal_data=None):
     """
     Populate the game board with a specified entity at random coordinates.
 
@@ -84,21 +84,23 @@ def populate_board(board: dict, name: str, times: int):
     >>> reserved_tile_check = (0, 0) in game_board and board[(0, 0)] is None
     True  # Reserved tile remains unchanged
     """
-    counter = 1
-    while counter <= times:
+    if times <= 0:
+        raise ValueError("Times must be a positive, non-zero integer.")
+
+    counter = 0
+    while counter < times:
         x_coordinate = random.randint(board["meta"]["min_x"], board["meta"]["max_x"])
         y_coordinate = random.randint(board["meta"]["min_y"], board["meta"]["max_y"])
         coordinate = (x_coordinate, y_coordinate)
 
-        # Don't generate anything for (0, 0) because it's a reserved tile
-        # Don't generate anything if the selected coordinate is not a blank tile
-        if coordinate != (0, 0) and board[coordinate] is None:
+        # Avoid placing on the reserved tile and ensure the tile is blank
+        if coordinate != (0, 0) and board.get(coordinate) is None:
             if name == "TreeTrunk":
                 board[coordinate] = "A sturdy tree trunk rises above you, its smooth bark perfect for climbing."
             elif name == "SickAnimal" and animal_data:
                 description = sick_animal_description(animal_data)
                 board[coordinate] = description
-            counter += 1
+            counter += 1  # Only increment if placement was successful
 
 
 def generate_ground_board() -> dict:
@@ -159,6 +161,7 @@ def generate_tree_board() -> dict:
             tree_board[position] = tree_patch_description()  # Random description for empty tiles
 
     return tree_board
+
 
 def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
     """
