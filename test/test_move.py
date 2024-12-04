@@ -62,5 +62,14 @@ class TestMoveFunction(unittest.TestCase):
         self.assertEqual(self.character["GroundCoordinates"], (5, 5))
         mock_subtract.assert_not_called()
 
+    @patch('src.character.subtract_from_tummy')
+    def test_move_in_tree(self, mock_subtract):
+        self.character["InTree"] = True
+        self.character["TreeCoordinates"] = [0, 0]
+        result = move(self.character, self.board, (1, 0))
+        self.assertTrue(result)
+        self.assertEqual(self.character["TreeCoordinates"], [1, 0])
+        mock_subtract.assert_called_once_with(self.character, 1)
+
 if __name__ == '__main__':
     unittest.main()
