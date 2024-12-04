@@ -46,5 +46,11 @@ class TestPickUpItem(unittest.TestCase):
         self.assertEqual(self.character["Inventory"]["Catnip"], 1)
         mock_print.assert_called_once_with("💼 You picked up a Catnip.")
 
+    @patch('builtins.print')
+    def test_pick_up_valid_silvervine(self, mock_print):
+        pick_up_item(self.character, self.valid_item_silvervine)
+        self.assertEqual(self.character["Inventory"]["SilverVine"], 1)
+        mock_print.assert_called_once_with("💼 You picked up a SilverVine.")
+
 if __name__ == '__main__':
     unittest.main()

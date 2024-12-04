@@ -285,11 +285,15 @@ def pick_up_item(character: dict, entity: dict):
     """
     if entity["Type"] != "Item":
         raise TypeError(f"Expected entity type 'Item', got '{entity['Type']}'")
-    if entity["Name"] == "Catnip" or entity["Name"] == "Silvervine":
+
+    if entity["Name"] in ["Catnip", "SilverVine"]:
         character["Inventory"][entity["Name"]] += 1
-    else:
+    elif entity["Name"] == "Berries" and entity["Data"] is not None:
         character["Inventory"]["Berries"][entity["Data"]] += 1
-    print(f"💼 You picked up a {stringify_item(entity)}.")
+    else:
+        print(f"Cannot pick up {entity['Name']} without valid data.")
+
+    print(f"💼 You picked up a {entity['Name']}.")
 
 
 def describe_location(character: dict, board: dict):
