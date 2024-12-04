@@ -17,12 +17,12 @@ def validate_berry(color: str, ailments: list[str]) -> bool:
     :postcondition: If the berry can treat an ailment, it will be removed from the list of ailments.
     :return: True if an ailment was successfully treated, False otherwise.
 
-    >>> BERRY_TREATMENTS = {
+    >>> TEST_BERRY_TREATMENTS = {
     ...     "Red": "Burn",
     ...     "Blue": "Fever",
     ...     "Green": "Nausea"
     ... }
-    >>> ailments = ["Burn", "Starving"]
+    >>> test_ailments = ["Burn", "Starving"]
     >>> validate_berry("Red", ailments)
     True
     >>> ailments
