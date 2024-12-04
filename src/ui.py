@@ -1,3 +1,6 @@
+import typing
+
+from .character import get_item_from_inventory
 from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING
 from .entity import item_input_to_entity
 from .action import check, direction_input_to_action
@@ -38,7 +41,9 @@ def print_game_backstory():
     """ Print the game's backstory and instructions for winning. """
 
     # Backstory
+    print("====================================")
     print("Welcome to Whisker Woods Rescue! 🐾🐈")
+    print("====================================\n")
     print("Deep in the heart of Whisker Woods, a magical forest brimming with life,\n"
           "animals have fallen ill from mysterious ailments. But don’t worry—there’s hope!")
     print("Meet Mittens, the Meowgical Healer, a kind-hearted kitty with a knack for\n"
@@ -58,7 +63,6 @@ def print_game_backstory():
 
 
 def print_game_help():
-    print("\n")
     print("Type one of the following actions and press ENTER:")
     print(" - 'W' to move up")
     print(" - 'A' to move left")
@@ -72,6 +76,7 @@ def print_game_help():
     print(" - 'Climb' to climb up or down a tree trunk")
     print(" - 'Nap' to take a nap on a patch of moss")
     print(" - 'Help' to the see the backstory and instructions from the start of the game")
+    print()
 
 
 def game_over():
@@ -131,7 +136,7 @@ def get_action_input(character: dict) -> dict:
     action = {}
 
     while True:
-        selected_action = (input("What do you want to do? (Just press ENTER if you don't know) ")
+        selected_action = (input("\nWhat do you want to do? (Just press ENTER if you don't know) \n> ")
                            .strip().title().split())
         if len(selected_action) < 2:
             # If the selected action has less than 2 tokens, pad it with empty strings to prevent an index error
@@ -141,8 +146,23 @@ def get_action_input(character: dict) -> dict:
         if action["Type"] in EXTERNAL_ACTIONS:
             return action
         elif action["Type"] in DIRECTION_MAPPING.keys():
-            return direction_input_to_action(action["Data"][0])
+            return direction_input_to_action(action["Type"])
         elif action["Type"] in INFORMATION_ACTIONS.keys():
             INFORMATION_ACTIONS[action["Type"]](character, action["Data"][0])
         else:
             print("🚫 That's not a valid action!")
+
+
+def get_berry_input(character) -> typing.Optional[dict]:
+    while True:
+        berry_color = input("Which color berry would you like to give the animal? ").strip().lower().title()
+        if not berry_color:
+            print("You skipped giving the animal a berry.")
+            return None
+        else:
+            # Check if the player has the berry in their inventory
+            berry = {"Type": "Item", "Name": "Berry", "Data": berry_color}
+            if get_item_from_inventory(character, berry):
+                return berry
+            else:
+                print(f"Oh no! You don't have any '{berry['Data']}' berries in your inventory.")

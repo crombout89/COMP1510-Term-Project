@@ -2,7 +2,7 @@ import unittest
 import random
 from src.board import generate_tree_board
 from src.config import TREE_SCALE_OPTIONS
-from src.descriptions import moss_description
+from src.description import moss_description
 
 class TestGenerateTreeBoard(unittest.TestCase):
 
