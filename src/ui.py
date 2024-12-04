@@ -1,4 +1,4 @@
-from .config import ADD_TO_TUMMY_IF_EAT_ITEM
+from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING
 from .entity import item_input_to_entity
 from .action import check, direction_input_to_action
 
