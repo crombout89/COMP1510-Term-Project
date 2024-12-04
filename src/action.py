@@ -82,13 +82,13 @@ def check(character: dict, attribute: str) -> None:
 
     # Ensure the attribute is valid
     if attribute not in valid_attributes:
-        print(f"🚫 That's not a valid attribute to check!")
+        print(f"🚫 '{attribute}' is not a supported attribute to check!")
 
     # Display the attribute value in a user-friendly way
     if attribute == "Tummy":
-        print(f"Your tummy level is: {character['Tummy']}.\n"
-              + f"You have extra energy for the next {character['ExtraEnergy']} moves." if character['ExtraEnergy'] > 0
-                else "You have no extra energy.")
+        print(f"Your tummy level is: {character['Tummy']}")
+        if character['ExtraEnergy'] > 0:
+            print(f"You have extra energy for the next {character['ExtraEnergy']} move(s).")
     elif attribute == "Level":
         print(f"Your current level is: {character['Level']}.\n"
               f"You have to help {character['UntilNextLevel']} more animals to level up.")

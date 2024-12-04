@@ -198,7 +198,7 @@ def get_berry_input(character) -> typing.Optional[dict]:
     while True:
         berry_color = (input("Which color berry would you like to give the animal?"
                              " (Type 'Help' if you don't know) \n> ")
-                       .strip().lower().title())
+                       .strip().title())
         if not berry_color:
             print("You skipped giving the animal a berry.")
             return None
@@ -206,7 +206,7 @@ def get_berry_input(character) -> typing.Optional[dict]:
             print_berry_help()
         else:
             # Check if the player has the berry in their inventory
-            berry = {"Type": "Item", "Name": "Berry", "Data": berry_color}
+            berry = {"Type": "Item", "Name": "Berry", "Data": berry_color.split()[0]}
             if get_item_from_inventory(character, berry):
                 return berry
             else:
