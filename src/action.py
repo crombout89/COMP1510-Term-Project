@@ -1,3 +1,5 @@
+import itertools
+
 from .board import valid_location
 from .character import current_location, get_item_from_inventory, subtract_from_tummy, restore_points
 from .config import (SUBTRACT_FROM_TUMMY_IF_CLIMB, SUBTRACT_FROM_TUMMY_IF_MOVE,
@@ -79,25 +81,26 @@ def check(character: dict, attribute: str) -> None:
 
     # Ensure the attribute is valid
     if attribute not in valid_attributes:
-        raise ValueError(f"'{attribute}' is not a supported attribute to check.")
-
-    # Check if the attribute exists in the character dictionary
-    if attribute not in character:
-        raise ValueError(f"The attribute '{attribute}' does not exist.")
+        raise ValueError(f"🚫 That's not a valid attribute to check!")
 
     # Display the attribute value in a user-friendly way
     if attribute == "Tummy":
-        print(f"Your tummy level is: {character['Tummy']}")
+        print(f"Your tummy level is: {character['Tummy']}.\n"
+              + "You have"
+              + f"extra energy for the next {character['ExtraEnergy']} moves" if character['ExtraEnergy'] > 0
+                else "no extra energy"
+              + ".")
     elif attribute == "Level":
-        print(f"Your current level is: {character['Level']}")
+        print(f"Your current level is: {character['Level']}.\n"
+              f"You have to help {character['UntilNextLevel']} more animals to level up.")
     elif attribute == "Inventory":
-        inventory = character["Inventory"]
-        if inventory:
-            print("Your inventory contains:")
-            for item in inventory:
-                print(f" - {item}")
-        else:
-            print("Your inventory is empty.")
+        print("Your inventory contains:")
+        inventory_iterable = itertools.chain(
+            [item for item in character["Inventory"].items() if type(item[1]) is int],
+            map(lambda b: (f"{b[0]} Berry" if b[1] == 1 else f"{b[0]} Berries", b[1]),
+                character["Inventory"]["Berries"].items()))
+        for inventory_item in inventory_iterable:
+            print(f" - {inventory_item[1]} {inventory_item[0]}")
 
 
 def climb(character: dict, board) -> bool:
