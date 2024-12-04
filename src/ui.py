@@ -348,38 +348,25 @@ def pick_up_item(character: dict, entity: dict):
         print(f"Cannot pick up {entity['Name']} without valid data.")
 
 
-def describe_current_location(character: dict, board: dict) -> str:
+def describe_current_location(character: dict) -> str:
     """
-    Describe the current location of the character on the game board.
+    Describe the current location of the character based on their state.
 
-    :param character: A dictionary representing the character's state, including their ground coordinates.
-    :param board: A dictionary representing the game board.
-    :precondition: character must be a dictionary representing the character's state, including their ground coordinates.
-    :precondition: board must be a dictionary representing the game board.
-    :postcondition: Returns a string description of the current location.
+    :param character: A dictionary representing the character's state, including whether they are in a tree.
     :return: A string description of the current location.
 
-    >>> game_board = {
-    ...     (0, 0): "forest",
-    ...     (1, 1): "treetop",
-    ... }
-    >>> game_character = {"GroundCoordinates": (0, 0)}
-    >>> describe_current_location(game_character, game_board)
+    >>> my_character = {"InTree": False}
+    >>> describe_current_location(my_character)
     'You are in a forest: A patch of soft green grass sways gently in the breeze.🌱'
-    >>> game_character["GroundCoordinates"] = (1, 1)
-    >>> describe_current_location(game_character, game_board)
+    >>> my_character["InTree"] = True
+    >>> describe_current_location(my_character)
     'You are in a treetop: The treetop sways gently in the breeze, a serene spot high above the ground.🍃🌬️'
     """
-    location = character.get("GroundCoordinates")
-    location_type = board.get(location, "unknown location")
-
-    if location_type == "forest":
-        description = forest_patch_description()
-    elif location_type == "treetop":
+    if character.get("InTree"):
         description = tree_patch_description()
+        return f"You are in a treetop: {description}"
     else:
-        description = "You find yourself in an unknown location."
-
-    return f"You are in a {location_type}: {description}"
+        description = forest_patch_description()
+        return f"You are on the forest floor: {description}"
 
 
