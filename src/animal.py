@@ -73,12 +73,8 @@ def help_animal(character: dict, entity: dict):
                     appropriately.
     :postcondition: If "FinalChallenge" is completed, character["FinalChallengeCompleted"] is set to True.
     """
-    name = entity.get("Name", "")
-    ailments = entity.get("Data", [])
-    level = character.get("Level", 1)
-
     # Special handling for the Final Challenge
-    if name == "FinalChallenge":
+    if entity["Name"] == "FinalChallenge":
         print("You are accepting the Final Challenge!")
         print("You need to give the sick animal a special medicine made from a recipe of berries to cure them,"
               "or press ENTER to skip.")
@@ -87,7 +83,7 @@ def help_animal(character: dict, entity: dict):
         print("You need to give them the correct berries to cure their ailments! Or, press ENTER to skip.")
 
     # Main loop to treat the animal
-    while len(ailments) > 0:
+    while len(entity["Data"]) > 0:
         berry_color = input("Which color berry would you like to give the animal? ").strip().lower().title()
         if not berry_color:
             print("You skipped giving the animal a berry.")
@@ -100,34 +96,26 @@ def help_animal(character: dict, entity: dict):
         }
 
         # Check if the player has the berry in their inventory
-        has_item = get_item_from_inventory(character, berry)
-        if not has_item:
+        if not get_item_from_inventory(character, berry):
             print(f"Oh no! You don't have any '{berry_color}' berries in your inventory.")
             continue
 
-        print(f"Hooray! You have '{berry_color}' berry in your inventory!")
-
         # Validate the berry as a treatment for the ailments
-        valid_treatment = validate_berry(berry_color, ailments)
-        if not valid_treatment:
+        if not validate_berry(berry_color, entity["Data"]):
             print(f"The '{stringify_item(berry)}' was not effective, the animal's ailments were not cured. 😢")
             return
 
         print(f"The berry '{stringify_item(berry)}' successfully treated one of the animal's ailments! 🩹")
 
-        # Check if all ailments are cured
-        if len(ailments) == 0:
-            print(f"The {name} has been completely cured of their ailments!")
-            print(cured_animal_description(entity))
+    print(f"The {entity['Name']} has been completely cured of their ailments!")
+    print(cured_animal_description(entity))
 
-            generate_reward(character, name)
+    generate_reward(character, entity["Name"])
 
-            # Update character stats (AnimalsHelped and UntilNextLevel)
-            character["AnimalsHelped"] += 1
-            character["UntilNextLevel"] -= 1
-            # Handle Final Challenge or Level Up
-            if name == "FinalChallenge":
-                character["FinalChallengeCompleted"] = True
-                print("Congratulations! You have completed the Final Challenge! 🎉")
-
-                return
+    # Update character stats (AnimalsHelped and UntilNextLevel)
+    character["AnimalsHelped"] += 1
+    character["UntilNextLevel"] -= 1
+    # Handle Final Challenge
+    if entity["Name"] == "FinalChallenge":
+        character["FinalChallengeCompleted"] = True
+        print("Congratulations! You have completed the Final Challenge! 🎉")
