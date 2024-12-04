@@ -41,7 +41,9 @@ def print_game_backstory():
     """ Print the game's backstory and instructions for winning. """
 
     # Backstory
+    print("====================================")
     print("Welcome to Whisker Woods Rescue! 🐾🐈")
+    print("====================================\n")
     print("Deep in the heart of Whisker Woods, a magical forest brimming with life,\n"
           "animals have fallen ill from mysterious ailments. But don’t worry—there’s hope!")
     print("Meet Mittens, the Meowgical Healer, a kind-hearted kitty with a knack for\n"
@@ -61,7 +63,6 @@ def print_game_backstory():
 
 
 def print_game_help():
-    print("\n")
     print("Type one of the following actions and press ENTER:")
     print(" - 'W' to move up")
     print(" - 'A' to move left")
@@ -75,6 +76,7 @@ def print_game_help():
     print(" - 'Climb' to climb up or down a tree trunk")
     print(" - 'Nap' to take a nap on a patch of moss")
     print(" - 'Help' to the see the backstory and instructions from the start of the game")
+    print()
 
 
 def game_over():
@@ -134,7 +136,7 @@ def get_action_input(character: dict) -> dict:
     action = {}
 
     while True:
-        selected_action = (input("What do you want to do? (Just press ENTER if you don't know) ")
+        selected_action = (input("\nWhat do you want to do? (Just press ENTER if you don't know) \n> ")
                            .strip().title().split())
         if len(selected_action) < 2:
             # If the selected action has less than 2 tokens, pad it with empty strings to prevent an index error
