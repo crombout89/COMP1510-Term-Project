@@ -134,13 +134,6 @@ def generate_ground_board() -> dict:
     # Populate board with tree trunks
     populate_board(ground_board, "TreeTrunk", tree_trunk_count)
 
-    # Collect empty tiles
-    empty_tiles = [tile for tile, content in ground_board.items() if content is None]
-
-    # Fill empty tiles with forest patch descriptions
-    for tile in empty_tiles:
-        ground_board[tile] = forest_patch_description()
-
     return ground_board
 
 
@@ -168,13 +161,6 @@ def generate_tree_board() -> dict:
 
     # Populate Moss tiles randomly
     populate_board(tree_board, "Moss", moss_count)
-
-    # Add descriptions for Moss and empty tiles
-    for position in tree_board.keys():
-        if tree_board[position] == "Moss":
-            tree_board[position] = moss_description()  # Replace with a random moss description
-        elif tree_board[position] is None:
-            tree_board[position] = tree_patch_description()  # Random description for empty tiles
 
     return tree_board
 
@@ -222,9 +208,7 @@ def describe_current_location(character: dict, board: dict) -> str:
     elif board_description == "Moss":
         print("🌿 You're in a patch of moss. You can take a nap to get extra energy.")
     elif character["InTree"]:
-        description = tree_patch_description()
-        print(f"You are in a treetop: {description}.")
+        print(f"You are in a treetop: {tree_patch_description()}.")
     else:
-        description = forest_patch_description()
-        print(f"You are on the forest floor: {description}")
+        print(f"You are on the forest floor: {forest_patch_description()}")
 
