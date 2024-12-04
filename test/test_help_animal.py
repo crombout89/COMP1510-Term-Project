@@ -28,23 +28,27 @@ class TestHelpAnimal(unittest.TestCase):
         }
 
     @patch('builtins.print')
-    @patch('builtins.input', side_effect=["Red"])  # Simulate giving a red berry
-    def test_help_animal_success(self, mock_input, mock_print):
+    @patch('builtins.input', side_effect=["Red"])  # Simulate giving a Red berry
+    def test_help_animal_success(self, mock_print):
         with patch('src.character.get_item_from_inventory', return_value=True), \
                 patch('src.animal.validate_berry', return_value=True), \
                 patch('src.entity.stringify_item', return_value="Red Berry"), \
                 patch('src.entity.generate_item', return_value={"Type": "Item", "Name": "SilverVine"}):
             help_animal(self.character, self.animal)
 
-            # Debugging print statements
-            print(f"AnimalsHelped: {self.character['AnimalsHelped']}")
-            print(f"UntilNextLevel: {self.character['UntilNextLevel']}")
-
             # Assertions to verify the expected outcomes
             self.assertEqual(self.character["AnimalsHelped"], 1)
             self.assertEqual(self.character["UntilNextLevel"], 4)
             mock_print.assert_any_call("The Mouse has been completely cured of their ailments!")
             mock_print.assert_any_call("You received: Red Berry!")
+
+    @patch('builtins.print')
+    @patch('builtins.input', side_effect=["Blue"]) # Simulate giving a Blue berry
+    def test_help_animal_invalid_berry(self, mock_input, mock_print):
+        with patch('src.character.get_item_from_inventory', return_value=False):
+            help_animal(self.character, self.animal)
+
+            mock_print.assert_called_once_with("Oh no! You don't have any 'Blue' berries in your inventory.")
 
 
 if __name__ == '__main__':
