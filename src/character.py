@@ -251,6 +251,34 @@ def restore_points(character: dict, tummy: int = 0, extra_energy: int = 0):
     :postcondition: adds the specified points to the Tummy and ExtraEnergy of the character
     :raises ValueError: if tummy is less than 0
     :raises ValueError: if extra_energy is less than 0
+
+    >>> example_character = {
+    ...     "Tummy": 0,
+    ...     "ExtraEnergy": 0,
+    ... }
+    >>> restore_points(example_character, 1)
+    >>> example_character["Tummy"]
+    1
+    >>> example_character["ExtraEnergy"]
+    0
+    >>> example_character = {
+    ...     "Tummy": 0,
+    ...     "ExtraEnergy": 0,
+    ... }
+    >>> restore_points(example_character, 1, 1)
+    >>> example_character["Tummy"]
+    1
+    >>> example_character["ExtraEnergy"]
+    1
+    >>> example_character = {
+    ...     "Tummy": 0,
+    ...     "ExtraEnergy": 0,
+    ... }
+    >>> restore_points(example_character, extra_energy=1)
+    >>> example_character["Tummy"]
+    0
+    >>> example_character["ExtraEnergy"]
+    1
     """
     if tummy < 0:
         raise ValueError("tummy must be an integer greater than or equal to 0")
