@@ -2,6 +2,7 @@ import random
 
 from .animal import validate_berry
 from .character import get_item_from_inventory
+from .descriptions import sick_animal_description, cured_animal_description
 from .entity import generate_item, stringify_item
 from .config import UNTIL_NEXT_LEVEL_MULTIPLIER
 
@@ -323,8 +324,9 @@ def help_animal(character: dict, entity: dict):
         print("You need to give the sick animal a special medicine made from a recipe of berries to cure them,"
               "or press ENTER to skip.")
     else:
-        print(f"You have come across a {name}, and they aren't doing very well...")
-        print(f"{name}: I don't feel so good, I am {', '.join(ailments)}. Can you help me?")
+        # print(f"You have come across a {name}, and they aren't doing very well...")
+        # print(f"{name}: I don't feel so good, I am {', '.join(ailments)}. Can you help me?")
+        print(sick_animal_description(entity))
         print("You need to give them the correct berries to cure their ailments! Or, press ENTER to skip.")
 
     # Main loop to treat the animal
@@ -341,30 +343,20 @@ def help_animal(character: dict, entity: dict):
         }
 
         # Check if the player has the berry in their inventory
-        try:
-            has_item = get_item_from_inventory(character, berry)
-        except Exception as e:
-            print(f"Error checking inventory for '{berry}': {e}")
-            return
-        else:
-            if not has_item:
-                print(f"Oh no! You don't have any '{berry_color}' berries in your inventory.")
-                continue
+        has_item = get_item_from_inventory(character, berry)
+        if not has_item:
+            print(f"Oh no! You don't have any '{berry_color}' berries in your inventory.")
+            continue
 
         print(f"Hooray! You have '{berry_color}' berry in your inventory!")
 
         # Validate the berry as a treatment for the ailments
-        try:
-            valid_treatment = validate_berry(berry_color, ailments)
-        except Exception as e:
-            print(f"Error validating '{berry}' as a treatment: {e}")
+        valid_treatment = validate_berry(berry_color, ailments)
+        if not valid_treatment:
+            print(f"The '{stringify_item(berry)}' was not effective, the animal's ailments were not cured. 😢")
             return
-        else:
-            if not valid_treatment:
-                print(f"The '{berry_color}' was not effective, the animal's ailments were not cured. 😢")
-                return
 
-        print(f"The berry '{berry}' successfully treated one of the animal's ailments! 🩹")
+        print(f"The berry '{stringify_item(berry)}' successfully treated one of the animal's ailments! 🩹")
 
         # This is already implemented by validate_berry
         """
@@ -397,39 +389,26 @@ def help_animal(character: dict, entity: dict):
         # Check if all ailments are cured
         if len(ailments) == 0:
             print(f"The {name} has been completely cured of their ailments!")
+            print(cured_animal_description(entity))
 
             # Generate rewards
-            try:
-                reward = random.randint(2, 1 + level)
-            except ValueError as e:
-                print(f"Error generating rewards: {e}")
-                reward = 0
-            else:
-                print(f"The {name} is so grateful! It gives you {reward} items as a reward!")
+            rewards_count = random.randint(2, 1 + level)
+            print(f"The {name} gave you {rewards_count} items as a sign of their gratitude!")
 
             # Reward the player with random items
-            for _ in range(reward):
-                try:
-                    reward_item = generate_item(character, True)  # Generate a random item
-                    pick_up_item(character, reward_item)  # Add the item to the player's inventory
-                except Exception as e:
-                    print(f"Error generating or picking up reward item: {e}")
-                else:
-                    print(f"You received: {stringify_item(reward_item)}!")
+            for _ in range(rewards_count):
+                reward_item = generate_item(character, True)  # Generate a random item
+                pick_up_item(character, reward_item)  # Add the item to the player's inventory
+                print(f"You received: {stringify_item(reward_item)}!")
 
             # Update character stats (AnimalsHelped and UntilNextLevel)
-            try:
-                character["AnimalsHelped"] = character.get("AnimalsHelped", 0) + 1
-                character["UntilNextLevel"] = max(0, character.get("UntilNextLevel", 0) - 1)
-            except Exception as e:
-                print(f"Error updating character stats: {e}")
-                return
-            else:
-                # Handle Final Challenge or Level Up
-                if name == "FinalChallenge":
-                    character["FinalChallengeCompleted"] = True
-                    print("Congratulations! You have completed the Final Challenge! 🎉")
-                    return
+            character["AnimalsHelped"] = character.get("AnimalsHelped", 0) + 1
+            character["UntilNextLevel"] = max(0, character.get("UntilNextLevel", 0) - 1)
+            # Handle Final Challenge or Level Up
+            if name == "FinalChallenge":
+                character["FinalChallengeCompleted"] = True
+                print("Congratulations! You have completed the Final Challenge! 🎉")
+
                 # This is already implemented in update_level
                 """
                 if character["UntilNextLevel"] == 0:
@@ -448,8 +427,8 @@ def help_animal(character: dict, entity: dict):
                 
             finally:
                 print(f"Current Level: {character['Level']}, Animals Helped: {character['AnimalsHelped']}")
-            """
-            return
+                """
+                return
 
 
 def pick_up_item(character: dict, entity: dict):
