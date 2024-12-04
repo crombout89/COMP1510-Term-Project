@@ -1,6 +1,7 @@
 import unittest
 from unittest.mock import patch
-from src.ui import pick_up_item
+from src.entity import pick_up_item
+
 
 class TestPickUpItem(unittest.TestCase):
 

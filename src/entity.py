@@ -209,3 +209,54 @@ def item_input_to_entity(item_input: list[str]) -> dict:
         entity["Name"] = item_input[1]
         entity["Data"] = item_input[0]
     return entity
+
+
+def pick_up_item(character: dict, entity: dict):
+    """
+    Add an item to the character's inventory and prints a message to the console telling the user
+    what item was picked up.
+
+    :param character: the character to receive the item
+    :precondition: character must be a well-formed dictionary representing a character
+    :param entity: the entity containing the item to be picked up
+    :precondition: character must be a well-formed dictionary representing an entity and whose type is "Item"
+    :postcondition: increments the corresponding item in the inventory of the character by one,
+                    and prints a message to the console telling the user
+    :raises TypeError: if entity is not an item
+
+    >>> game_character = {
+    ...     "Inventory": {
+    ...         "Catnip": 0,
+    ...         "Silvervine": 0,
+    ...         "Berries": {
+    ...             "Red": 0,
+    ...             "Green": 0,
+    ...             "Blue": 0,
+    ...             "Yellow": 0,
+    ...             "Purple": 0
+    ...         }
+    ...     }
+    ... }
+    >>> game_item = {
+    ...     "Type": "Item",
+    ...     "Name": "Catnip",
+    ...     "Data": None
+    ... }
+    >>> game_character["Inventory"]["Catnip"]
+    0
+    >>> pick_up_item(game_character, game_item)
+    💼 You picked up a Catnip.
+    >>> game_character["Inventory"]["Catnip"]
+    1
+    """
+    if entity["Type"] != "Item":
+        raise TypeError(f"Expected entity type 'Item', got '{entity['Type']}'")
+
+    if entity["Name"] in ["Catnip", "SilverVine"]:
+        character["Inventory"][entity["Name"]] += 1
+        print(f"💼 You picked up a {entity['Name']}.")
+    elif entity["Name"] == "Berries" and entity["Data"] is not None:
+        character["Inventory"]["Berries"][entity["Data"]] += 1
+        print(f"💼 You picked up a {entity['Data']} berry.")
+    else:
+        print(f"Cannot pick up {entity['Name']} without valid data.")
