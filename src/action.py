@@ -141,11 +141,11 @@ def climb(character: dict, board) -> bool:
     🚫 You can't climb because you're not at a tree trunk!
     """
     location = current_location(character)
-    if board[location] == "TreeTrunk":
+    if board.get(location) == "TreeTrunk":
         if character["InTree"]:
             character["InTree"] = False
         else:
-            character["TreeCoordinates"] = (0, 0)
+            character["TreeCoordinates"] = location  # Store current location
             character["InTree"] = True
         subtract_from_tummy(character, SUBTRACT_FROM_TUMMY_IF_CLIMB)
         return True
