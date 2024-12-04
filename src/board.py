@@ -215,7 +215,8 @@ def describe_current_location(character: dict) -> str:
     >>> describe_current_location(my_character)
     'You are in a treetop: The treetop sways gently in the breeze, a serene spot high above the ground.🍃🌬️'
     """
-    if character.get("InTree"):
+    in_tree = character.get("InTree", False)  # Default to False if not set
+    if isinstance(in_tree, bool) and in_tree:
         description = tree_patch_description()
         return f"You are in a treetop: {description}"
     else:

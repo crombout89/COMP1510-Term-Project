@@ -29,23 +29,19 @@ def generate_animal(character: dict) -> dict:
     """
     new_animal = {
         "Type": "Animal",
-        "Name": random.choice(ANIMAL_OPTIONS)
+        "Name": random.choice(ANIMAL_OPTIONS),
+        "Data": []  # Initialize Data key to ensure it exists
     }
 
-    # Ailments is a set to ensure an animal (that's not the final challenge) does not have duplicate ailments
-    # If more than one of the same ailment is generated, all but the first instance of the ailment will be ignored
     ailments = set()
-
-    # An animal's number of ailments is between 1 and the level of the character for whom the animal is generated
     max_ailments = random.randint(1, character["Level"])
 
     for _ in range(max_ailments):
         ailments.add(random.choice(AILMENT_OPTIONS))
 
-    # Generate sick animal description
+    new_animal["Data"] = list(ailments)
     new_animal["Description"] = sick_animal_description(new_animal)
 
-    new_animal["Data"] = list(ailments)  # Convert the set of ailments to a list
     return new_animal
 
 

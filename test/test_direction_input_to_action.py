@@ -1,9 +1,11 @@
+import unittest
 from unittest import TestCase
 
 from src.action import direction_input_to_action
 
 
 class TestDirectionInputToAction(TestCase):
+
     def test_direction_input_to_action_w_upper_case(self):
         actual = direction_input_to_action("W")
         expected = {
@@ -72,3 +74,6 @@ class TestDirectionInputToAction(TestCase):
         with self.assertRaises(ValueError) as context:
             direction_input_to_action("X")
         self.assertEqual("Invalid direction input", str(context.exception))
+
+if __name__ == '__main__':
+    unittest.main()
