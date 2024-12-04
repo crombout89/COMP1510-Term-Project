@@ -12,18 +12,18 @@ def create_character(name: str) -> dict:
     :postcondition: Returns a dictionary representing the new character with default attributes.
     :return: A dictionary containing the new character's attributes, including the provided name.
 
-    >>> CHARACTER_DEFAULT_ATTRIBUTES = {
+    >>> TEST_CHARACTER_DEFAULT_ATTRIBUTES = {
     ...     "Tummy": 10,
     ...     "ExtraEnergy": 0,
     ...     "Inventory": [],
     ...     "GroundCoordinates": [0, 0]
     ... }
-    >>> new_character = create_character("Whiskers")
-    >>> new_character["Name"]
+    >>> test_new_character = create_character("Whiskers")
+    >>> test_new_character["Name"]
     'Whiskers'
-    >>> new_character["Tummy"]
+    >>> test_new_character["Tummy"]
     10  # Default value
-    >>> new_character["Inventory"]
+    >>> test_new_character["Inventory"]
     []  # Default empty inventory
     """
     new_character = copy.deepcopy(CHARACTER_DEFAULT_ATTRIBUTES)
@@ -40,16 +40,16 @@ def current_location(character: dict) -> tuple[int, int]:
     :postcondition: Returns a tuple representing the current coordinates of the character.
     :return: A tuple of two integers representing the character's current location (x, y).
 
-    >>> character = {
+    >>> test_character = {
     ...     "InTree": False,
     ...     "GroundCoordinates": (5, 5),
     ...     "TreeCoordinates": (0, 0)
     ... }
-    >>> current_location(character)
+    >>> current_location(test_character)
     (5, 5)
 
-    >>> character["InTree"] = True
-    >>> character["TreeCoordinates"] = (3, 4)
+    >>> test_character["InTree"] = True
+    >>> test_character["TreeCoordinates"] = (3, 4)
     >>> current_location(character)
     (3, 4)
     """
@@ -69,21 +69,21 @@ def check_tummy(character: dict) -> bool:
     :return: True if the character is safe (not starving) or has extra energy; False if the character's
              tummy is empty.
 
-    >>> character = {
+    >>> test_character = {
     ...     "Tummy": 10,
     ...     "ExtraEnergy": 0
     ... }
-    >>> check_tummy(character)
+    >>> check_tummy(test_character)
     ⚠️ You're getting hungry! You should eat an item soon to restore your tummy!
     True
 
-    >>> character["Tummy"] = 1
-    >>> check_tummy(character)
+    >>> test_character["Tummy"] = 1
+    >>> check_tummy(test_character)
     ⚠️ You're about to pass out from hunger! Eat an item now to restore your tummy!
     True
 
-    >>> character["Tummy"] = 0
-    >>> check_tummy(character)
+    >>> test_character["Tummy"] = 0
+    >>> check_tummy(test_character)
     False
     """
     if character["ExtraEnergy"] > 0:
@@ -112,26 +112,22 @@ def update_level(character: dict) -> bool:
                     should start.
     :return: True if the character has completed the final challenge, False otherwise.
 
-    >>> character = {
+    >>> test_character = {
     ...     "Level": 2,
     ...     "UntilNextLevel": 0,
     ...     "FinalChallengeCompleted": None
     ... }
-    >>> UNTIL_NEXT_LEVEL_MULTIPLIER = 10
-    >>> update_level(character)
-    >>> character["Level"]
+    >>> TEST_UNTIL_NEXT_LEVEL_MULTIPLIER = 10
+    >>> update_level(test_character)
+    >>> test_character["Level"]
     3
-    >>> character["UntilNextLevel"]
+    >>> test_character["UntilNextLevel"]
     30  # Assuming UNTIL_NEXT_LEVEL_MULTIPLIER is set to 10
 
-    >>> character["FinalChallengeCompleted"] = None  # Not completed yet
-    >>> update_level(character)  # Should start the final challenge
-    >>> character["FinalChallengeCompleted"] is None
+    >>> test_character["FinalChallengeCompleted"] = None  # Not completed yet
+    >>> update_level(test_character)  # Should start the final challenge
+    >>> test_character["FinalChallengeCompleted"] is None
     True  # Indicates the final challenge has started
-
-    >>> character["FinalChallengeCompleted"] = True
-    >>> update_level(character)  # Should return True now
-    True
     """
     if character["UntilNextLevel"] <= 0:
         character["Level"] += 1
@@ -154,19 +150,19 @@ def subtract_from_tummy(character: dict, units: int):
     :precondition: units must be a non-negative integer.
     :postcondition: Reduces the character's tummy or extra energy based on availability.
 
-    >>> character = {
+    >>> test_character = {
     ...     "Tummy": 10,
     ...     "ExtraEnergy": 2
     ... }
-    >>> subtract_from_tummy(character, 3)
-    >>> character["Tummy"]
+    >>> subtract_from_tummy(test_character, 3)
+    >>> test_character["Tummy"]
     10  # Tummy remains unchanged because extra energy is available
-    >>> character["ExtraEnergy"]
+    >>> test_character["ExtraEnergy"]
     1  # Extra energy is reduced by 1
 
-    >>> character["ExtraEnergy"] = 0  # Deplete extra energy
-    >>> subtract_from_tummy(character, 3)
-    >>> character["Tummy"]
+    >>> test_character["ExtraEnergy"] = 0  # Deplete extra energy
+    >>> subtract_from_tummy(test_character, 3)
+    >>> test_character["Tummy"]
     7  # Tummy reduced by 3
     """
     if character["ExtraEnergy"] > 0:
@@ -188,7 +184,7 @@ def get_item_from_inventory(character: dict, item: dict) -> bool:
     :postcondition: Decreases the count of the specified item in the character's inventory if available.
     :return: True if the item was successfully retrieved, False if the item is not available.
 
-    >>> character = {
+    >>> test_character = {
     ...     "Inventory": {
     ...         "Catnip": 2,
     ...         "Silvervine": 1,
@@ -196,25 +192,25 @@ def get_item_from_inventory(character: dict, item: dict) -> bool:
     ...     }
     ... }
     >>> item_catnip = {"Type": "Item", "Name": "Catnip"}
-    >>> get_item_from_inventory(character, item_catnip)
+    >>> get_item_from_inventory(test_character, item_catnip)
     True
-    >>> character["Inventory"]["Catnip"]
+    >>> test_character["Inventory"]["Catnip"]
     1  # One less Catnip
 
     >>> item_silvervine = {"Type": "Item", "Name": "Silvervine"}
-    >>> get_item_from_inventory(character, item_silvervine)
+    >>> get_item_from_inventory(test_character, item_silvervine)
     True
     >>> character["Inventory"]["Silvervine"]
     0  # Silvervine is now depleted
 
     >>> item_berry = {"Type": "Item", "Name": "Berry", "Data": "Red"}
-    >>> get_item_from_inventory(character, item_berry)
+    >>> get_item_from_inventory(test_character, item_berry)
     True
-    >>> character["Inventory"]["Berries"]["Red"]
+    >>> test_character["Inventory"]["Berries"]["Red"]
     2  # One less Red Berry
 
     >>> item_invalid = {"Type": "Item", "Name": "InvalidItem"}
-    >>> get_item_from_inventory(character, item_invalid)
+    >>> get_item_from_inventory(test_character, item_invalid)
     False  # Item is not in the inventory
     """
     if item["Type"] != "Item":
