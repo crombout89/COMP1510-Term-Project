@@ -1,6 +1,7 @@
 import random
 from typing import Dict
 
+
 def sick_animal_description(animal: Dict[str, str]) -> str:
     """
     Generate a random description for a sick animal based on its type or name.
@@ -137,3 +138,46 @@ def forest_patch_description() -> str:
 
     # Return a random choice
     return random.choice(all_descriptions)
+
+
+def tree_patch_description() -> str:
+    """
+    Generate a random description for empty tree patches.
+
+    :return: A random string describing the empty tree patch.
+    """
+
+    treetop_descriptions = [
+        "The treetop sways gently in the breeze, a serene spot high above the ground.🍃🌬️",
+        "Sunlight filters through the leaves, creating a warm, dappled pattern on the treetop.🌞🌳",
+        "An empty treetop provides a clear view of the forest below, peaceful and quiet.🌳👀",
+        "Soft leaves rustle overhead, making the treetop a perfect place to unwind.🍃🌈",
+        "The treetop is alive with the sounds of nature, a tranquil retreat from the forest floor.🌳🍂",
+        "Leaves gently sway, casting playful shadows on the ground below, inviting you to stay.🌿🌞",
+        "The air is fragrant with the scent of pine, making this treetop a refreshing escape.🌲🌬️",
+        "A gentle breeze dances through the treetops, carrying the whispers of the forest.🍃💨",
+        "The treetop offers a serene vantage point, where the sky meets the forest canopy.🌳☁️",
+        "Clusters of leaves provide a natural canopy, creating a peaceful haven above.🍃🌌"
+    ]
+
+    # Combine all descriptions into one list
+    all_descriptions = treetop_descriptions
+
+    # Return a random choice
+    return random.choice(all_descriptions)
+
+
+def moss_description() -> str:
+    """
+    Generate a random description for a moss patch.
+
+    :return: A string describing a randomized moss patch.
+    """
+    moss_descriptions = [
+        "A soft patch of moss spreads across the ground, inviting for a quick nap.🌿💤",
+        "Thick, lush moss cushions the earth here, a perfect resting spot.🍃😊",
+        "A vibrant green moss blanket covers the ground, cool and refreshing underfoot.🌱🌼",
+        "Moss grows in a thick layer, its texture like velvet, beckoning you to relax.🍃🛌",
+        "A tuft of moss peeks out from between the roots, soft and inviting.🌿✨"
+    ]
+    return random.choice(moss_descriptions)
