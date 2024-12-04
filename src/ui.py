@@ -121,12 +121,19 @@ def get_action_input(character: dict, board: dict) -> dict:
             raise ValueError("No tree to climb!")
         action["Type"] = "Climb"
 
+
     elif action_type == "Eat":
         if not action_data:
             raise ValueError("Specify what to eat!")
-        if action_data[0] not in character["Inventory"]:
+
+        item_to_eat = action_data[0]
+        item = next((item for item in character["Inventory"] if item["Name"] == item_to_eat), None)
+
+        if item is None:
             raise ValueError("Item not in inventory.")
-        eat(character, action_data[0])
+
+        eat(character, item)  # Pass the entire item object, not just the name
+        print(f"You have eaten {item['Name']}. Yum!")
         action["Type"] = "Eat"
         action["Data"] = action_data
 

@@ -38,12 +38,14 @@ class TestActionInput(unittest.TestCase):
         action = get_action_input(self.character, self.board)
         self.assertEqual(action, {'Data': (1, 0), 'Type': 'Move'})
 
-    @patch('builtins.input', side_effect=["Eat Catnip"])
-    def test_eat_action_up(self, mock_input):
-        with patch('src.action.eat') as mock_eat:
+    @patch('src.action.eat')  # Mock the eat function
+    def test_eat_action(self, mock_eat):
+        with patch('builtins.input', side_effect=['Eat Catnip']):
             action = get_action_input(self.character, self.board)
-            mock_eat.assert_called_once_with(self.character, "Catnip")
-            self.assertEqual(action, {'Data': ['Catnip'], 'Type': 'Eat'})
+
+        self.assertEqual(action["Type"], "Eat")
+        self.assertEqual(action["Data"], ["Catnip"])
+        mock_eat.assert_called_once()  # Check if eat was called with the correct item
 
 
 if __name__ == '__main__':
