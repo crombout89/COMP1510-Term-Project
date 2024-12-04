@@ -140,17 +140,17 @@ def climb(character: dict, board) -> bool:
     False
     🚫 You can't climb because you're not at a tree trunk!
     """
-    location = character["GroundCoordinates"]
-    if board.get(location) == "TreeTrunk":
-        if character["InTree"]:
-            return False  # Already in tree, cannot climb again
-        else:
-            character["InTree"] = True
-            character["TreeCoordinates"] = location  # Store current location
-            subtract_from_tummy(character, SUBTRACT_FROM_TUMMY_IF_CLIMB)
-            return True
+    location = current_location(character)
+    print(f"Current location: {location}")  # Debug output
+
+    # Check if the character is in a tree and the current location is moss
+    if character["InTree"] and board.get(location) == "Moss":
+        restore_points(character, extra_energy=NAP_EXTRA_ENERGY)  # Only restore extra energy
+        print("😴 You took a nap on the moss.")
+        print(f"⚡ You now have extra energy for {NAP_EXTRA_ENERGY} moves!")
+        return True
     else:
-        print("🚫 You can't climb because you're not at a tree trunk!")
+        print("🚫 You can't nap here because you're not in a tree or not on moss!")
         return False
 
 
@@ -247,13 +247,16 @@ def nap(character: dict, board: dict) -> bool:
     False
     """
     location = current_location(character)
-    if board.get(location) == "Moss":
-        restore_points(character, NAP_EXTRA_ENERGY)
+    print(f"Current location: {location}")  # Debug output
+
+    # Check if the character is in a tree and the current location is moss
+    if character["InTree"] and board.get(location) == "Moss":
+        restore_points(character, extra_energy=NAP_EXTRA_ENERGY)  # Only restore extra energy
         print("😴 You took a nap on the moss.")
         print(f"⚡ You now have extra energy for {NAP_EXTRA_ENERGY} moves!")
         return True
     else:
-        print("🚫 You can't nap here because you're not on moss!")
+        print("🚫 You can't nap here because you're not in a tree or not on moss!")
         return False
 
 
