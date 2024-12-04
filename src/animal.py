@@ -99,7 +99,7 @@ def help_animal(character: dict, entity: dict):
         berry = get_berry_input(character)
 
         # Validate the berry as a treatment for the ailments
-        if not validate_berry(berry['Data'], entity["Data"]):
+        if not berry or not validate_berry(berry['Data'], entity["Data"]):
             return
 
     help_animal_success(character, entity)
