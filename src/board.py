@@ -202,3 +202,25 @@ def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
     True  # (0, 0) is valid but reserved
     """
     return coordinates in board
+
+
+def describe_current_location(character: dict) -> str:
+    """
+    Describe the current location of the character based on their state.
+
+    :param character: A dictionary representing the character's state, including whether they are in a tree.
+    :return: A string description of the current location.
+
+    >>> my_character = {"InTree": False}
+    >>> describe_current_location(my_character)
+    'You are in a forest: A patch of soft green grass sways gently in the breeze.🌱'
+    >>> my_character["InTree"] = True
+    >>> describe_current_location(my_character)
+    'You are in a treetop: The treetop sways gently in the breeze, a serene spot high above the ground.🍃🌬️'
+    """
+    if character.get("InTree"):
+        description = tree_patch_description()
+        return f"You are in a treetop: {description}"
+    else:
+        description = forest_patch_description()
+        return f"You are on the forest floor: {description}"

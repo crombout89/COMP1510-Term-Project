@@ -1,5 +1,6 @@
 import unittest
-from src.ui import describe_current_location
+from src.board import describe_current_location
+
 
 class TestDescribeCurrentLocation(unittest.TestCase):
 
