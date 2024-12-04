@@ -24,6 +24,31 @@ INFORMATION_ACTIONS = {
     "": lambda c, a: print_game_help()  # If the user presses enter without typing anything
 }
 
+def final_challenge():
+    print("\n🎓 Time for Your Final Challenge! 🎓")
+    print("You return to your professor, a wise old cat named Professor Whiskers.")
+    print("He has heard of your amazing feats and calls you to the ancient oak tree at the center of the forest.")
+    print("Professor Whiskers informs you of a legendary creature, the Moonlit Lynx, who is gravely ill.")
+    print("Located at the mystical coordinates (0, 0), the Lynx needs a special recipe made from rare ingredients.")
+    print("Gather your best items and craft a powerful remedy to save this majestic creature!")
+
+
+def level_up_to_2():
+    print("\n✨ Level Up! ✨")
+    print("You've mastered the art of healing with single berries, and the animals are so grateful!")
+    print("As you continue your journey, you discover that some ailments require a bit more.")
+    print("Now, you can use up to 3 berries to create more powerful remedies for your furry friends.")
+    print("Gather different berries and experiment with combinations to cure even the toughest ailments!")
+    print("The forest is becoming more vibrant, and your skills are truly blossoming!")
+
+
+def level_up_to_3():
+    print("\n🌟 Congratulations on reaching Level 3! 🌟")
+    print("Your healing abilities have grown immensely!")
+    print("You've learned how to combine berries and other ingredients from your inventory to create unique recipes.")
+    print("Now, you can mix and match items to craft powerful remedies that can help any creature in Whisker Woods.")
+    print("The animals are counting on your creativity and wisdom!")
+
 
 def print_game_instructions():
     print(" ✨ Your Mission: ✨")
@@ -93,8 +118,13 @@ def game_complete():
 
     print("🎉 Congratulations! You've completed Whisker Woods Rescue! 🎉")
     print("Thanks to your purr-severance and kindness, the forest is thriving again.")
-    print("Mittens has become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
-    print("You're truly the hero of Whisker Woods! 🐾✨")
+    print(f"You've become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
+    print(
+        "Your trusty owner, Professor Whiskers, praises you for earning the trust and love of all creatures in the forest.")
+    print(
+        "You've forged bonds with both real and imaginary friends, and now the forest is a place of joy and laughter!")
+    print("While the main challenges may have ended, your adventures in Whisker Woods continue.")
+    print("Feel free to explore, help new friends, and create your own stories in this magical land! 🐾✨")
     return
 
 
