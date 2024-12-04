@@ -48,6 +48,7 @@ def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
         subtract_from_tummy(character, SUBTRACT_FROM_TUMMY_IF_MOVE)
         return True
     else:
+        print("🚫 You're at the edge of the map and can't move in that direction!")
         return False
 
 

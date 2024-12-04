@@ -32,9 +32,9 @@ def game():
         elif action["Type"] == "Move":
             if check_tummy(player):
                 entity = generate_entity(current_board, player)
-                if entity["Type"] == "Animal":
+                if entity and entity["Type"] == "Animal":
                     help_animal(player, entity)
-                elif entity["Type"] == "Item":
+                elif entity and entity["Type"] == "Item":
                     pick_up_item(player, entity)
             else:
                 game_over()
@@ -47,7 +47,11 @@ def main():
     """
     Drive the program
     """
-    game()
+    try:
+        game()
+    except KeyboardInterrupt:
+        print("\n🛑 Game ended. Goodbye!")
+        exit(0)
 
 
 if __name__ == '__main__':
