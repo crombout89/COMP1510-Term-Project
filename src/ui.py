@@ -90,68 +90,46 @@ def get_action_input(character: dict, board: dict) -> dict:
     Your tummy level is: 50
     {'Type': 'Check', 'Data': ['Tummy']}
     """
+    valid_actions = ["W", "A", "S", "D", "Climb", "Eat", "Nap", "Check", "Help"]
     action = {"Type": "", "Data": []}
 
     selected_action = input("Enter an action: ").strip().title().split()
-    action_type = selected_action[0]
-    action_data = selected_action[1:]  # Remaining input after the action type
+    action["Type"], action["Data"] = selected_action[0], selected_action[1:]
 
-    if action_type in ["W", "A", "S", "D"]:
-        action["Type"] = "Move"
-        direction = (0, 0)
-
-        if action_type == "W":
-            direction = (0, -1)
-        elif action_type == "A":
-            direction = (-1, 0)
-        elif action_type == "S":
-            direction = (0, 1)
-        elif action_type == "D":
-            direction = (1, 0)
-
-        # Call the move function
-        if move(character, board, direction):
-            action["Data"] = ["0", "0"]  # Placeholder for direction, you could also return actual coordinates
-            print(f"Moved {action_type}.")
-        else:
-            print("Cannot move in that direction.")
-
-    elif action_type == "Climb":
-        if not climb(character, board):
-            raise ValueError("No tree to climb!")
-        action["Type"] = "Climb"
-
-
-    elif action_type == "Eat":
-        if not action_data:
-            raise ValueError("Specify what to eat!")
-
-        item_to_eat = action_data[0]
-        item = next((item for item in character["Inventory"] if item["Name"] == item_to_eat), None)
-
-        if item is None:
-            raise ValueError("Item not in inventory.")
-
-        eat(character, item)  # Pass the entire item object, not just the name
-        print(f"You have eaten {item['Name']}. Yum!")
-        action["Type"] = "Eat"
-        action["Data"] = action_data
-
-    elif action_type == "Nap":
-        if not nap(character, board):
-            raise ValueError("Can't nap here!")
-        action["Type"] = "Nap"
-
-    elif action_type == "Check":
-        if not action_data or action_data[0] not in ["Tummy", "Level", "Inventory"]:
-            raise ValueError("Invalid attribute to check.")
-        action["Type"] = "Check"
-        action["Data"] = action_data
-
-    else:
+    if action["Type"] not in valid_actions:
         raise ValueError("Invalid action.")
 
+    if action["Type"] == "Climb":
+        if not climb(character, board):
+            raise ValueError("No tree to climb!")
+
+    elif action["Type"] == "Eat":
+        if not action["Data"]:
+            raise ValueError("Specify what to eat!")
+        if action["Data"][0] not in character["Inventory"]:
+            raise ValueError("Item not in inventory.")
+        eat(character, action["Data"][0])
+
+    elif action["Type"] == "Nap":
+        if not nap(character, board):
+            raise ValueError("Can't nap here!")
+
+    elif action["Type"] == "Check":
+        if action["Data"][0] not in ["Tummy", "Level", "Inventory"]:
+            raise ValueError("Invalid attribute to check.")
+
+    elif action["Type"] in ["W", "A", "S", "D"]:
+        if action["Type"] == "W":
+            action["Data"] = (0, -1)
+        elif action["Type"] == "A":
+            action["Data"] = (-1, 0)
+        elif action["Type"] == "S":
+            action["Data"] = (0, 1)
+        elif action["Type"] == "D":
+            action["Data"] = (1, 0)
+
     return action
+
 
 def help_animal(character: dict, entity: dict):
     """
@@ -288,12 +266,12 @@ def pick_up_item(character: dict, entity: dict):
 
     if entity["Name"] in ["Catnip", "SilverVine"]:
         character["Inventory"][entity["Name"]] += 1
+        print(f"💼 You picked up a {entity['Name']}.")
     elif entity["Name"] == "Berries" and entity["Data"] is not None:
         character["Inventory"]["Berries"][entity["Data"]] += 1
+        print(f"💼 You picked up a {entity['Data']} berry.")
     else:
         print(f"Cannot pick up {entity['Name']} without valid data.")
-
-    print(f"💼 You picked up a {entity['Name']}.")
 
 
 def describe_location(character: dict, board: dict):
