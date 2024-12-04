@@ -1,4 +1,4 @@
-from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING
+from .config import ADD_TO_TUMMY_IF_EAT_ITEM
 from .entity import item_input_to_entity
 from .action import check, direction_input_to_action
 
@@ -88,16 +88,17 @@ def game_complete():
 
     print("🎉 Congratulations! You've completed Whisker Woods Rescue! 🎉")
     print("Thanks to your purr-severance and kindness, the forest is thriving again.")
-    print("You have become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
+    print("Mittens has become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
     print("You're truly the hero of Whisker Woods! 🐾✨")
     return
 
 
-def get_action_input(character: dict) -> dict:
+def get_action_input(character: dict, board: dict) -> dict:
     """
     Ask the user for an action, process the input, and return an action dictionary.
 
     :param character: A dictionary containing information about the player character.
+    :param board: A dictionary containing information about the board.
     :raises ValueError: If the user enters an unsupported or invalid action.
     :raises KeyError: If required keys are missing from the `character` or `board` dictionaries.
     :return: A dictionary representing the processed action with keys "Type" and "Data".
@@ -143,4 +144,26 @@ def get_action_input(character: dict) -> dict:
             INFORMATION_ACTIONS[action["Type"]](character, action["Data"][0])
         else:
             print("🚫 That's not a valid action!")
+        """
+        if action["Type"] not in valid_actions:
+            raise ValueError("Invalid action.")
 
+        if action["Type"] == "Climb":
+            if not climb(character, board):
+                raise ValueError("No tree to climb!")
+
+        elif action["Type"] == "Eat":
+            if not action["Data"]:
+                raise ValueError("Specify what to eat!")
+            if action["Data"][0] not in character["Inventory"]:
+                raise ValueError("Item not in inventory.")
+            eat(character, action["Data"][0])
+
+        elif action["Type"] == "Nap":
+            if not nap(character, board):
+                raise ValueError("Can't nap here!")
+
+        elif action["Type"] == "Check":
+            if action["Data"][0] not in ["Tummy", "Level", "Inventory"]:
+                raise ValueError("Invalid attribute to check.")
+        """

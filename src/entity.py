@@ -1,4 +1,5 @@
 import copy
+import itertools
 import random
 import typing
 
@@ -260,3 +261,25 @@ def pick_up_item(character: dict, entity: dict):
         print(f"💼 You picked up a {entity['Data']} berry.")
     else:
         print(f"Cannot pick up {entity['Name']} without valid data.")
+
+
+def generate_reward(character: dict, animal_name: str):
+    """
+    Generate a reward for helping an animal.
+
+    Randomly generates between 1 and a number of items corresponding to the level of the character.
+
+    :param animal_name: the name of the animal giving the reward
+    :precondition: animal_name must be a string representing an animal
+    :param character: the character being rewarded
+    :precondition: character must be a well-formed dictionary representing a character
+    :postcondition: adds between 1 and a number of random items corresponding to the level of the character to the
+                    inventory of the character
+    """
+    rewards_count = random.randint(1, character["Level"])
+    print(f"The {animal_name} gave you {rewards_count} items as a sign of their gratitude!")
+    print("You received the following items:")
+    for reward in zip(range(rewards_count), itertools.count(1)):
+        reward_item = generate_item(character, True)  # Generate a random item
+        pick_up_item(character, reward_item)  # Add the item to the player's inventory
+        print(f" {reward[1]}. a {stringify_item(reward_item)}")
