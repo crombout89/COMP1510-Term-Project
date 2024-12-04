@@ -1,5 +1,5 @@
 from .config import BERRY_TREATMENTS
-from .descriptions import sick_animal_description, cured_animal_description
+from .description import sick_animal_description, cured_animal_description
 from .entity import generate_reward
 from .ui import get_berry_input
 

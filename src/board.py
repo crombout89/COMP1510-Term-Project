@@ -2,7 +2,7 @@ import random
 
 from .character import current_location
 from .config import GROUND_X_SCALE, GROUND_Y_SCALE, TREE_SCALE_OPTIONS
-from .descriptions import forest_patch_description, tree_patch_description, moss_description
+from .description import forest_patch_description, tree_patch_description, moss_description
 
 
 def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:

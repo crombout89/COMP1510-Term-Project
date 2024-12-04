@@ -6,7 +6,7 @@ import typing
 from .config import (ANIMAL_OPTIONS, AILMENT_OPTIONS, BERRY_COLOR_OPTIONS,
                      ANIMAL_PROBABILITY, SILVERVINE_PROBABILITY, CATNIP_PROBABILITY, BERRY_PROBABILITY)
 from .character import current_location
-from .descriptions import sick_animal_description
+from .description import sick_animal_description
 
 
 def generate_animal(character: dict) -> dict:
