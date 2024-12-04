@@ -60,13 +60,29 @@ class TestHelpAnimal(unittest.TestCase):
     @patch('builtins.print')
     def test_no_ailments(self, mock_print):
         animal_without_ailments = {
-            "Name": "Snake 🐍"
+            "Name": "Snake 🐍",
             "Ailments": []
         }
         help_animal(self.character, animal_without_ailments)
 
         mock_print.assert_called_once_with("The Snake 🐍 has been completely cured of their ailments!")
 
+    @patch('builtins.print')
+    @patch('builtins.input', side_effect=["Red"])  # Simulate giving a Red berry for the final challenge
+    def test_final_challenge(self, mock_input, mock_print):
+        final_challenge = {
+            "Name": "FinalChallenge",
+            "Ailments": ["Mystery"]
+        }
+        with patch('src.character.get_item_from_inventory', return_value=True), \
+             patch('src.animal.validate_berry', return_value=True), \
+             patch('src.entity.stringify_item', return_value="Red Berry"), \
+             patch('src.entity.generate_item', return_value={"Type": "Item", "Name": "Special Token"}):
+
+             help_animal(self.character, final_challenge)
+
+             self.assertTrue(self.character.get("FinalChallengeCompleted", False))
+             mock_print.assert_any_call("Congratulations! You have completed the Final Challenge! 🎉")
 
 if __name__ == '__main__':
     unittest.main()
