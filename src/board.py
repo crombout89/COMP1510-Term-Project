@@ -1,5 +1,6 @@
 import random
 
+from .character import current_location
 from .config import GROUND_X_SCALE, GROUND_Y_SCALE, TREE_SCALE_OPTIONS
 from .descriptions import forest_patch_description, tree_patch_description, moss_description
 
@@ -201,7 +202,7 @@ def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
     return coordinates in board
 
 
-def describe_current_location(character: dict) -> str:
+def describe_current_location(character: dict, board: dict) -> str:
     """
     Describe the current location of the character based on their state.
 
@@ -215,10 +216,15 @@ def describe_current_location(character: dict) -> str:
     >>> describe_current_location(my_character)
     'You are in a treetop: The treetop sways gently in the breeze, a serene spot high above the ground.🍃🌬️'
     """
-    in_tree = character.get("InTree", False)  # Default to False if not set
-    if isinstance(in_tree, bool) and in_tree:
+    board_description = board[current_location(character)]
+    if board_description == "TreeTrunk":
+        print("🌲 You're at a tree trunk, you can climb up or down the tree.")
+    elif board_description == "Moss":
+        print("🌿 You're in a patch of moss. You can take a nap to get extra energy.")
+    elif character["InTree"]:
         description = tree_patch_description()
-        return f"You are in a treetop: {description}"
+        print(f"You are in a treetop: {description}.")
     else:
         description = forest_patch_description()
-        return f"You are on the forest floor: {description}"
+        print(f"You are on the forest floor: {description}")
+

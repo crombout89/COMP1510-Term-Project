@@ -1,14 +1,10 @@
 from src.action import perform_action
-from src.board import generate_ground_board, generate_tree_board
+from src.board import generate_ground_board, generate_tree_board, describe_current_location
 from src.character import create_character, update_level, check_tummy
 from src.entity import generate_entity, pick_up_item
 from src.ui import (print_game_backstory, get_action_input, game_over,
                     game_complete)
 from src.animal import help_animal
-
-
-def describe_location(player, current_board):
-    pass
 
 
 def game():
@@ -20,7 +16,7 @@ def game():
     current_board = ground
     player = create_character("Mittens")
     while not update_level(player):
-        describe_location(player, current_board)
+        describe_current_location(player, current_board)
         action = get_action_input(player)
         while not perform_action(player, current_board, action):
             action = get_action_input(player)
