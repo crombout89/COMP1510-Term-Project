@@ -27,16 +27,16 @@ SILVERVINE_EXTRA_ENERGY = 50  # How much extra energy to give to the player if t
 ANIMAL_OPTIONS = ["Mouse", "Squirrel", "Chipmunk", "Mole", "Shrew", "Hedgehog", "Sparrow", "Robin", "Finch", "Crow",
                   "Raven", "Bunny", "Cricket", "Spider", "Snake"]
 AILMENT_OPTIONS = ["Injured", "Poisoned", "Dehydrated", "Burned", "Sad", "Starving"]
-BERRY_COLOR_OPTIONS = ["Red", "Green", "Blue", "Yellow", "Purple"]
+BERRY_COLOR_OPTIONS = ["Red 🍒", "Green 🫛", "Blue 🫐", "Yellow 🫘", "Purple 🍇"]
 
 # Other configurations
 BERRY_TREATMENTS = {
     # "Berry colour": "Treats this ailment"
-    "Red": "Injured",
-    "Green": "Poisoned",
-    "Blue": "Dehydrated",
-    "Yellow": "Burned",
-    "Purple": "Sad",
+    "Red 🍒": "Injured",
+    "Green 🫛": "Poisoned",
+    "Blue 🫐": "Dehydrated",
+    "Yellow 🫘": "Burned",
+    "Purple 🍇": "Sad",
 }
 CHARACTER_DEFAULT_ATTRIBUTES = {
     "Name": "CHARACTER_NAME_PLACEHOLDER",
@@ -51,13 +51,13 @@ CHARACTER_DEFAULT_ATTRIBUTES = {
     "FinalChallengeCompleted": None,
     "Inventory": {
         "Berries": {
-            "Red": 1,
-            "Green": 1,
-            "Blue": 1,
-            "Yellow": 1,
-            "Purple": 1
+            "Red 🍒": 1,
+            "Green 🫛": 1,
+            "Blue 🫐": 1,
+            "Yellow 🫘": 1,
+            "Purple 🍇": 1
         },
-        "Catnip": 0,
-        "SilverVine": 0
+        "Catnip ☘️": 0,
+        "SilverVine 🌻": 0
     }
 }
