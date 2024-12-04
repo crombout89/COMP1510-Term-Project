@@ -1,4 +1,3 @@
-from .board import valid_location
 from .character import current_location, get_item_from_inventory, subtract_from_tummy, restore_points
 from .config import (SUBTRACT_FROM_TUMMY_IF_CLIMB, SUBTRACT_FROM_TUMMY_IF_MOVE,
                      ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY, SILVERVINE_EXTRA_ENERGY, NAP_EXTRA_ENERGY,
@@ -11,10 +10,10 @@ def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
     Move the character in the specified direction if the new location is valid.
 
     :param character: A dictionary representing the character's state, including its current coordinates.
-    :param board: A dictionary representing the game board with valid location.
+    :param board: A dictionary representing the game board with valid locations.
     :param direction: A tuple indicating the direction to move (x, y).
-    :precondition: character must have keys for "InTree" and appropriate coordinate keys ("GroundCoordinates
-                    or "TreeCoordinates")
+    :precondition: character must have keys for "InTree" and appropriate coordinate keys ("GroundCoordinates"
+                    or "TreeCoordinates").
     :precondition: board must be a valid representation of the game area.
     :postcondition: Updates the character's coordinates if the move is valid, and subtracts from the character's
                     Tummy Meter.
@@ -22,31 +21,37 @@ def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
 
     >>> game_character = {
     ...     "InTree": False,
-    ...     "GroundCoordinates": [5, 5]
+    ...     "GroundCoordinates": (5, 5)
     ... }
     >>> game_board = {
     ...     (5, 5): "Empty",
     ...     (6, 5): "Empty",
-    ...     (6, 5): "TreeTrunk"  # Assuming (6, 5) has a tree trunk
+    ...     (5, 6): "TreeTrunk"  # Corrected tree trunk position
     ... }
-    >>> move(character, board, (1, 0))  # Move right
+    >>> move(game_character, game_board, (1, 0))  # Move right
     True
     >>> game_character["GroundCoordinates"]
-    [6, 5]
-    >>> move(character, board, (1, 0))  # Attempt to move right into a tree trunk
+    (6, 5)
+    >>> move(game_character, game_board, (1, 0))  # Attempt to move right into a tree trunk
     False
     >>> game_character["GroundCoordinates"]
-    [6, 5]
+    (6, 5)
     """
     coordinate_type = ("Tree" if character["InTree"] else "Ground") + "Coordinates"
-    new_coordinates = (character[coordinate_type][0] + direction[0],
-                       character[coordinate_type][1] + direction[1])
-    if valid_location(board, new_coordinates):
+    new_coordinates = (
+        character[coordinate_type][0] + direction[0],
+        character[coordinate_type][1] + direction[1]
+    )
+
+    print(f"New coordinates: {new_coordinates}")  # Debug output
+
+    if new_coordinates in board and board[new_coordinates] != "TreeTrunk":
         character[coordinate_type] = new_coordinates
+        print(f"Moving to {new_coordinates} and calling subtract_from_tummy")
         subtract_from_tummy(character, SUBTRACT_FROM_TUMMY_IF_MOVE)
         return True
-    else:
-        return False
+    return False
+
 
 
 def check(character: dict, attribute: str) -> None:
@@ -232,7 +237,7 @@ def nap(character: dict, board: dict) -> bool:
     ...     (5, 5): "Moss",
     ...     (6, 5): "Empty"
     ... }
-    >>> game_current_location = lambda game_character: (5, 5)  # Mocking the current_location function
+    >>> game_current_location = lambda test_character: (5, 5)  # Mocking the current_location function
     >>> nap(character, board)
     😴 You took a nap on the moss.
     ⚡ You now have extra energy for 5 moves!

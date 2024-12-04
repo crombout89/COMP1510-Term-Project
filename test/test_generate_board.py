@@ -1,9 +1,10 @@
-from unittest import TestCase
+import unittest
 
 from src.board import generate_board
 
 
-class TestGenerateBoard(TestCase):
+class TestGenerateBoard(unittest.TestCase):
+
     def test_generate_board_1_by_1(self):
         actual = generate_board(0, 0, 0, 0)
         expected = {
@@ -123,3 +124,6 @@ class TestGenerateBoard(TestCase):
         with self.assertRaises(ValueError) as context:
             generate_board(1, -1, 1, -1)
         self.assertEqual("min_x must be less than or equal to max_x", str(context.exception))
+
+if __name__ == '__main__':
+    unittest.main()
