@@ -28,6 +28,21 @@ class TestCheckFunction(unittest.TestCase):
         expected_output = "Your inventory contains:\n - Catnip\n - Silvervine"
         self.assertEqual(mock_stdout.getvalue().strip(), expected_output)
 
+    @patch('sys.stdout', new_callable=StringIO)
+    def test_check_empty_inventory(self, mock_stdout):
+        self.character["Inventory"] = []
+        check(self.character, "Inventory")
+        self.assertEqual(mock_stdout.getvalue().strip(), "Your inventory is empty.")
+
+    def test_check_invalid_attribute(self):
+        with self.assertRaises(ValueError) as context:
+            check(self.character, "Health")
+        self.assertEqual(str(context.exception), "'Health' is not a supported attribute to check.")
+
+    def test_check_nonexistent_attribute(self):
+        with self.assertRaises(ValueError) as context:
+            check(self.character, "Strength")
+        self.assertEqual(str(context.exception), "'Strength' is not a supported attribute to check.")
 
 if __name__ == '__main__':
     unittest.main()
