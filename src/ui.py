@@ -106,7 +106,7 @@ def direction_input_to_action(direction_input: str) -> dict:
     try:
         action["Data"] = DIRECTION_MAPPING[direction_input.upper()]
     except KeyError:
-        raise ValueError("Invalid direction input.")
+        raise ValueError("Invalid direction input")
     else:
         return action
 
