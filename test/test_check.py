@@ -3,6 +3,7 @@ from unittest.mock import patch
 from io import StringIO
 from src.action import check
 
+
 class TestCheckFunction(unittest.TestCase):
 
     def setUp(self):
@@ -11,18 +12,18 @@ class TestCheckFunction(unittest.TestCase):
             "ExtraEnergy": 10,
             "Level": 2,
             "UntilNextLevel": 10,
-        "Inventory": {
-            "Catnip": 0,
-            "Silvervine": 1,
+            "Inventory": {
+                "Catnip": 0,
+                "Silvervine": 1,
                 "Berries": {
-                "Red": 0,
-                "Green": 1,
-                "Blue": 2,
-                "Yellow": 3,
-                "Purple": 4
+                    "Red": 0,
+                    "Green": 1,
+                    "Blue": 2,
+                    "Yellow": 3,
+                    "Purple": 4
+                }
             }
         }
-
 
     @patch('sys.stdout', new_callable=StringIO)
     def test_check_tummy(self, mock_stdout):
@@ -49,6 +50,7 @@ class TestCheckFunction(unittest.TestCase):
         with self.assertRaises(ValueError) as context:
             check(self.character, "Strength")
         self.assertEqual(str(context.exception), "🚫 'Strength' is not a supported attribute to check.")
+
 
 if __name__ == '__main__':
     unittest.main()
