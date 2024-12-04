@@ -16,7 +16,7 @@ def plural(how_many: int) -> str:
     >>> f'0 lambda{plural(0)}'
     "0 lambdas"
     """
-    if how_many == 1:
+    if how_many != 1:
         return "s"
     else:
         return ""
