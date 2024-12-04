@@ -1,6 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
 from src.ui import get_action_input
+from src.action import eat, nap
+
 
 class TestActionInput(unittest.TestCase):
 
@@ -9,7 +11,7 @@ class TestActionInput(unittest.TestCase):
             "Position": (0, 0),
             "Tummy": 50,
             "ExtraEnergy": 0,
-            "Inventory": ["Catnip", "Fish"],
+            "Inventory": ["Catnip", "SilverVine"],
             "Level": 2
         }
         self.board = {
@@ -35,6 +37,11 @@ class TestActionInput(unittest.TestCase):
     def test_move_action_right(self, mock_input):
         action = get_action_input(self.character, self.board)
         self.assertEqual(action, {'Type': 'Move', 'Data': (1, 0)})
+
+    @patch('builtins.input', side_effect=["Eat Catnip"])
+    def test_eat_catnip_action(self, mock_input):
+        action = get_action_input(self.character, self.board)
+        self.assertEqual(action, {'Type': 'Eat', 'Data': ['Catnip']})
 
 
 if __name__ == '__main__':
