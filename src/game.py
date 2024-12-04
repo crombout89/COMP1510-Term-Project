@@ -20,6 +20,7 @@ def game():
     current_board = ground
     player = create_character("Mittens")
     while not update_level(player):
+        describe_location(player, current_board)
         action = get_action_input(player)
         while not perform_action(player, current_board, action):
             action = get_action_input(player)
@@ -39,8 +40,6 @@ def game():
                     help_animal(player, entity)
                 elif entity["Type"] == "Item":
                     pick_up_item(player, entity)
-                else:
-                    describe_location(player, current_board)
             else:
                 game_over()
                 return
