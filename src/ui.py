@@ -5,15 +5,7 @@ from .character import get_item_from_inventory
 from .config import ADD_TO_TUMMY_IF_EAT_ITEM
 from .descriptions import sick_animal_description, cured_animal_description
 from .entity import generate_item, stringify_item, item_input_to_entity, pick_up_item
-from .action import check
-
-DIRECTION_MAPPING = {
-    # "Direction input": (Direction vector)
-    "W": (0, -1),  # Decriment y coordinate to move up
-    "A": (-1, 0),  # Decriment x coordinate to move left
-    "S": (0, 1),  # Incriment y coordinate to move down
-    "D": (1, 0)  # Incriment x coordinate to move right
-}
+from .action import check, direction_input_to_action
 
 # Actions that require function calls in perform_action
 # get_action_input should return the action dictionary so it can be passed to perform_action
@@ -104,36 +96,6 @@ def game_complete():
     print("Mittens has become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
     print("You're truly the hero of Whisker Woods! 🐾✨")
     return
-
-
-def direction_input_to_action(direction_input: str) -> dict:
-    """
-    Determines the correct action dictionary for a selected movement direction.
-
-    Uses WASD mapping, where W is up, A is left, S is down, and D is right.
-
-    :param direction_input: a string representing the selected direction
-    :precondition: direction_input must be one of "W", "A", "S" or "D" (non-case-sensitive)
-    :postcondition: determines the correct action for the chosen direction
-    :raises ValueError: if direction_input is not one of "W", "A", "S" or "D"
-    :return: an action dictionary with "Move" as the key "Type" and the correct direction vector as the key "Data"
-
-    >>> direction_input_to_action("W")
-    {'Type': 'Move', 'Data': (0, -1)}
-    >>> direction_input_to_action("A")
-    {'Type': 'Move', 'Data': (-1, 0)}
-    >>> direction_input_to_action("S")
-    {'Type': 'Move', 'Data': (0, 1)}
-    """
-    action = {
-        "Type": "Move"
-    }
-    try:
-        action["Data"] = DIRECTION_MAPPING[direction_input.upper()]
-    except KeyError:
-        raise ValueError("Invalid direction input")
-    else:
-        return action
 
 
 def get_action_input(character: dict, board: dict) -> dict:

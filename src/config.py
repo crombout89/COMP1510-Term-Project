@@ -62,3 +62,10 @@ CHARACTER_DEFAULT_ATTRIBUTES = {
         "SilverVine": 0
     }
 }
+DIRECTION_MAPPING = {
+    # "Direction input": (Direction vector)
+    "W": (0, -1),  # Decriment y coordinate to move up
+    "A": (-1, 0),  # Decriment x coordinate to move left
+    "S": (0, 1),  # Incriment y coordinate to move down
+    "D": (1, 0)  # Incriment x coordinate to move right
+}
