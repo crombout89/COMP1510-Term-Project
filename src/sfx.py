@@ -4,10 +4,10 @@ import pygame
 pygame.mixer.init()
 
 # Load background music
-MAIN_GAME_MUSIC = "sfx/main-game-music.mp3"
-SAD_ANIMAL_MUSIC = "sfx/sad-music-01.mp3"
-FINALE_MUSIC = "sfx/finale-music.mp3"
-HEAL_SFX = "sfx/cure-animal-sfx.mp3"
+MAIN_GAME_MUSIC = "../sfx/main-game-music.mp3"
+SAD_ANIMAL_MUSIC = "../sfx/sad-music-01.mp3"
+FINALE_MUSIC = "../sfx/finale-music.mp3"
+HEAL_SFX = "../sfx/cure-animal-sfx.mp3"
 
 # Load sound effect
 animal_healed_sfx = pygame.mixer.Sound(HEAL_SFX)
@@ -32,6 +32,7 @@ def play_finale_music():
 
 def play_heal_sfx():
     """ Play the healed animal sound effect. """
+    pygame.mixer.music.stop()
     animal_healed_sfx.play()
 
 def stop_music():
@@ -45,3 +46,14 @@ def set_music_volume(volume):
 def set_sfx_volume(volume):
     """ Set the volume for the sfx music (0.0 to 1.0). """
     animal_healed_sfx.set_volume(volume)
+
+if __name__ == "__main__":
+    play_main_game_music()
+    input("Press Enter to play sad animal music...")
+    play_sad_animal_music()
+    input("Press Enter to play healing sound effect...")
+    play_heal_sfx()
+    input("Press Enter to play finale music...")
+    play_finale_music()
+    input("Press Enter to stop all music...")
+    stop_music()
