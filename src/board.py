@@ -160,13 +160,15 @@ def generate_tree_board() -> dict:
     0 <= total_moss_count <= tree_scale  # Number of Moss entities should be within the expected range
     """
     tree_scale = random.choice(TREE_SCALE_OPTIONS)
+    # Ensure at least one moss tile is placed
+    moss_count = random.randint(1, tree_scale)  # Ensure moss_count is at least 1
+
     tree_board = generate_board(-tree_scale, tree_scale, -tree_scale, tree_scale)
 
     # Place the central TreeTrunk
     tree_board[(0, 0)] = "TreeTrunk"
 
     # Populate Moss tiles randomly
-    moss_count = random.randint(0, tree_scale)
     populate_board(tree_board, "Moss", moss_count)
 
     # Add descriptions for Moss and empty tiles
@@ -177,7 +179,6 @@ def generate_tree_board() -> dict:
             tree_board[position] = tree_patch_description()  # Random description for empty tiles
 
     return tree_board
-
 
 def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
     """
