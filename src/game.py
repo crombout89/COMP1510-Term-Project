@@ -2,7 +2,7 @@ from src.action import perform_action
 from src.board import generate_ground_board, generate_tree_board
 from src.character import create_character, update_level, check_tummy
 from src.entity import generate_entity
-from src.ui import (print_game_instructions, get_action_input, game_over, help_animal, pick_up_item, describe_location,
+from src.ui import (print_game_backstory, get_action_input, game_over, help_animal, pick_up_item, describe_location,
                     game_complete)
 
 
@@ -10,7 +10,7 @@ def game():
     """
     Drive the game.
     """
-    print_game_instructions()
+    print_game_backstory()
     ground = generate_ground_board()
     current_board = ground
     player = create_character("Mittens")

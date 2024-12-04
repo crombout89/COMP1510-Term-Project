@@ -2,13 +2,45 @@ import random
 
 from .animal import validate_berry
 from .character import get_item_from_inventory, current_location, check_tummy
+from .config import ADD_TO_TUMMY_IF_EAT_ITEM
 from .descriptions import sick_animal_description, cured_animal_description
 from .entity import generate_item, stringify_item
-from .action import eat, nap, climb, move
-from .config import UNTIL_NEXT_LEVEL_MULTIPLIER
+from .action import check
+
+DIRECTION_MAPPING = {
+    # "Direction input": (Direction vector)
+    "W": (0, -1),  # Decriment y coordinate to move up
+    "A": (-1, 0),  # Decriment x coordinate to move left
+    "S": (0, 1),  # Incriment y coordinate to move down
+    "D": (1, 0)  # Incriment x coordinate to move right
+}
+
+# Actions that require function calls in perform_action
+# get_action_input should immediately return the action dictionary so it can be passed to perform_action
+EXTERNAL_ACTIONS = ["Climb", "Eat", "Nap"]
+
+# Actions that call a function that displays some information
+# get_action_input should call the corresponding function and then ask the user for the next action
+INFORMATION_ACTIONS = {
+    "Check": lambda c, a: check(c, a),
+    "Help": lambda c, a: print_game_backstory(),
+    "": lambda c, a: print_game_help()  # If the user presses enter without typing anything
+}
 
 
 def print_game_instructions():
+    print(" ✨ Your Mission: ✨")
+    print("- Use your purr-oblem-solving skills to figure out which berry cures each animal’s ailment.")
+    print("- Heal enough animals to help them level up and bring balance back to Whisker Woods.")
+    print("- Reach Level 3, where Mittens becomes the ultimate Meowgical Healer and saves the forest for good!")
+    print("- Keep an eye on your tummy while you explore! Moving and climbing is hard work,")
+    print("  and if your tummy gets empty, you'll pass out from hunger!")
+    print(f"  Eat any berry to refill your tummy by {ADD_TO_TUMMY_IF_EAT_ITEM}.")
+    print("  Eat Catnip or Silvervine to refill it by even more, and get extra energy where you can move and climb for")
+    print("  a while without affecting your tummy!")
+
+
+def print_game_backstory():
     """ Print the game's backstory and instructions for winning. """
 
     # Backstory
@@ -22,17 +54,30 @@ def print_game_instructions():
     print("\nThe animals are counting on you to guide Mittens through this pawsome adventure.\n"
           "Every creature has a unique ailment that only the right berry can cure.\n"
           "Mittens' healing magic helps animals grow stronger, level up, and paw-sibly\n"
-          "discover their own hidden powers!")
+          "discover their own hidden powers!\n")
 
-    # Game Objectives
-    print("\n ✨ Your Mission: ✨")
-    print("- Use your purr-oblem-solving skills to figure out which berry cures each animal’s ailment.")
-    print("- Heal enough animals to help them level up and bring balance back to Whisker Woods.")
-    print("- Reach Level 3, where Mittens becomes the ultimate Meowgical Healer and saves the forest for good!")
+    print_game_instructions()
 
     print("\nAre you ready to embark on this berry sweet adventure?")
     print("Paws, think, and heal! The forest is rooting for you. 🐾🍓✨")
     return
+
+
+def print_game_help():
+    print("\n")
+    print("Type one of the following actions and press ENTER:")
+    print(" - 'W' to move up")
+    print(" - 'A' to move left")
+    print(" - 'S' to move down")
+    print(" - 'D' to move right")
+    print(" - 'Check Tummy' to check your tummy and extra energy")
+    print(" - 'Check Level' to check your level and how many animals you need to help before you level up")
+    print(" - 'Check Inventory' to check what you have in your inventory")
+    print(" - 'Eat <item>' to eat a non-berry item like Catnip or Silvervine")
+    print(" - 'Eat <colour> Berry' to eat a berry of the corresponding colour")
+    print(" - 'Climb' to climb up or down a tree trunk")
+    print(" - 'Nap' to take a nap on a patch of moss")
+    print(" - 'Help' to the see the backstory and instructions from the start of the game")
 
 
 def game_over():
@@ -52,6 +97,18 @@ def game_complete():
     print("Mittens has become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
     print("You're truly the hero of Whisker Woods! 🐾✨")
     return
+
+
+def direction_input_to_action(direction_input: str) -> dict:
+    action = {
+        "Type": "Move"
+    }
+    try:
+        action["Data"] = DIRECTION_MAPPING[direction_input.upper()]
+    except KeyError:
+        raise ValueError("Invalid direction input.")
+    else:
+        return action
 
 
 def get_action_input(character: dict, board: dict) -> dict:
@@ -90,45 +147,44 @@ def get_action_input(character: dict, board: dict) -> dict:
     Your tummy level is: 50
     {'Type': 'Check', 'Data': ['Tummy']}
     """
-    valid_actions = ["W", "A", "S", "D", "Climb", "Eat", "Nap", "Check", "Help"]
-    action = {"Type": "", "Data": []}
+    action = {}
 
-    selected_action = input("Enter an action: ").strip().title().split()
-    action["Type"], action["Data"] = selected_action[0], selected_action[1:]
+    while True:
+        selected_action = (input("What do you want to do? (Just press ENTER if you don't know) ")
+                           .strip().title().split())
+        action["Type"], action["Data"] = selected_action[0], selected_action[1:]
 
-    if action["Type"] not in valid_actions:
-        raise ValueError("Invalid action.")
+        if action["Type"] in EXTERNAL_ACTIONS:
+            return action
+        elif action["Type"] in DIRECTION_MAPPING.keys():
+            return direction_input_to_action(action["Data"][0])
+        elif action["Type"] in INFORMATION_ACTIONS.keys():
+            INFORMATION_ACTIONS[action["Type"]](character, action["Data"][0])
+        else:
+            print("🚫 That's not a valid action!")
+        """
+        if action["Type"] not in valid_actions:
+            raise ValueError("Invalid action.")
 
-    if action["Type"] == "Climb":
-        if not climb(character, board):
-            raise ValueError("No tree to climb!")
+        if action["Type"] == "Climb":
+            if not climb(character, board):
+                raise ValueError("No tree to climb!")
 
-    elif action["Type"] == "Eat":
-        if not action["Data"]:
-            raise ValueError("Specify what to eat!")
-        if action["Data"][0] not in character["Inventory"]:
-            raise ValueError("Item not in inventory.")
-        eat(character, action["Data"][0])
+        elif action["Type"] == "Eat":
+            if not action["Data"]:
+                raise ValueError("Specify what to eat!")
+            if action["Data"][0] not in character["Inventory"]:
+                raise ValueError("Item not in inventory.")
+            eat(character, action["Data"][0])
 
-    elif action["Type"] == "Nap":
-        if not nap(character, board):
-            raise ValueError("Can't nap here!")
+        elif action["Type"] == "Nap":
+            if not nap(character, board):
+                raise ValueError("Can't nap here!")
 
-    elif action["Type"] == "Check":
-        if action["Data"][0] not in ["Tummy", "Level", "Inventory"]:
-            raise ValueError("Invalid attribute to check.")
-
-    elif action["Type"] in ["W", "A", "S", "D"]:
-        if action["Type"] == "W":
-            action["Data"] = (0, -1)
-        elif action["Type"] == "A":
-            action["Data"] = (-1, 0)
-        elif action["Type"] == "S":
-            action["Data"] = (0, 1)
-        elif action["Type"] == "D":
-            action["Data"] = (1, 0)
-
-    return action
+        elif action["Type"] == "Check":
+            if action["Data"][0] not in ["Tummy", "Level", "Inventory"]:
+                raise ValueError("Invalid attribute to check.")
+        """
 
 
 def help_animal(character: dict, entity: dict):
