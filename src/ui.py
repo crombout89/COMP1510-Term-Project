@@ -4,6 +4,7 @@ from .animal import validate_berry
 from .character import get_item_from_inventory
 from .descriptions import sick_animal_description, cured_animal_description
 from .entity import generate_item, stringify_item
+from .action import eat, nap, climb, move
 from .config import UNTIL_NEXT_LEVEL_MULTIPLIER
 
 
@@ -69,14 +70,14 @@ def get_action_input(character: dict, board: dict) -> dict:
     :raises Exception: For unexpected errors that occur during action processing.
     :return: A dictionary representing the processed action with keys "Type" and "Data".
 
-        >>> character = {
+    >>> game_character = {
     ...     "Position": (0, 0),
     ...     "Tummy": 50,
     ...     "ExtraEnergy": 0,
     ...     "Inventory": ["Catnip", "Fish"],
     ...     "Level": 2
     ... }
-    >>> board = {
+    >>> game_board = {
     ...     "Tiles": [["Grass", "Moss"], ["Tree", "Rock"]]
     ... }
 
@@ -114,149 +115,44 @@ def get_action_input(character: dict, board: dict) -> dict:
     Use 'Check <Tummy|Level|Inventory>' to check specific attributes.
     """
     valid_actions = ["W", "A", "S", "D", "Climb", "Eat", "Nap", "Check", "Help"]
-    valid_attributes = ["Tummy", "Level", "Inventory"]
-    retries = 0
-    max_retries = 5
+    action = {"Type": "", "Data": []}
 
-    # Validate that required keys exist in character and board dictionaries
-    required_character_keys = ["Position", "Tummy", "ExtraEnergy", "Inventory"]
-    for key in required_character_keys:
-        if key not in character:
-            raise KeyError(f"Missing key '{key}' in character data.")
+    selected_action = input("Enter an action: ").strip().title().split()
+    action["Type"], action["Data"] = selected_action[0], selected_action[1:]
 
-    if "Tiles" not in board:
-        raise KeyError("Missing 'Tiles' in board data.")
+    if action["Type"] not in valid_actions:
+        raise ValueError("Invalid action.")
 
-    while retries < max_retries:
-        try:
-            # Get the user's action
-            selected_action = input("Enter an action: ").strip()
+    if action["Type"] == "Climb":
+        if not climb(character, board):
+            raise ValueError("No tree to climb!")
 
-            # Handle empty input
-            if not selected_action:
-                print("Input cannot be empty. Please enter a valid action.")
-                retries += 1
-                continue
+    elif action["Type"] == "Eat":
+        if not action["Data"]:
+            raise ValueError("Specify what to eat!")
+        if action["Data"][0] not in character["Inventory"]:
+            raise ValueError("Item not in inventory.")
+        eat(character, action["Data"][0])
 
-            # Normalize input and split into tokens
-            selected_action = selected_action.title()
-            action_tokens = selected_action.split()
-            action = {
-                "Type": action_tokens[0],  # e.g., "Eat"
-                "Data": action_tokens[1:] if len(action_tokens) > 1 else []  # e.g., ["Catnip"]
-            }
+    elif action["Type"] == "Nap":
+        if not nap(character, board):
+            raise ValueError("Can't nap here!")
 
-            # Validate action type
-            if action["Type"] not in valid_actions:
-                print(f"Invalid action. Valid actions are: {', '.join(valid_actions)}")
-                retries += 1
-                continue
+    elif action["Type"] == "Check":
+        if action["Data"][0] not in ["Tummy", "Level", "Inventory"]:
+            raise ValueError("Invalid attribute to check.")
 
-            # Handle specific actions
-            if action["Type"] == "Climb":
-                if not CLIMB(character, board):
-                    print("There is no tree for you to climb here!")
-                    continue
-                else:
-                    print("You successfully climbed the tree!")
+    elif action["Type"] in ["W", "A", "S", "D"]:
+        if action["Type"] == "W":
+            action["Data"] = (0, -1)
+        elif action["Type"] == "A":
+            action["Data"] = (-1, 0)
+        elif action["Type"] == "S":
+            action["Data"] = (0, 1)
+        elif action["Type"] == "D":
+            action["Data"] = (1, 0)
 
-            elif action["Type"] == "Eat":
-                if not action["Data"]:
-                    print("Specify what to eat! Example: 'Eat Catnip'")
-                    retries += 1
-                    continue
-                item = action["Data"][0]
-
-                # Validate inventory
-                if "Inventory" not in character or not isinstance(character["Inventory"], list):
-                    print("Your inventory is missing or corrupted. Unable to eat.")
-                    retries += 1
-                    continue
-
-                # Check if item exists in inventory
-                if item not in character["Inventory"]:
-                    print(f"You cannot eat {item}. It's not in your inventory.")
-                    retries += 1
-                    continue
-
-                # Call the EAT function
-                if not EAT(character, item):
-                    print(f"Failed to eat {item}. Try again.")
-                    retries += 1
-                    continue
-
-            elif action["Type"] == "Nap":
-                if not NAP(character, board):
-                    current_location = CURRENT_LOCATION(character)
-                    print(f"You can't nap here! You are at {current_location}, but you need to find some moss.")
-                    retries += 1
-                    continue
-
-            elif action["Type"] == "Check":
-                if not action["Data"]:
-                    print("Specify what to check! Example: 'Check Tummy'")
-                    retries += 1
-                    continue
-                attribute = action["Data"][0]
-                if attribute not in valid_attributes:
-                    print(f"Invalid attribute to check. Valid options are: {', '.join(valid_attributes)}")
-                    retries += 1
-                    continue
-
-                # Call the appropriate check function
-                if attribute == "Tummy":
-                    CHECK_TUMMY(character)
-                elif attribute == "Inventory":
-                    print(f"Your inventory contains: {', '.join(character['Inventory'])}")
-                elif attribute == "Level":
-                    print(f"Your current level is: {character.get('Level', 'Unknown')}")
-
-            elif action["Type"] == "Help":
-                print("Available actions: W, A, S, D (move), Climb, Eat, Nap, Check, Help.")
-                print("Use 'Check <Tummy|Level|Inventory>' to check specific attributes.")
-                continue
-
-            elif action["Type"] in ["W", "A", "S", "D"]:
-                # Determine movement direction
-                if action["Type"] == "W":
-                    action["Data"] = (0, -1)
-                elif action["Type"] == "A":
-                    action["Data"] = (-1, 0)
-                elif action["Type"] == "S":
-                    action["Data"] = (0, 1)
-                elif action["Type"] == "D":
-                    action["Data"] = (1, 0)
-                action["Type"] = "Move"
-
-                # Validate movement (optional, depending on your game logic)
-                if not CAN_MOVE(character, board, action["Data"]):
-                    print("You can't move in that direction!")
-                    retries += 1
-                    continue
-
-            # Return the action if all validations pass
-            return action
-
-        except KeyError as e:
-            print(f"Unexpected error: Missing key {e}. Please check your input.")
-            retries += 1
-        except ValueError as e:
-            print(f"Unexpected error: {e}. Please try again.")
-            retries += 1
-        except KeyboardInterrupt:
-            print("\nGame interrupted. Exiting...")
-            raise SystemExit
-        except EOFError:
-            print("\nInput terminated. Exiting...")
-            raise SystemExit
-        except Exception as e:
-            print(f"An unexpected error occurred: {e}")
-            retries += 1
-
-        # Handle max retries
-        if retries >= max_retries:
-            print("Too many invalid attempts. Exiting...")
-            raise SystemExit
+    return action
 
 
 def help_animal(character: dict, entity: dict):
@@ -297,6 +193,7 @@ def help_animal(character: dict, entity: dict):
     >>> BERRY_TREATMENTS = {"Red": "Injured", "Green": "Sick"}
     >>> def GENERATE_ITEM(character, is_random): return "Magic Herb"
     >>> def PICK_UP_ITEM(character, item): character["Inventory"].setdefault(item, 0); character["Inventory"][item] += 1
+
     >>> help_animal(character, entity)  # Simulate helping the animal
     You have come across a sad Bunny, and they aren't doing very well...
     Bunny: I don't feel so good, I have Injured. Can you help me?
@@ -315,7 +212,6 @@ def help_animal(character: dict, entity: dict):
     """
     name = entity.get("Name", "")
     ailments = entity.get("Data", [])
-    # inventory = character.get("Inventory", {}).get("Berries", {})
     level = character.get("Level", 1)
 
     # Special handling for the Final Challenge
@@ -324,8 +220,6 @@ def help_animal(character: dict, entity: dict):
         print("You need to give the sick animal a special medicine made from a recipe of berries to cure them,"
               "or press ENTER to skip.")
     else:
-        # print(f"You have come across a {name}, and they aren't doing very well...")
-        # print(f"{name}: I don't feel so good, I am {', '.join(ailments)}. Can you help me?")
         print(sick_animal_description(entity))
         print("You need to give them the correct berries to cure their ailments! Or, press ENTER to skip.")
 
@@ -358,34 +252,6 @@ def help_animal(character: dict, entity: dict):
 
         print(f"The berry '{stringify_item(berry)}' successfully treated one of the animal's ailments! 🩹")
 
-        # This is already implemented by validate_berry
-        """
-        # Find and remove the treated ailment
-        try:
-            treated_ailment = BERRY_TREATMENTS[berry]
-        except KeyError as e:
-            print(f"Error: '{berry}' is not a valid treatment: {e}")
-            return
-        else:
-            if treated_ailment in ailments:
-                ailments.remove(treated_ailment)
-        """
-
-        # This is already implemented by get_item_from_inventory
-        """
-        # Deduct the berry from the inventory
-        try:
-            if inventory.get(berry, 0) > 0:
-                inventory[berry] -= 1
-            else:
-                raise ValueError(f"Not enough '{berry}' berries in inventory.")
-        except ValueError as e:
-            print(f"Error deducting berry: {e}")
-            return
-        else:
-            print(f"You used one '{berry}' berry. Remaining: {inventory[berry]}")
-        """
-
         # Check if all ailments are cured
         if len(ailments) == 0:
             print(f"The {name} has been completely cured of their ailments!")
@@ -409,25 +275,6 @@ def help_animal(character: dict, entity: dict):
                 character["FinalChallengeCompleted"] = True
                 print("Congratulations! You have completed the Final Challenge! 🎉")
 
-                # This is already implemented in update_level
-                """
-                if character["UntilNextLevel"] == 0:
-                    try:
-                        character["Level"] += 1  # Increment the level in the character dictionary
-                    except Exception as e:
-                        print(f"Error leveling up: {e}")
-                        return
-                    else:
-                        print(f"Congratulations! You leveled up to Level {character['Level']}!")
-
-                        # Reset UntilNextLevel based on the new level
-                        # UNTIL_NEXT_LEVEL_MULTIPLIER = 5  # You can adjust this multiplier
-                        character["UntilNextLevel"] = UNTIL_NEXT_LEVEL_MULTIPLIER * character["Level"]
-                        print(f"You need to help {character['UntilNextLevel']} more animals to reach the next level.")
-                
-            finally:
-                print(f"Current Level: {character['Level']}, Animals Helped: {character['AnimalsHelped']}")
-                """
                 return
 
 
