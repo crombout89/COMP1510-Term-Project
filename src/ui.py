@@ -106,7 +106,7 @@ def get_action_input(character: dict) -> dict:
     ...     "InTree": False,
     ...     "GroundCoordinates": [5, 5],
     ...     "Tummy": 50,
-    ...     "Inventory": ["Catnip", "SilverVine"]
+    ...     "Inventory": ["Catnip", "Silvervine"]
     ... }
     >>> game_board = {
     ...     (5, 5): "Empty",
