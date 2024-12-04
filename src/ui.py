@@ -2,6 +2,7 @@ import random
 
 from .animal import validate_berry
 from .character import get_item_from_inventory, current_location, check_tummy
+from .config import ADD_TO_TUMMY_IF_EAT_ITEM
 from .descriptions import sick_animal_description, cured_animal_description
 from .entity import generate_item, stringify_item
 from .action import eat, nap, climb, move
@@ -9,6 +10,18 @@ from .config import UNTIL_NEXT_LEVEL_MULTIPLIER
 
 
 def print_game_instructions():
+    print(" ✨ Your Mission: ✨")
+    print("- Use your purr-oblem-solving skills to figure out which berry cures each animal’s ailment.")
+    print("- Heal enough animals to help them level up and bring balance back to Whisker Woods.")
+    print("- Reach Level 3, where Mittens becomes the ultimate Meowgical Healer and saves the forest for good!")
+    print("- Keep an eye on your tummy while you explore! Moving and climbing is hard work,")
+    print("  and if your tummy gets empty, you'll pass out from hunger!")
+    print(f"  Eat any berry to refill your tummy by {ADD_TO_TUMMY_IF_EAT_ITEM}.")
+    print("  Eat Catnip or Silvervine to refill it by even more, and get extra energy where you can move and climb for")
+    print("  a while without affecting your tummy!")
+
+
+def print_game_backstory():
     """ Print the game's backstory and instructions for winning. """
 
     # Backstory
@@ -22,13 +35,10 @@ def print_game_instructions():
     print("\nThe animals are counting on you to guide Mittens through this pawsome adventure.\n"
           "Every creature has a unique ailment that only the right berry can cure.\n"
           "Mittens' healing magic helps animals grow stronger, level up, and paw-sibly\n"
-          "discover their own hidden powers!")
+          "discover their own hidden powers!\n")
 
-    # Game Objectives
-    print("\n ✨ Your Mission: ✨")
-    print("- Use your purr-oblem-solving skills to figure out which berry cures each animal’s ailment.")
-    print("- Heal enough animals to help them level up and bring balance back to Whisker Woods.")
-    print("- Reach Level 3, where Mittens becomes the ultimate Meowgical Healer and saves the forest for good!")
+    print_game_instructions()
+
 
     print("\nAre you ready to embark on this berry sweet adventure?")
     print("Paws, think, and heal! The forest is rooting for you. 🐾🍓✨")
