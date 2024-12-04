@@ -1,9 +1,6 @@
-import random
-
-from .character import get_item_from_inventory
 from .config import BERRY_TREATMENTS
 from .descriptions import sick_animal_description, cured_animal_description
-from .entity import stringify_item, generate_item, pick_up_item, generate_reward
+from .entity import generate_reward
 from .ui import get_berry_input
 
 
