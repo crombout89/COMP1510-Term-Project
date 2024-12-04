@@ -20,22 +20,22 @@ def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
                     Tummy Meter.
     :return: True if the move was successful, False otherwise.
 
-    >>> character = {
+    >>> game_character = {
     ...     "InTree": False,
     ...     "GroundCoordinates": [5, 5]
     ... }
-    >>> board = {
+    >>> game_board = {
     ...     (5, 5): "Empty",
     ...     (6, 5): "Empty",
     ...     (6, 5): "TreeTrunk"  # Assuming (6, 5) has a tree trunk
     ... }
     >>> move(character, board, (1, 0))  # Move right
     True
-    >>> character["GroundCoordinates"]
+    >>> game_character["GroundCoordinates"]
     [6, 5]
     >>> move(character, board, (1, 0))  # Attempt to move right into a tree trunk
     False
-    >>> character["GroundCoordinates"]
+    >>> game_character["GroundCoordinates"]
     [6, 5]
     """
     coordinate_type = ("Tree" if character["InTree"] else "Ground") + "Coordinates"
@@ -61,7 +61,7 @@ def check(character: dict, attribute: str) -> None:
     :raises ValueError: If the specified attribute does not exist in the character dictionary.
     :raises ValueError: If the attribute name is invalid or unsupported.
 
-    >>> character = {
+    >>> game_character = {
     ...     "Tummy": 50,
     ...     "Level": 2,
     ...     "Inventory": ["Catnip", "Silvervine"]
@@ -119,7 +119,7 @@ def climb(character: dict, board) -> bool:
                     Tummy Meter.
     :return: True if the climb was successful, False if the character is not at a tree trunk.
 
-    >>> character = {
+    >>> game_character = {
     ...     "InTree": False,
     ...     "TreeCoordinates": (5, 5)
     ... }
@@ -135,11 +135,11 @@ def climb(character: dict, board) -> bool:
     True
     >>> character["InTree"]
     False
-    >>> character = {
+    >>> game_character = {
     ...     "InTree": False,
     ...     "TreeCoordinates": (6, 5)
     ... }
-    >>> board = {
+    >>> game_board = {
     ...     (5, 5): "TreeTrunk",
     ...     (6, 5): None
     ... }
@@ -172,7 +172,7 @@ def eat(character: dict, item: dict) -> bool:
     :postcondition: Updates the character's energy and tummy levels based on the item consumed.
     :return: True if item was successfully eaten, False if the item is not in the inventory.
 
-        >>> example_character = {
+    >>> game_character = {
     ...     "Tummy": 5,
     ...     "ExtraEnergy": 10,
     ...     "Inventory": {
@@ -180,17 +180,17 @@ def eat(character: dict, item: dict) -> bool:
     ...         "Catnip": 0
     ...     }
     ... }
-    >>> example_item = {
+    >>> game_item = {
     ...     "Type": "Item",
     ...     "Name": "SilverVine"
     ... }
     >>> eat(example_character, example_item)
     True
-    >>> character["Tummy"]
+    >>> game_character["Tummy"]
     105
-    >>> character["ExtraEnergy"]
+    >>> game_character["ExtraEnergy"]
     60
-    >>> character["Inventory"]["Silvervine"]
+    >>> game_character["Inventory"]["Silvervine"]
     0
 
     >>> item_invalid = {
