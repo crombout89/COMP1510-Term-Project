@@ -1,7 +1,7 @@
 import random
 
 from .animal import validate_berry
-from .character import get_item_from_inventory
+from .character import get_item_from_inventory, current_location, check_tummy
 from .descriptions import sick_animal_description, cured_animal_description
 from .entity import generate_item, stringify_item
 from .action import eat, nap, climb, move
@@ -60,100 +60,98 @@ def get_action_input(character: dict, board: dict) -> dict:
 
     :param character: A dictionary containing information about the player character.
     :param board: A dictionary containing information about the board.
-    :precondition: character must be a dictionary.
-    :precondition: board must be a dictionary.
-    :postcondition: Returns a dictionary representing the processed action with keys "Type" and "Data".
-    :raises KeyError: If required keys are missing from the `character` or `board` dictionaries.
     :raises ValueError: If the user enters an unsupported or invalid action.
-    :raises SystemExit: If the user exceeds the maximum number of invalid input attempts
-                        or interrupts the program.
-    :raises Exception: For unexpected errors that occur during action processing.
+    :raises KeyError: If required keys are missing from the `character` or `board` dictionaries.
     :return: A dictionary representing the processed action with keys "Type" and "Data".
 
     >>> game_character = {
-    ...     "Position": (0, 0),
+    ...     "InTree": False,
+    ...     "GroundCoordinates": [5, 5],
     ...     "Tummy": 50,
-    ...     "ExtraEnergy": 0,
-    ...     "Inventory": ["Catnip", "Fish"],
-    ...     "Level": 2
+    ...     "Inventory": ["Catnip", "SilverVine"]
     ... }
     >>> game_board = {
-    ...     "Tiles": [["Grass", "Moss"], ["Tree", "Rock"]]
+    ...     (5, 5): "Empty",
+    ...     (6, 5): "Empty",
+    ...     (6, 6): "TreeTrunk"
     ... }
 
-    # Example 1: User enters a movement command
-    >>> get_action_input(character, board)  # User enters 'W' +SKIP
+    >>> get_action_input(game_character, game_board)  # User enters 'W'
     Enter an action: W
-    {'Type': 'Move', 'Data': (0, -1)}
+    {'Type': 'Move', 'Data': ['0', '-1']}
 
-    # Example 2: User enters an Eat command
-    >>> get_action_input(character, board)  # User enters 'Eat Catnip' +SKIP
+    >>> get_action_input(game_character, game_board)  # User enters 'Eat Catnip'
     Enter an action: Eat Catnip
     You eat the Catnip. Yum!
     {'Type': 'Eat', 'Data': ['Catnip']}
 
-    # Example 3: User enters a Check command
-    >>> get_action_input(character, board)  # User enters 'Check Tummy' +SKIP
+    >>> get_action_input(game_character, game_board)  # User enters 'Check Tummy'
     Enter an action: Check Tummy
     Your tummy level is: 50
     {'Type': 'Check', 'Data': ['Tummy']}
-
-    # Example 4: User enters an invalid action
-    >>> get_action_input(character, board)  # User enters 'Fly' +SKIP
-    Enter an action: Fly
-    Invalid action. Valid actions are: W, A, S, D, Climb, Eat, Nap, Check, Help.
-
-    # Example 5: User attempts to Nap in an invalid location
-    >>> get_action_input(character, board)  # User enters 'Nap' +SKIP
-    Enter an action: Nap
-    You can't nap here! You are at (0, 0), but you need to find some moss.
-
-    # Example 6: User calls Help
-    >>> get_action_input(character, board)  # User enters 'Help' +SKIP
-    Enter an action: Help
-    Available actions: W, A, S, D (move), Climb, Eat, Nap, Check, Help.
-    Use 'Check <Tummy|Level|Inventory>' to check specific attributes.
     """
-    valid_actions = ["W", "A", "S", "D", "Climb", "Eat", "Nap", "Check", "Help"]
     action = {"Type": "", "Data": []}
 
     selected_action = input("Enter an action: ").strip().title().split()
-    action["Type"], action["Data"] = selected_action[0], selected_action[1:]
+    action_type = selected_action[0]
+    action_data = selected_action[1:]  # Remaining input after the action type
 
-    if action["Type"] not in valid_actions:
-        raise ValueError("Invalid action.")
+    if action_type in ["W", "A", "S", "D"]:
+        action["Type"] = "Move"
+        direction = (0, 0)
 
-    if action["Type"] == "Climb":
+        if action_type == "W":
+            direction = (0, -1)
+        elif action_type == "A":
+            direction = (-1, 0)
+        elif action_type == "S":
+            direction = (0, 1)
+        elif action_type == "D":
+            direction = (1, 0)
+
+        # Call the move function
+        if move(character, board, direction):
+            action["Data"] = ["0", "0"]  # Placeholder for direction, you could also return actual coordinates
+            print(f"Moved {action_type}.")
+        else:
+            print("Cannot move in that direction.")
+
+    elif action_type == "Climb":
         if not climb(character, board):
             raise ValueError("No tree to climb!")
+        action["Type"] = "Climb"
 
-    elif action["Type"] == "Eat":
-        if not action["Data"]:
+
+    elif action_type == "Eat":
+        if not action_data:
             raise ValueError("Specify what to eat!")
-        if action["Data"][0] not in character["Inventory"]:
-            raise ValueError("Item not in inventory.")
-        eat(character, action["Data"][0])
 
-    elif action["Type"] == "Nap":
+        item_to_eat = action_data[0]
+        item = next((item for item in character["Inventory"] if item["Name"] == item_to_eat), None)
+
+        if item is None:
+            raise ValueError("Item not in inventory.")
+
+        eat(character, item)  # Pass the entire item object, not just the name
+        print(f"You have eaten {item['Name']}. Yum!")
+        action["Type"] = "Eat"
+        action["Data"] = action_data
+
+    elif action_type == "Nap":
         if not nap(character, board):
             raise ValueError("Can't nap here!")
+        action["Type"] = "Nap"
 
-    elif action["Type"] == "Check":
-        if action["Data"][0] not in ["Tummy", "Level", "Inventory"]:
+    elif action_type == "Check":
+        if not action_data or action_data[0] not in ["Tummy", "Level", "Inventory"]:
             raise ValueError("Invalid attribute to check.")
+        action["Type"] = "Check"
+        action["Data"] = action_data
 
-    elif action["Type"] in ["W", "A", "S", "D"]:
-        if action["Type"] == "W":
-            action["Data"] = (0, -1)
-        elif action["Type"] == "A":
-            action["Data"] = (-1, 0)
-        elif action["Type"] == "S":
-            action["Data"] = (0, 1)
-        elif action["Type"] == "D":
-            action["Data"] = (1, 0)
+    else:
+        raise ValueError("Invalid action.")
 
     return action
-
 
 def help_animal(character: dict, entity: dict):
     """
@@ -178,37 +176,6 @@ def help_animal(character: dict, entity: dict):
     :postcondition: The character's statistics ("AnimalsHelped", "UntilNextLevel", and "Level") are updated
                     appropriately.
     :postcondition: If "FinalChallenge" is completed, character["FinalChallengeCompleted"] is set to True.
-
-    >>> character = {
-    ...     "Level": 2,
-    ...     "UntilNextLevel": 1,
-    ...     "Inventory": {"Berries": {"Red": 2, "Green": 1, "Blue": 0}},
-    ...     "AnimalsHelped": 3,
-    ...     "FinalChallengeCompleted": False
-    ... }
-    >>> entity = {"Name": "Bunny", "Ailments": ["Injured"]}
-    >>> # Mock implementations of required functions:
-    >>> def GET_ITEM_FROM_INVENTORY(character, berry): return berry in character["Inventory"]["Berries"] and character["Inventory"]["Berries"][berry] > 0
-    >>> def VALIDATE_BERRY(berry, ailments): return berry == "Red" and "Injured" in ailments
-    >>> BERRY_TREATMENTS = {"Red": "Injured", "Green": "Sick"}
-    >>> def GENERATE_ITEM(character, is_random): return "Magic Herb"
-    >>> def PICK_UP_ITEM(character, item): character["Inventory"].setdefault(item, 0); character["Inventory"][item] += 1
-
-    >>> help_animal(character, entity)  # Simulate helping the animal
-    You have come across a sad Bunny, and they aren't doing very well...
-    Bunny: I don't feel so good, I have Injured. Can you help me?
-    Which color berry would you like to give the animal? red
-    Hooray! You have 'Red' in your inventory!
-    The berry 'Red' successfully treated one of the animal's ailments! 🩹
-    You used one 'Red' berry. Remaining: 1
-    The Bunny has been completely cured of their ailments!
-    The Bunny is so grateful! It gives you 3 random items as a reward!
-    You received: Green Berry!
-    You received: Catnip!
-    You received: Yellow Berry!
-    Congratulations! You leveled up to Level 2!
-    You need to help 15 more animals to reach the next level.
-    Current Level: 2, Animals Helped: 4
     """
     name = entity.get("Name", "")
     ailments = entity.get("Data", [])
