@@ -68,7 +68,7 @@ def get_action_input(character: dict, board: dict) -> dict:
     :raises Exception: For unexpected errors that occur during action processing.
     :return: A dictionary representing the processed action with keys "Type" and "Data".
 
-        >>> character = {
+    >>> character = {
     ...     "Position": (0, 0),
     ...     "Tummy": 50,
     ...     "ExtraEnergy": 0,
