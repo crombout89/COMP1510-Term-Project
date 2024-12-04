@@ -26,6 +26,13 @@ class TestMoveFunction(unittest.TestCase):
         self.assertEqual(self.character["GroundCoordinates"], (6, 5))
         mock_subtract.assert_called_once_with(self.character, 1)
 
+    @patch('src.character.subtract_from_tummy')
+    def test_move_invalid_tree(self, mock_subtract):
+        result = move(self.character, self.board, (0, 1))
+        self.assertFalse(result)
+        self.assertEqual(self.character["GroundCoordinates"], (5, 5))
+        mock_subtract.assert_not_called()
+
 
 
 if __name__ == '__main__':
