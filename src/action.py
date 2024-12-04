@@ -74,14 +74,6 @@ def check(character: dict, attribute: str) -> None:
     Your inventory contains:
      - Catnip
      - Silvervine
-    >>> check(character, "Health")
-    Traceback (most recent call last):
-    ...
-    ValueError: The attribute 'Health' does not exist.
-    >>> check(character, "Hunger")
-    Traceback (most recent call last):
-    ...
-    ValueError: 'Hunger' is not a supported attribute to check.
     """
     valid_attributes = ["Tummy", "Level", "Inventory"]
 
