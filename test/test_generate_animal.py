@@ -29,5 +29,15 @@ class TestGenerateAnimal(unittest.TestCase):
             self.assertGreaterEqual(len(animal["Data"]), 1)
             self.assertLessEqual(len(animal["Data"]), level)
 
+    def test_minimum_ailments(self):
+        self.character["Level"] = 1
+        animal = generate_animal(self.character)
+        self.assertEqual(len(animal["Data"]), 1)  # Should have exactly one ailment
+
+    def test_maximum_ailments(self):
+        self.character["Level"] = 3
+        animal = generate_animal(self.character)
+        self.assertLessEqual(len(animal["Data"]), 3)  # Should not exceed level 5
+
 if __name__ == '__main__':
     unittest.main()

@@ -33,19 +33,13 @@ def generate_animal(character: dict) -> dict:
         "Data": []  # Initialize Data key to ensure it exists
     }
 
-    # Ailments is a set to ensure an animal does not have duplicate ailments
     ailments = set()
-
-    # Generate a random number of ailments based on character's level
     max_ailments = random.randint(1, character["Level"])
 
     for _ in range(max_ailments):
         ailments.add(random.choice(AILMENT_OPTIONS))
 
-    # Convert the set of ailments to a list and assign it
     new_animal["Data"] = list(ailments)
-
-    # Generate sick animal description after Data is set
     new_animal["Description"] = sick_animal_description(new_animal)
 
     return new_animal
