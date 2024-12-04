@@ -66,6 +66,7 @@ def populate_board(board: dict, name: str, times: int):
     :param board: A dictionary representing the game board, including metadata and tile states.
     :param name: A string representing the name of the entity to place on the board.
     :param times: An integer representing the number of times the entity will be placed on the board.
+    :param animal_data: A dictionary representing the sick animal, if applicable.
     :precondition: board must have a "meta" key with "min_x", "max_x", "min_y", and "max_y" values.
     :precondition: times must be a positive, non-zero integer.
     :postcondition: Places the entity on the board at random coordinates, ensuring no overlap with
@@ -77,10 +78,10 @@ def populate_board(board: dict, name: str, times: int):
     ...     (2, 2): None,
     ...     (0, 0): None  # Reserved tile
     ... }
-    >>> populate_board(game_board, "Tree", 3)
-    >>> tree_count = sum(1 for tile in game_board.values() if tile == "Tree")
-    3  # Should place 3 Trees on the board
-    >>> reserved_tile_check = (0, 0) in game_board and game_board[(0, 0)] is None
+    >>> populate_board(game_board, "TreeTrunk", 3)
+    >>> tree_count = sum(1 for tile in game_board.values() if tile == "TreeTrunk")
+    3  # Should place 3 TreeTrunks on the board
+    >>> reserved_tile_check = (0, 0) in game_board and board[(0, 0)] is None
     True  # Reserved tile remains unchanged
     """
     counter = 1
@@ -92,11 +93,11 @@ def populate_board(board: dict, name: str, times: int):
         # Don't generate anything for (0, 0) because it's a reserved tile
         # Don't generate anything if the selected coordinate is not a blank tile
         if coordinate != (0, 0) and board[coordinate] is None:
-            # Add a detailed description for the entity
             if name == "TreeTrunk":
                 board[coordinate] = "A sturdy tree trunk rises above you, its smooth bark perfect for climbing."
-            else:
-                board[coordinate] = f"A mysterious entity: {name}."
+            elif name == "SickAnimal" and animal_data:
+                description = sick_animal_description(animal_data)
+                board[coordinate] = description
             counter += 1
 
 

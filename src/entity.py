@@ -5,6 +5,7 @@ import typing
 from .config import (ANIMAL_OPTIONS, AILMENT_OPTIONS, BERRY_COLOR_OPTIONS,
                      ANIMAL_PROBABILITY, SILVERVINE_PROBABILITY, CATNIP_PROBABILITY, BERRY_PROBABILITY)
 from .character import current_location
+from .descriptions import sick_animal_description
 
 
 def generate_animal(character: dict) -> dict:
@@ -16,7 +17,7 @@ def generate_animal(character: dict) -> dict:
                     character's level.
     :return: A dictionary representing the generated animal, including its type, name, and ailments.
 
-    >>> character = {"Level": 3}
+    >>> my_character = {"Level": 3}
     >>> animal = generate_animal(character)
     >>> animal["Type"]
     'Animal'
@@ -40,6 +41,9 @@ def generate_animal(character: dict) -> dict:
     for _ in range(max_ailments):
         ailments.add(random.choice(AILMENT_OPTIONS))
 
+    # Generate sick animal description
+    new_animal["Description"] = sick_animal_description(new_animal)
+
     new_animal["Data"] = list(ailments)  # Convert the set of ailments to a list
     return new_animal
 
@@ -53,7 +57,7 @@ def generate_item(character: dict, always: bool = False) -> typing.Optional[dict
                     color).
     :return: A dictionary representing the generated item, or None if no item is generated.
 
-    >>> character = {"InTree": True}
+    >>> my_character = {"InTree": True}
     >>> item = generate_item(character)
     >>> item["Type"] == "Item"
     True  # The item should be of type Item
@@ -101,11 +105,11 @@ def generate_entity(board: dict, character: dict) -> typing.Optional[dict]:
     :postcondition: If the character is at the final challenge location, a specific entity will be generated.
     :return: A dictionary representing the generated entity (animal or item), or None if no entity is generated.
 
-    >>> board = {
+    >>> game_board = {
     ...     (0, 0): None,
     ...     (1, 1): "TreeTrunk",
     ... }
-    >>> character = {"FinalChallengeCompleted": False, "InTree": False}
+    >>> my_character = {"FinalChallengeCompleted": False, "InTree": False}
     >>> entity = generate_entity(board, character)
     >>> if entity:
     ...     entity["Type"] in ["Animal", "Item"]
