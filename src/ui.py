@@ -16,12 +16,19 @@ DIRECTION_MAPPING = {
 }
 
 # Actions that require function calls in perform_action
-# get_action_input should immediately return the action dictionary so it can be passed to perform_action
-EXTERNAL_ACTIONS = ["Climb", "Eat", "Nap"]
+# get_action_input should return the action dictionary so it can be passed to perform_action
+# The lambda functions represent how to format the "Data" key of the action dictionary
+EXTERNAL_ACTIONS = {
+    # "Action input": A lambda function to be called by get_action_input
+    "Climb": lambda d: None,
+    "Eat": lambda d: item_input_to_entity(d),
+    "Nap": lambda d: None,
+}
 
 # Actions that call a function that displays some information
 # get_action_input should call the corresponding function and then ask the user for the next action
 INFORMATION_ACTIONS = {
+    # "Action input": A lambda function to be called by get_action_input
     "Check": lambda c, a: check(c, a),
     "Help": lambda c, a: print_game_backstory(),
     "": lambda c, a: print_game_help()  # If the user presses enter without typing anything
@@ -127,6 +134,43 @@ def direction_input_to_action(direction_input: str) -> dict:
         raise ValueError("Invalid direction input")
     else:
         return action
+
+
+def item_input_to_entity(item_input: list[str]) -> dict:
+    """
+    Construct an entity dictionary from a list of strings representing the user input for an item.
+
+    Essentially does the reverse of stringify_item.
+
+    Accepts a tokenized representation of a user input of "ItemName" or "Attribute ItemName".
+    For example, "Catnip" or "Red Berry" respectively. Tokens other than the first and second one will be ignored.
+    This function does not validate whether the tokens are valid item selections as that is the responsibility of
+    functions that consume the item.
+
+    :param item_input: a list of strings representing the user input for an item
+    :precondition: item_input must be a list containing a single string representing the item name,
+                   or a list containing two strings where the second string is the name of the item and the first string
+                   is the attribute of the item
+    :postcondition: constructs an entity dictionary from a list of strings representing the user input for an item
+    :return: an entity dictionary representing the item
+
+    >>> item_input_to_entity(["Catnip"])
+    {'Type': 'Item', 'Data': None, 'Name': 'Catnip'}
+    >>> item_input_to_entity(["Red", "Berry"])
+    {'Type': 'Item', 'Data': 'Red', 'Name': 'Berry'}
+    >>> item_input_to_entity(["Nonsensical", "Nonsense", "ThisWillBeIgnored"])
+    {'Type': 'Item', 'Data': 'Nonsensical', 'Name': 'Nonsense'}
+    """
+    entity = {
+        "Type": "Item",
+        "Data": None
+    }
+    if len(item_input) == 1:
+        entity["Name"] = item_input[0]
+    else:
+        entity["Name"] = item_input[1]
+        entity["Data"] = item_input[0]
+    return entity
 
 
 def get_action_input(character: dict, board: dict) -> dict:
