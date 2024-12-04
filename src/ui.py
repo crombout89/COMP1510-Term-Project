@@ -96,6 +96,7 @@ def print_game_help():
     print(" - 'Check Tummy' to check your tummy and extra energy")
     print(" - 'Check Level' to check your level and how many animals you need to help before you level up")
     print(" - 'Check Inventory' to check what you have in your inventory")
+    print(" - 'Check Location' to check where you are and how to get to the center of the board")
     print(" - 'Eat <item>' to eat a non-berry item like Catnip or Silvervine")
     print(" - 'Eat <colour> Berry' to eat a berry of the corresponding colour")
     print(" - 'Climb' to climb up or down a tree trunk")
