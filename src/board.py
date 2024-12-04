@@ -61,13 +61,14 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
     return board
 
 
-def populate_board(board: dict, name: str, times: int):
+def populate_board(board: dict, name: str, times: int, animal_data=None):
     """
     Populate the game board with a specified entity at random coordinates.
 
     :param board: A dictionary representing the game board, including metadata and tile states.
     :param name: A string representing the name of the entity to place on the board.
     :param times: An integer representing the number of times the entity will be placed on the board.
+    :param animal_data: Optional data specific to the type of entity being placed (e.g., for animals).
     :precondition: board must have a "meta" key with "min_x", "max_x", "min_y", and "max_y" values.
     :precondition: times must be a positive, non-zero integer.
     :postcondition: Places the entity on the board at random coordinates, ensuring no overlap with
@@ -80,7 +81,7 @@ def populate_board(board: dict, name: str, times: int):
     ...     (0, 0): None  # Reserved tile
     ... }
     >>> populate_board(game_board, "TreeTrunk", 3)
-    >>> reserved_tile_check = (0, 0) in game_board and board[(0, 0)] is None
+    >>> reserved_tile_check = (0, 0) in game_board and game_board[(0, 0)] is None
     True  # Reserved tile remains unchanged
     """
     if times <= 0:
@@ -101,18 +102,18 @@ def populate_board(board: dict, name: str, times: int):
     attempts = 0
 
     while counter < times and attempts < max_attempts:
-        x_coordinate = random.randint(board["meta"]["min_x"], board["meta"]["max_x"])
-        y_coordinate = random.randint(board["meta"]["min_y"], board["meta"]["max_y"])
-        coordinate = (x_coordinate, y_coordinate)
+        coordinate = random.choice(valid_tiles)
 
         if coordinate != (0, 0) and board.get(coordinate) is None:
-            board[coordinate] = name
+            if animal_data:
+                board[coordinate] = {"name": name, "data": animal_data}  # Use a dict to store both name and data
+            else:
+                board[coordinate] = name  # Just place the name if no data
             counter += 1
         attempts += 1
 
     if attempts == max_attempts:
         print("Warning: Maximum attempts reached. Some entities may not have been placed.")
-
 
 def generate_ground_board() -> dict:
     """
