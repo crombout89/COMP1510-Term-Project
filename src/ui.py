@@ -264,7 +264,7 @@ def pick_up_item(character: dict, entity: dict):
     if entity["Type"] != "Item":
         raise TypeError(f"Expected entity type 'Item', got '{entity['Type']}'")
 
-    if entity["Name"] in ["Catnip", "Silvervine"]:
+    if entity["Name"] in ["Catnip", "SilverVine"]:
         character["Inventory"][entity["Name"]] += 1
         print(f"💼 You picked up a {entity['Name']}.")
     elif entity["Name"] == "Berries" and entity["Data"] is not None:

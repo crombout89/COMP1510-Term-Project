@@ -58,5 +58,9 @@ class TestPickUpItem(unittest.TestCase):
         self.assertEqual(self.character["Inventory"]["Berries"]["Red"], 1)
         mock_print.assert_called_once_with("💼 You picked up a Red berry.")
 
+    def test_invalid_item_type(self):
+        with self.assertRaises(TypeError):
+            pick_up_item(self.character, self.invalid_item_type)
+
 if __name__ == '__main__':
     unittest.main()
