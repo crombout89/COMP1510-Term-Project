@@ -1,11 +1,11 @@
-from src.game import game
+from src import game
 
 
 def main():
     """
     Drive the program.
     """
-    game()
+    game.main()
 
 
 if __name__ == '__main__':

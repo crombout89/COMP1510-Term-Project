@@ -47,7 +47,11 @@ def main():
     """
     Drive the program
     """
-    game()
+    try:
+        game()
+    except KeyboardInterrupt:
+        print("\n🛑 Game ended. Goodbye!")
+        exit(0)
 
 
 if __name__ == '__main__':
