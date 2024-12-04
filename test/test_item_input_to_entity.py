@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.ui import item_input_to_entity
+from src.entity import item_input_to_entity
 
 
 class TestItemInputToEntity(TestCase):

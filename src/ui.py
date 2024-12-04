@@ -1,10 +1,10 @@
 import random
 
 from .animal import validate_berry
-from .character import get_item_from_inventory, current_location, check_tummy
+from .character import get_item_from_inventory
 from .config import ADD_TO_TUMMY_IF_EAT_ITEM
 from .descriptions import sick_animal_description, cured_animal_description, forest_patch_description, tree_patch_description
-from .entity import generate_item, stringify_item
+from .entity import generate_item, stringify_item, item_input_to_entity
 from .action import check
 
 DIRECTION_MAPPING = {
@@ -134,43 +134,6 @@ def direction_input_to_action(direction_input: str) -> dict:
         raise ValueError("Invalid direction input")
     else:
         return action
-
-
-def item_input_to_entity(item_input: list[str]) -> dict:
-    """
-    Construct an entity dictionary from a list of strings representing the user input for an item.
-
-    Essentially does the reverse of stringify_item.
-
-    Accepts a tokenized representation of a user input of "ItemName" or "Attribute ItemName".
-    For example, "Catnip" or "Red Berry" respectively. Tokens other than the first and second one will be ignored.
-    This function does not validate whether the tokens are valid item selections as that is the responsibility of
-    functions that consume the item.
-
-    :param item_input: a list of strings representing the user input for an item
-    :precondition: item_input must be a list containing a single string representing the item name,
-                   or a list containing two strings where the second string is the name of the item and the first string
-                   is the attribute of the item
-    :postcondition: constructs an entity dictionary from a list of strings representing the user input for an item
-    :return: an entity dictionary representing the item
-
-    >>> item_input_to_entity(["Catnip"])
-    {'Type': 'Item', 'Data': None, 'Name': 'Catnip'}
-    >>> item_input_to_entity(["Red", "Berry"])
-    {'Type': 'Item', 'Data': 'Red', 'Name': 'Berry'}
-    >>> item_input_to_entity(["Nonsensical", "Nonsense", "ThisWillBeIgnored"])
-    {'Type': 'Item', 'Data': 'Nonsensical', 'Name': 'Nonsense'}
-    """
-    entity = {
-        "Type": "Item",
-        "Data": None
-    }
-    if len(item_input) == 1:
-        entity["Name"] = item_input[0]
-    else:
-        entity["Name"] = item_input[1]
-        entity["Data"] = item_input[0]
-    return entity
 
 
 def get_action_input(character: dict, board: dict) -> dict:
