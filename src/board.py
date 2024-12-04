@@ -1,7 +1,7 @@
 import random
 
 from .config import GROUND_X_SCALE, GROUND_Y_SCALE, TREE_SCALE_OPTIONS
-from .descriptions import forest_patch_description, tree_patch_description, moss_description
+from .descriptions import forest_patch_description, tree_patch_description, moss_description, sick_animal_description
 
 
 def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
@@ -52,14 +52,15 @@ def generate_board(min_x: int, max_x: int, min_y: int, max_y: int) -> dict:
         }
     }
 
+    # Initialize all tiles as None
     for current_x in range(min_x, max_x + 1):
         for current_y in range(min_y, max_y + 1):
-            board[(current_x, current_y)] = "An empty patch of grass sways gently in the breeze."
+            board[(current_x, current_y)] = None
 
     return board
 
 
-def populate_board(board: dict, name: str, times: int):
+def populate_board(board: dict, name: str, times: int, animal_data=None):
     """
     Populate the game board with a specified entity at random coordinates.
 
@@ -84,21 +85,35 @@ def populate_board(board: dict, name: str, times: int):
     >>> reserved_tile_check = (0, 0) in game_board and board[(0, 0)] is None
     True  # Reserved tile remains unchanged
     """
-    counter = 1
-    while counter <= times:
+    if times <= 0:
+        raise ValueError("Times must be a positive, non-zero integer.")
+
+    # Calculate available spaces
+    valid_tiles = [
+        (x, y) for x in range(board["meta"]["min_x"], board["meta"]["max_x"] + 1)
+        for y in range(board["meta"]["min_y"], board["meta"]["max_y"] + 1)
+        if (x, y) != (0, 0) and board.get((x, y)) is None
+    ]
+
+    if len(valid_tiles) < times:
+        raise ValueError(f"Not enough valid spaces to place {times} {name}(s). Available: {len(valid_tiles)}")
+
+    counter = 0
+    max_attempts = 100  # Limit attempts to avoid infinite loops
+    attempts = 0
+
+    while counter < times and attempts < max_attempts:
         x_coordinate = random.randint(board["meta"]["min_x"], board["meta"]["max_x"])
         y_coordinate = random.randint(board["meta"]["min_y"], board["meta"]["max_y"])
         coordinate = (x_coordinate, y_coordinate)
 
-        # Don't generate anything for (0, 0) because it's a reserved tile
-        # Don't generate anything if the selected coordinate is not a blank tile
-        if coordinate != (0, 0) and board[coordinate] is None:
-            if name == "TreeTrunk":
-                board[coordinate] = "A sturdy tree trunk rises above you, its smooth bark perfect for climbing."
-            elif name == "SickAnimal" and animal_data:
-                description = sick_animal_description(animal_data)
-                board[coordinate] = description
+        if coordinate != (0, 0) and board.get(coordinate) is None:
+            board[coordinate] = name
             counter += 1
+        attempts += 1
+
+    if attempts == max_attempts:
+        print("Warning: Maximum attempts reached. Some entities may not have been placed.")
 
 
 def generate_ground_board() -> dict:
@@ -116,7 +131,10 @@ def generate_ground_board() -> dict:
     30 <= tree_trunk_count <= 60  # Randomized, skip the exact count check
     """
     ground_board = generate_board(-GROUND_X_SCALE, GROUND_X_SCALE, -GROUND_Y_SCALE, GROUND_Y_SCALE)
-    populate_board(ground_board, "TreeTrunk", random.randint(30, 60))
+    tree_trunk_count = random.randint(30, 60)
+
+    # Populate board with tree trunks
+    populate_board(ground_board, "TreeTrunk", tree_trunk_count)
 
     # Collect empty tiles
     empty_tiles = [tile for tile, content in ground_board.items() if content is None]
@@ -142,13 +160,15 @@ def generate_tree_board() -> dict:
     0 <= total_moss_count <= tree_scale  # Number of Moss entities should be within the expected range
     """
     tree_scale = random.choice(TREE_SCALE_OPTIONS)
+    # Ensure at least one moss tile is placed
+    moss_count = random.randint(1, tree_scale)  # Ensure moss_count is at least 1
+
     tree_board = generate_board(-tree_scale, tree_scale, -tree_scale, tree_scale)
 
     # Place the central TreeTrunk
     tree_board[(0, 0)] = "TreeTrunk"
 
     # Populate Moss tiles randomly
-    moss_count = random.randint(0, tree_scale)
     populate_board(tree_board, "Moss", moss_count)
 
     # Add descriptions for Moss and empty tiles
@@ -159,6 +179,7 @@ def generate_tree_board() -> dict:
             tree_board[position] = tree_patch_description()  # Random description for empty tiles
 
     return tree_board
+
 
 def valid_location(board: dict, coordinates: tuple[int, int]) -> bool:
     """
