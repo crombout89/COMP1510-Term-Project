@@ -24,8 +24,8 @@ CATNIP_EXTRA_ENERGY = 25   # How much extra energy to give to the player if they
 SILVERVINE_EXTRA_ENERGY = 50  # How much extra energy to give to the player if they eat Silvervine
 
 # Entity attribute options
-ANIMAL_OPTIONS = ["Mouse", "Squirrel", "Chipmunk", "Mole", "Shrew", "Hedgehog", "Sparrow", "Robin", "Finch", "Crow",
-                  "Raven", "Bunny", "Cricket", "Spider", "Snake"]
+ANIMAL_OPTIONS = ["Mouse 🐁", "Squirrel 🐿️", "Duck 🪿", "Mole 🐀", "Skunk 🦨", "Hedgehog 🦔", "Grasshopper 🦗",
+                  "Robin 🐦", "Raccoon 🦝", "Owl 🦉", "Raven 🐦‍⬛", "Bunny 🐇", "Cricket 🪳", "Spider 🕷", "Snake 🐍"]
 AILMENT_OPTIONS = ["Injured", "Poisoned", "Dehydrated", "Burned", "Sad", "Starving"]
 BERRY_COLOR_OPTIONS = ["Red 🍒", "Green 🫛", "Blue 🫐", "Yellow 🫘", "Purple 🍇"]
 
@@ -51,13 +51,13 @@ CHARACTER_DEFAULT_ATTRIBUTES = {
     "FinalChallengeCompleted": None,
     "Inventory": {
         "Berries": {
-            "Red 🍒": 1,
-            "Green 🫛": 1,
-            "Blue 🫐": 1,
-            "Yellow 🫘": 1,
-            "Purple 🍇": 1
+            "Red": 1,
+            "Green": 1,
+            "Blue": 1,
+            "Yellow": 1,
+            "Purple": 1
         },
-        "Catnip ☘️": 0,
-        "SilverVine 🌻": 0
+        "Catnip": 0,
+        "SilverVine": 0
     }
 }
