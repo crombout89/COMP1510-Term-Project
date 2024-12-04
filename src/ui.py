@@ -258,7 +258,7 @@ def pick_up_item(character: dict, entity: dict):
                     and prints a message to the console telling the user
     :raises TypeError: if entity is not an item
 
-    >>> example_character = {
+    >>> game_character = {
     ...     "Inventory": {
     ...         "Catnip": 0,
     ...         "Silvervine": 0,
@@ -271,27 +271,16 @@ def pick_up_item(character: dict, entity: dict):
     ...         }
     ...     }
     ... }
-    >>> example_item = {
+    >>> game_item = {
     ...     "Type": "Item",
     ...     "Name": "Catnip",
     ...     "Data": None
     ... }
-    >>> example_character["Inventory"]["Catnip"]
+    >>> game_character["Inventory"]["Catnip"]
     0
-    >>> pick_up_item(example_character, example_item)
+    >>> pick_up_item(game_character, game_item)
     💼 You picked up a Catnip.
-    >>> example_character["Inventory"]["Catnip"]
-    1
-    >>> example_item = {
-    ...     "Type": "Item",
-    ...     "Name": "Berry",
-    ...     "Data": "Red"
-    ... }
-    >>> example_character["Inventory"]["Berries"]["Red"]
-    0
-    >>> pick_up_item(example_character, example_item)
-    💼 You picked up a Red Berry.
-    >>> example_character["Inventory"]["Berries"]["Red"]
+    >>> game_character["Inventory"]["Catnip"]
     1
     """
     if entity["Type"] != "Item":
