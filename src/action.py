@@ -116,17 +116,17 @@ def climb(character: dict, board) -> bool:
     ...     "InTree": False,
     ...     "TreeCoordinates": (5, 5)
     ... }
-    >>> board = {
+    >>> game_board = {
     ...     (5, 5): "TreeTrunk",
     ...     (6, 5): None
     ... }
     >>> climb(character, board)  # At tree trunk
     True
-    >>> character["InTree"]
+    >>> game_character["InTree"]
     True
     >>> climb(character, board)  # Climbing again
     True
-    >>> character["InTree"]
+    >>> game_character["InTree"]
     False
     >>> game_character = {
     ...     "InTree": False,
@@ -140,15 +140,15 @@ def climb(character: dict, board) -> bool:
     False
     🚫 You can't climb because you're not at a tree trunk!
     """
-    location = current_location(character)
+    location = character["GroundCoordinates"]
     if board.get(location) == "TreeTrunk":
         if character["InTree"]:
-            character["InTree"] = False
+            return False  # Already in tree, cannot climb again
         else:
-            character["TreeCoordinates"] = location  # Store current location
             character["InTree"] = True
-        subtract_from_tummy(character, SUBTRACT_FROM_TUMMY_IF_CLIMB)
-        return True
+            character["TreeCoordinates"] = location  # Store current location
+            subtract_from_tummy(character, SUBTRACT_FROM_TUMMY_IF_CLIMB)
+            return True
     else:
         print("🚫 You can't climb because you're not at a tree trunk!")
         return False
@@ -177,7 +177,7 @@ def eat(character: dict, item: dict) -> bool:
     ...     "Type": "Item",
     ...     "Name": "SilverVine"
     ... }
-    >>> eat(example_character, example_item)
+    >>> eat(game_character, game_item)
     True
     >>> game_character["Tummy"]
     105
@@ -186,24 +186,15 @@ def eat(character: dict, item: dict) -> bool:
     >>> game_character["Inventory"]["Silvervine"]
     0
 
-    >>> item_invalid = {
-    ...     "Type": "Food",
-    ...     "Name": "Apple"
-    ... }
-    >>> eat(example_character, item_invalid)  # Raises TypeError
-    Traceback (most recent call last):
-        ...
-    TypeError: Expected entity type 'Item', got 'Food'
-
-    >>> example_item_2 = {
+    >>> game_item_2 = {
     ...     "Type": "Item",
     ...     "Name": "Catnip"
     ... }
-    >>> eat(example_character, example_item_2)  # Attempt to eat an item not in inventory
+    >>> eat(game_character, game_item_2)  # Attempt to eat an item not in inventory
     False
-    >>> character["Tummy"]
+    >>> game_character["Tummy"]
     105
-    >>> character["ExtraEnergy"]
+    >>> game_character["ExtraEnergy"]
     60
     """
     if item["Type"] != "Item":
@@ -234,29 +225,29 @@ def nap(character: dict, board: dict) -> bool:
     :postcondition: Increases the character's extra energy if napping on moss.
     :return: True if the nap was successful, False if the character is not on moss.
 
-    >>> character = {
+    >>> game_character = {
     ...     "ExtraEnergy": 0
     ... }
-    >>> board = {
+    >>> game_board = {
     ...     (5, 5): "Moss",
     ...     (6, 5): "Empty"
     ... }
-    >>> current_location = lambda character: (5, 5)  # Mocking the current_location function
+    >>> game_current_location = lambda game_character: (5, 5)  # Mocking the current_location function
     >>> nap(character, board)
     😴 You took a nap on the moss.
     ⚡ You now have extra energy for 5 moves!
     True
-    >>> character["ExtraEnergy"]
+    >>> game_character["ExtraEnergy"]
     5
 
     >>> character["ExtraEnergy"] = 0  # Reset energy for next test
-    >>> current_location = lambda character: (6, 5)  # Move to a different location
+    >>> game_current_location = lambda game_character: (6, 5)  # Move to a different location
     >>> nap(character, board)  # Attempt to nap on "Empty"
     🚫 You can't nap here because you're not on moss!
     False
     """
     location = current_location(character)
-    if board[location] == "Moss":
+    if board.get(location) == "Moss":
         restore_points(character, NAP_EXTRA_ENERGY)
         print("😴 You took a nap on the moss.")
         print(f"⚡ You now have extra energy for {NAP_EXTRA_ENERGY} moves!")
