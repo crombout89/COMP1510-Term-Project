@@ -1,4 +1,5 @@
 import io
+import unittest
 from unittest import TestCase
 from unittest.mock import patch
 
@@ -632,3 +633,6 @@ class TestEat(TestCase):
         actual = mock_output.getvalue()
         expected = "🚫 You can't eat this item because it's not in your inventory!\n"
         self.assertEqual(expected, actual)
+
+if __name__ == '__main__':
+    unittest.main()
