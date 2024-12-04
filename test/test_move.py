@@ -21,39 +21,55 @@ class TestMoveFunction(unittest.TestCase):
             (5, 4): "Empty"          # Valid move up
         }
 
-    @patch('src.character.subtract_from_tummy')
-    def test_move_valid_right(self, mock_subtract):
+    def test_move_valid_right_return__value(self):
         result = move(self.character, self.board, (1, 0))
         self.assertTrue(result)
-        self.assertEqual(self.character["GroundCoordinates"], (6, 5))
+
+    def test_move_valid_right_coordinate_change(self):
+        move(self.character, self.board, (1, 0))
+        actual = self.character["GroundCoordinates"]
+        expected = (6, 5)
+        self.assertEqual(actual, expected)
+
+    @patch('src.character.subtract_from_tummy')
+    def test_move_valid_right_subtract_from_tummy_called(self, mock_subtract):
+        move(self.character, self.board, (1, 0))
         mock_subtract.assert_called_once_with(self.character, src.config.SUBTRACT_FROM_TUMMY_IF_MOVE)
 
     @patch('src.character.subtract_from_tummy')
     def test_move_invalid_tree(self, mock_subtract):
         result = move(self.character, self.board, (0, 1))
         self.assertFalse(result)
-        self.assertEqual(self.character["GroundCoordinates"], [5, 5])
+        actual = self.character["GroundCoordinates"]
+        expected = (5, 5)
+        self.assertEqual(expected, actual)
         mock_subtract.assert_not_called()
 
     @patch('src.character.subtract_from_tummy')
     def test_move_valid_left(self, mock_subtract):
         result = move(self.character, self.board, (-1, 0))
         self.assertTrue(result)
-        self.assertEqual(self.character["GroundCoordinates"], [4, 5])
+        actual = self.character["GroundCoordinates"]
+        expected = (4, 5)
+        self.assertEqual(expected, actual)
         mock_subtract.assert_called_once_with(self.character, src.config.SUBTRACT_FROM_TUMMY_IF_MOVE)
 
     @patch('src.character.subtract_from_tummy')
     def test_move_valid_up(self, mock_subtract):
         result = move(self.character, self.board, (0, -1))
         self.assertTrue(result)
-        self.assertEqual(self.character["GroundCoordinates"], [5, 4])
+        actual = self.character["GroundCoordinates"]
+        expected = (5, 4)
+        self.assertEqual(expected, actual)
         mock_subtract.assert_called_once_with(self.character, src.config.SUBTRACT_FROM_TUMMY_IF_MOVE)
 
     @patch('src.character.subtract_from_tummy')
     def test_move_valid_down(self, mock_subtract):
         result = move(self.character, self.board, (0, 1))
         self.assertTrue(result)
-        self.assertEqual(self.character["GroundCoordinates"], [5, 6])
+        actual = self.character["GroundCoordinates"]
+        expected = (5, 6)
+        self.assertEqual(expected, actual)
         mock_subtract.assert_called_once_with(self.character, src.config.SUBTRACT_FROM_TUMMY_IF_MOVE)
 
     @patch('src.character.subtract_from_tummy')
@@ -61,7 +77,9 @@ class TestMoveFunction(unittest.TestCase):
         self.board[(16, 15)] = None  # Assume that (16, 15) is out of bounds
         result = move(self.character, self.board, (1, 0))
         self.assertFalse(result)
-        self.assertEqual(self.character["GroundCoordinates"], [5, 5])
+        actual = self.character["GroundCoordinates"]
+        expected = (5, 5)
+        self.assertEqual(expected, actual)
         mock_subtract.assert_not_called()
 
     @patch('src.character.subtract_from_tummy')
@@ -70,8 +88,11 @@ class TestMoveFunction(unittest.TestCase):
         self.character["TreeCoordinates"] = [0, 0]
         result = move(self.character, self.board, (1, 0))
         self.assertTrue(result)
-        self.assertEqual(self.character["TreeCoordinates"], [1, 0])
+        actual = self.character["GroundCoordinates"]
+        expected = (1, 0)
+        self.assertEqual(expected, actual)
         mock_subtract.assert_called_once_with(self.character, src.config.SUBTRACT_FROM_TUMMY_IF_MOVE)
+
 
 if __name__ == '__main__':
     unittest.main()
