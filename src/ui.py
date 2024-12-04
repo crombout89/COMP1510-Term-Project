@@ -1,7 +1,7 @@
 import typing
 
 from .character import get_item_from_inventory
-from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING
+from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING, BERRY_TREATMENTS
 from .entity import item_input_to_entity
 from .action import check, direction_input_to_action
 
@@ -153,12 +153,27 @@ def get_action_input(character: dict) -> dict:
             print("🚫 That's not a valid action!")
 
 
+def print_berry_help():
+    table_header = "| <colour> Berry | Treats this Ailment |"
+    border = "-" * len(table_header)
+    print(border)
+    print(table_header)
+    print(border)
+    for berry in BERRY_TREATMENTS.items():
+        print(f"| {berry[0].ljust(14)} | {berry[1].ljust(19)} |")
+    print(border)
+
+
 def get_berry_input(character) -> typing.Optional[dict]:
     while True:
-        berry_color = input("Which color berry would you like to give the animal? ").strip().lower().title()
+        berry_color = (input("Which color berry would you like to give the animal?"
+                             " (Type 'Help' if you don't know) \n> ")
+                       .strip().lower().title())
         if not berry_color:
             print("You skipped giving the animal a berry.")
             return None
+        elif berry_color == "Help":
+            print_berry_help()
         else:
             # Check if the player has the berry in their inventory
             berry = {"Type": "Item", "Name": "Berry", "Data": berry_color}
