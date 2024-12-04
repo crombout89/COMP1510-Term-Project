@@ -8,21 +8,22 @@ from .action import check, direction_input_to_action
 # Actions that require function calls in perform_action
 # get_action_input should return the action dictionary so it can be passed to perform_action
 # The lambda functions represent how to format the "Data" key of the action dictionary
-EXTERNAL_ACTIONS = {
+EXTERNAL_ACTIONS = (
     # "Action input": A lambda function to be called by get_action_input
-    "Climb": lambda d: None,
-    "Eat": lambda d: item_input_to_entity(d),
-    "Nap": lambda d: None,
-}
+    ("Climb", lambda d: None),
+    ("Eat", lambda d: item_input_to_entity(d)),
+    ("Nap", lambda d: None),
+)
 
 # Actions that call a function that displays some information
 # get_action_input should call the corresponding function and then ask the user for the next action
-INFORMATION_ACTIONS = {
+INFORMATION_ACTIONS = (
     # "Action input": A lambda function to be called by get_action_input
-    "Check": lambda c, a: check(c, a),
-    "Help": lambda c, a: print_game_backstory(),
-    "": lambda c, a: print_game_help()  # If the user presses enter without typing anything
-}
+    ("Check", lambda c, a: check(c, a)),
+    ("Help", lambda c, a: print_game_backstory()),
+    ("", lambda c, a: print_game_help())  # If the user presses enter without typing anything
+)
+
 
 def final_challenge():
     print("\n🎓 Time for Your Final Challenge! 🎓")
