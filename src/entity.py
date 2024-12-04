@@ -252,11 +252,11 @@ def pick_up_item(character: dict, entity: dict):
     if entity["Name"] in ["Catnip", "SilverVine"]:
         character["Inventory"][entity["Name"]] += 1
         print(f"💼 You picked up a {entity['Name']}.")
-    elif entity["Name"] == "Berries" and entity["Data"] is not None:
+    elif entity["Name"] == "Berry" and entity["Data"] is not None:
         character["Inventory"]["Berries"][entity["Data"]] += 1
         print(f"💼 You picked up a {entity['Data']} berry.")
     else:
-        print(f"Cannot pick up {entity['Name']} without valid data.")
+        print(f"The item is malformed and could not be picked up!")
 
 
 def generate_reward(character: dict, animal_name: str):
