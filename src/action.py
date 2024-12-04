@@ -86,10 +86,8 @@ def check(character: dict, attribute: str) -> None:
     # Display the attribute value in a user-friendly way
     if attribute == "Tummy":
         print(f"Your tummy level is: {character['Tummy']}.\n"
-              + "You have"
-              + f"extra energy for the next {character['ExtraEnergy']} moves" if character['ExtraEnergy'] > 0
-              else "no extra energy"
-                   + ".")
+              + f"You have extra energy for the next {character['ExtraEnergy']} moves." if character['ExtraEnergy'] > 0
+                else "You have no extra energy.")
     elif attribute == "Level":
         print(f"Your current level is: {character['Level']}.\n"
               f"You have to help {character['UntilNextLevel']} more animals to level up.")
