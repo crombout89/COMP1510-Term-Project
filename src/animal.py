@@ -3,7 +3,7 @@ import random
 from .character import get_item_from_inventory
 from .config import BERRY_TREATMENTS
 from .descriptions import sick_animal_description, cured_animal_description
-from .entity import stringify_item, generate_item, pick_up_item
+from .entity import stringify_item, generate_item, pick_up_item, generate_reward
 
 
 def validate_berry(color: str, ailments: list[str]) -> bool:
@@ -120,15 +120,7 @@ def help_animal(character: dict, entity: dict):
             print(f"The {name} has been completely cured of their ailments!")
             print(cured_animal_description(entity))
 
-            # Generate rewards
-            rewards_count = random.randint(2, 1 + level)
-            print(f"The {name} gave you {rewards_count} items as a sign of their gratitude!")
-
-            # Reward the player with random items
-            for _ in range(rewards_count):
-                reward_item = generate_item(character, True)  # Generate a random item
-                pick_up_item(character, reward_item)  # Add the item to the player's inventory
-                print(f"You received: {stringify_item(reward_item)}!")
+            generate_reward(character, name)
 
             # Update character stats (AnimalsHelped and UntilNextLevel)
             character["AnimalsHelped"] += 1
