@@ -216,7 +216,7 @@ def eat(character: dict, item: dict) -> bool:
     if item["Type"] != "Item":
         raise TypeError(f"Expected entity type 'Item', got '{item['Type']}'")
     if get_item_from_inventory(character, item):
-        if item["Name"] == "SilverVine":
+        if item["Name"] == "Silvervine":
             restore_points(character, ADD_TO_TUMMY_IF_EAT_ITEM * SILVERVINE_TUMMY_MULTIPLIER, SILVERVINE_EXTRA_ENERGY)
         elif item["Name"] == "Catnip":
             restore_points(character, ADD_TO_TUMMY_IF_EAT_ITEM * CATNIP_TUMMY_MULTIPLIER, CATNIP_EXTRA_ENERGY)
@@ -326,11 +326,11 @@ def perform_action(character: dict, board: dict, action: dict) -> bool:
     False
     """
     if action["Type"] == "Move":
-        return move(character, board, action["data"])
+        return move(character, board, action["Data"])
     elif action["Type"] == "Climb":
         return climb(character, board)
     elif action["Type"] == "Eat":
-        return eat(character, action["data"])
+        return eat(character, action["Data"])
     elif action["Type"] == "Nap":
         return nap(character, board)
     else:
