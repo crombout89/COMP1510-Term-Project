@@ -65,17 +65,20 @@ def get_action_input(character: dict, board: dict) -> dict:
     :return: A dictionary representing the processed action with keys "Type" and "Data".
 
     >>> game_character = {
-    ...     "Position": (0, 0),
+    ...     "InTree": False,
+    ...     "GroundCoordinates": [5, 5],
     ...     "Tummy": 50,
     ...     "Inventory": ["Catnip", "SilverVine"]
     ... }
     >>> game_board = {
-    ...     "Tiles": [["Grass", "Moss"], ["Tree", "Rock"]]
+    ...     (5, 5): "Empty",
+    ...     (6, 5): "Empty",
+    ...     (6, 6): "TreeTrunk"
     ... }
 
     >>> get_action_input(game_character, game_board)  # User enters 'W'
     Enter an action: W
-    {'Type': 'Move', 'Data': (0, -1)}
+    {'Type': 'Move', 'Data': ['0', '-1']}
 
     >>> get_action_input(game_character, game_board)  # User enters 'Eat Catnip'
     Enter an action: Eat Catnip
@@ -87,46 +90,61 @@ def get_action_input(character: dict, board: dict) -> dict:
     Your tummy level is: 50
     {'Type': 'Check', 'Data': ['Tummy']}
     """
-    valid_actions = ["W", "A", "S", "D", "Climb", "Eat", "Nap", "Check", "Help"]
     action = {"Type": "", "Data": []}
 
     selected_action = input("Enter an action: ").strip().title().split()
-    action["Type"], action["Data"] = selected_action[0], selected_action[1:]
+    action_type = selected_action[0]
+    action_data = selected_action[1:]  # Remaining input after the action type
 
-    if action["Type"] not in valid_actions:
-        raise ValueError("Invalid action.")
+    if action_type in ["W", "A", "S", "D"]:
+        action["Type"] = "Move"
+        direction = (0, 0)
 
-    if action["Type"] == "Climb":
+        if action_type == "W":
+            direction = (0, -1)
+        elif action_type == "A":
+            direction = (-1, 0)
+        elif action_type == "S":
+            direction = (0, 1)
+        elif action_type == "D":
+            direction = (1, 0)
+
+        # Call the move function
+        if move(character, board, direction):
+            action["Data"] = ["0", "0"]  # Placeholder for direction, you could also return actual coordinates
+            print(f"Moved {action_type}.")
+        else:
+            print("Cannot move in that direction.")
+
+    elif action_type == "Climb":
         if not climb(character, board):
             raise ValueError("No tree to climb!")
+        action["Type"] = "Climb"
 
-    elif action["Type"] == "Eat":
-        if not action["Data"]:
+    elif action_type == "Eat":
+        if not action_data:
             raise ValueError("Specify what to eat!")
-        if action["Data"][0] not in character["Inventory"]:
+        if action_data[0] not in character["Inventory"]:
             raise ValueError("Item not in inventory.")
-        eat(character, action["Data"][0])
+        eat(character, action_data[0])
+        action["Type"] = "Eat"
+        action["Data"] = action_data
 
-    elif action["Type"] == "Nap":
+    elif action_type == "Nap":
         if not nap(character, board):
             raise ValueError("Can't nap here!")
+        action["Type"] = "Nap"
 
-    elif action["Type"] == "Check":
-        if action["Data"][0] not in ["Tummy", "Level", "Inventory"]:
+    elif action_type == "Check":
+        if not action_data or action_data[0] not in ["Tummy", "Level", "Inventory"]:
             raise ValueError("Invalid attribute to check.")
+        action["Type"] = "Check"
+        action["Data"] = action_data
 
-    elif action["Type"] in ["W", "A", "S", "D"]:
-        if action["Type"] == "W":
-            action["Data"] = (0, -1)
-        elif action["Type"] == "A":
-            action["Data"] = (-1, 0)
-        elif action["Type"] == "S":
-            action["Data"] = (0, 1)
-        elif action["Type"] == "D":
-            action["Data"] = (1, 0)
+    else:
+        raise ValueError("Invalid action.")
 
     return action
-
 
 def help_animal(character: dict, entity: dict):
     """
