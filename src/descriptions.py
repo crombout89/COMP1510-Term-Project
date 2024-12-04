@@ -1,3 +1,4 @@
+import itertools
 import random
 from typing import Dict
 
@@ -19,11 +20,6 @@ def sick_animal_description(animal: Dict[str, str]) -> str:
     # Ensure the animal has a "Name" key
     name = animal.get("Name", "creature")  # Default to "creature" if no name is provided
 
-    # Handle ailments, defaulting to "unknown ailments" if none exist
-    ailments = ", ".join(animal.get("Data", [])) or "unknown ailments"
-    if len(animal.get("Data", [])) > 1:
-        ailments = " and ".join([", ".join(animal["Data"][:-1]), animal["Data"][-1]])
-
     descriptions = [
         f"A very frail {name} lies here, shivering and weak. Its big eyes look up at you, pleading for help.",
         f"You see a sickly {name} curled up on the ground, its breathing shallow and labored.",
@@ -36,7 +32,9 @@ def sick_animal_description(animal: Dict[str, str]) -> str:
     ]
 
     description = random.choice(descriptions)
-    description += f" It appears to be suffering from {ailments}."
+    description += f" It appears to be:\n"
+    for ailment in zip(animal["Data"], itertools.count(1)):
+        description += f" {ailment[1]}. {ailment[0]}\n"
     return description
 
 
