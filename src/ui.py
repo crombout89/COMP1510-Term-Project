@@ -45,6 +45,23 @@ def print_game_backstory():
     return
 
 
+def print_game_help():
+    print("\n")
+    print("Type one of the following actions and press ENTER:")
+    print(" - 'W' to move up")
+    print(" - 'A' to move left")
+    print(" - 'S' to move down")
+    print(" - 'D' to move right")
+    print(" - 'Check Tummy' to check your tummy and extra energy")
+    print(" - 'Check Level' to check your level and how many animals you need to help before you level up")
+    print(" - 'Check Inventory' to check what you have in your inventory")
+    print(" - 'Eat <item>' to eat a non-berry item like Catnip or Silvervine")
+    print(" - 'Eat <colour> Berry' to eat a berry of the corresponding colour")
+    print(" - 'Climb' to climb up or down a tree trunk")
+    print(" - 'Nap' to take a nap on a patch of moss")
+    print(" - 'Help' to the see the backstory and instructions from the start of the game")
+
+
 def game_over():
     """ Print a game over message indicating the player has passed out from hunger. """
 
