@@ -40,6 +40,7 @@ def final_challenge():
 def print_game_instructions():
     print(" ✨ Your Mission: ✨")
     print("- Use your purr-oblem-solving skills to figure out which berry cures each animal’s ailment.")
+    print("- Climb up trees to find berries with magical healing powers!")
     print("- Heal enough animals to help them level up and bring balance back to Whisker Woods.")
     print("- Reach Level 3, where Mittens becomes the ultimate Meowgical Healer and saves the forest for good!")
     print("- Keep an eye on your tummy while you explore! Moving and climbing is hard work,")
