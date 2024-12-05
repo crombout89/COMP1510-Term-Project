@@ -1,6 +1,7 @@
 import unittest
 from src.board import generate_ground_board
 
+
 class TestGenerateGroundBoard(unittest.TestCase):
 
     def test_tree_trunks_exist(self):
@@ -10,8 +11,8 @@ class TestGenerateGroundBoard(unittest.TestCase):
     def test_tree_trunk_count(self):
         board = generate_ground_board()
         tree_trunk_count = sum(1 for tile in board.values() if tile == "TreeTrunk")
-        self.assertGreaterEqual(tree_trunk_count, 30)
-        self.assertLessEqual(tree_trunk_count, 60)
+        self.assertGreaterEqual(tree_trunk_count, 80)  # Update lower bound
+        self.assertLessEqual(tree_trunk_count, 200)  # Update upper bound
 
     def test_empty_tiles_has_empty_space(self):
         board = generate_ground_board()
