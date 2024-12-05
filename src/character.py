@@ -1,3 +1,5 @@
+import logging
+
 from .config import (CHARACTER_DEFAULT_ATTRIBUTES, CHARACTER_DEFAULT_INVENTORY_TOP_LEVEL,
                      CHARACTER_DEFAULT_INVENTORY_BERRIES, UNTIL_NEXT_LEVEL_MULTIPLIER)
 from .util import dict_from_tuple_of_tuples
@@ -167,6 +169,7 @@ def subtract_from_tummy(character: dict, units: int):
     >>> test_character["Tummy"]
     7  # Tummy reduced by 3
     """
+    logging.info(f"Character: '{character}', Units: {units}")
     if character["ExtraEnergy"] > 0:
         character["ExtraEnergy"] -= 1
     else:
@@ -215,6 +218,7 @@ def get_item_from_inventory(character: dict, item: dict) -> bool:
     >>> get_item_from_inventory(test_character, item_invalid)
     False  # Item is not in the inventory
     """
+    logging.info(f"Character: {character}, Item: {item}")
     if item["Type"] != "Item":
         raise TypeError(f"Expected entity type 'Item', got '{item['Type']}'")
     if item["Name"] == "Catnip" or item["Name"] == "Silvervine":
@@ -280,6 +284,7 @@ def restore_points(character: dict, tummy: int = 0, extra_energy: int = 0):
     >>> example_character["ExtraEnergy"]
     1
     """
+    logging.info(f"Character: '{character}', Tummy: {tummy}, ExtraEnergy: {extra_energy}")
     if tummy < 0:
         raise ValueError("tummy must be an integer greater than or equal to 0")
     if extra_energy < 0:

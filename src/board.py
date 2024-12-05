@@ -1,4 +1,5 @@
 import random
+import logging
 
 from .character import current_location
 from .config import GROUND_X_SCALE, GROUND_Y_SCALE, TREE_SCALE_OPTIONS
@@ -113,7 +114,8 @@ def populate_board(board: dict, name: str, times: int, animal_data=None):
         attempts += 1
 
     if attempts == max_attempts:
-        print("Warning: Maximum attempts reached. Some entities may not have been placed.")
+        logging.warning("Warning: Maximum attempts reached. Some entities may not have been placed.")
+
 
 def generate_ground_board() -> dict:
     """
@@ -204,6 +206,7 @@ def describe_current_location(character: dict, board: dict) -> str:
     'You are in a treetop: The treetop sways gently in the breeze, a serene spot high above the ground.🍃🌬️'
     """
     board_description = board[current_location(character)]
+    logging.info(f"Current location: {current_location(character)}, Description: {board_description}")
     if board_description == "TreeTrunk":
         print("🌲 You're at a tree trunk, you can climb up or down the tree.")
     elif board_description == "Moss":

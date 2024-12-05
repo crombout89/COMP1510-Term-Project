@@ -1,3 +1,5 @@
+import logging
+
 from .config import BERRY_TREATMENTS
 from .description import sick_animal_description, cured_animal_description
 from .entity import generate_reward
@@ -107,6 +109,7 @@ def help_animal(character: dict, entity: dict):
     # Main loop to treat the animal
     while len(entity["Data"]) > 0:
         berry = get_berry_input(character)
+        logging.info("Berry: " + str(berry))
 
         # Validate the berry as a treatment for the ailments
         if not berry or not validate_berry(berry['Data'], entity["Data"]):

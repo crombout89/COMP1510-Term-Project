@@ -1,5 +1,6 @@
 import copy
 import itertools
+import logging
 import random
 import typing
 
@@ -157,6 +158,7 @@ def generate_reward(character: dict, animal_name: str):
     print("You received the following items:")
     for reward in zip(range(rewards_count), itertools.count(1)):
         reward_item = generate_item(character, True)  # Generate a random item
+        logging.info("Reward item:" + str(reward_item))
         pick_up_item(character, reward_item)  # Add the item to the player's inventory
         print(f" {reward[1]}. a {stringify_item(reward_item)}")
 
@@ -279,4 +281,5 @@ def pick_up_item(character: dict, entity: dict):
         print(f"💼 You picked up a {entity['Data']} berry.")
     else:
         print(f"The item is malformed and could not be picked up!")
+        logging.warning("MALFORMED ITEM: " + str(entity))
 

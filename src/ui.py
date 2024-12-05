@@ -1,3 +1,4 @@
+import logging
 import typing
 
 from .character import get_item_from_inventory
@@ -168,10 +169,10 @@ def get_action_input(character: dict) -> dict:
     {'Type': 'Check', 'Data': ['Tummy']}
     """
     action = {}
-
     while True:
-        selected_action = (input("\nWhat do you want to do? (Just press ENTER if you don't know) \n> ")
-                           .strip().title().split())
+        user_input = input("\nWhat do you want to do? (Just press ENTER if you don't know) \n> ")
+        selected_action = user_input.strip().title().split()
+        logging.info(f"User input: '{user_input}', Parsed as: {selected_action}")
         if len(selected_action) < 2:
             # If the selected action has less than 2 tokens, pad it with empty strings to prevent an index error
             selected_action += [""] * (2 - len(selected_action))
@@ -200,9 +201,10 @@ def print_berry_help():
 
 def get_berry_input(character) -> typing.Optional[dict]:
     while True:
-        berry_color = (input("Which color berry would you like to give the animal?"
-                             " (Type 'Help' if you don't know) \n> ")
-                       .strip().title())
+        user_input = input("Which color berry would you like to give the animal?"
+                           " (Type 'Help' if you don't know) \n> ")
+        berry_color = user_input.strip().title()
+        logging.info(f"User input: '{user_input}', Parsed as: {berry_color}")
         if not berry_color:
             print("You skipped giving the animal a berry.")
             return None
