@@ -4,6 +4,7 @@ from .character import get_item_from_inventory
 from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING, BERRY_TREATMENTS
 from .entity import item_input_to_entity
 from .action import check, direction_input_to_action
+from .util import dict_from_tuple_of_tuples
 
 # Actions that require function calls in perform_action
 # get_action_input should return the action dictionary so it can be passed to perform_action
@@ -175,12 +176,12 @@ def get_action_input(character: dict) -> dict:
             selected_action += [""] * (2 - len(selected_action))
         action["Type"], action["Data"] = selected_action[0], selected_action[1:]
 
-        if action["Type"] in EXTERNAL_ACTIONS:
+        if action["Type"] in dict_from_tuple_of_tuples(EXTERNAL_ACTIONS):
             return action
-        elif action["Type"] in DIRECTION_MAPPING.keys():
+        elif action["Type"] in dict_from_tuple_of_tuples(DIRECTION_MAPPING).keys():
             return direction_input_to_action(action["Type"])
-        elif action["Type"] in INFORMATION_ACTIONS.keys():
-            INFORMATION_ACTIONS[action["Type"]](character, action["Data"][0])
+        elif action["Type"] in dict_from_tuple_of_tuples(INFORMATION_ACTIONS).keys():
+            dict_from_tuple_of_tuples(INFORMATION_ACTIONS)[action["Type"]](character, action["Data"][0])
         else:
             print("🚫 That's not a valid action!")
 
@@ -191,7 +192,7 @@ def print_berry_help():
     print(border)
     print(table_header)
     print(border)
-    for berry in BERRY_TREATMENTS.items():
+    for berry in dict_from_tuple_of_tuples(BERRY_TREATMENTS).items():
         print(f"| {berry[0].ljust(14)} | {berry[1].ljust(19)} |")
     print(border)
 

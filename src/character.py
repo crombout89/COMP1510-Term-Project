@@ -1,6 +1,8 @@
 import copy
 
-from .config import CHARACTER_DEFAULT_ATTRIBUTES, UNTIL_NEXT_LEVEL_MULTIPLIER
+from .config import (CHARACTER_DEFAULT_ATTRIBUTES, CHARACTER_DEFAULT_INVENTORY_TOP_LEVEL,
+                     CHARACTER_DEFAULT_INVENTORY_BERRIES, UNTIL_NEXT_LEVEL_MULTIPLIER)
+from .util import dict_from_tuple_of_tuples
 
 
 def create_character(name: str) -> dict:
@@ -26,7 +28,9 @@ def create_character(name: str) -> dict:
     >>> test_new_character["Inventory"]
     []  # Default empty inventory
     """
-    new_character = copy.deepcopy(CHARACTER_DEFAULT_ATTRIBUTES)
+    new_character = dict_from_tuple_of_tuples(CHARACTER_DEFAULT_ATTRIBUTES)
+    new_character["Inventory"] = dict_from_tuple_of_tuples(CHARACTER_DEFAULT_INVENTORY_TOP_LEVEL)
+    new_character["Inventory"]["Berries"] = dict_from_tuple_of_tuples(CHARACTER_DEFAULT_INVENTORY_BERRIES)
     new_character["Name"] = name
     return new_character
 

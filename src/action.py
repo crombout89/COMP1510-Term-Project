@@ -6,7 +6,7 @@ from .config import (SUBTRACT_FROM_TUMMY_IF_CLIMB, SUBTRACT_FROM_TUMMY_IF_MOVE,
                      ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY, SILVERVINE_EXTRA_ENERGY, NAP_EXTRA_ENERGY,
                      CATNIP_TUMMY_MULTIPLIER, SILVERVINE_TUMMY_MULTIPLIER, DIRECTION_MAPPING)
 from .entity import stringify_item
-from .util import plural
+from .util import plural, dict_from_tuple_of_tuples
 
 
 def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
@@ -422,7 +422,7 @@ def direction_input_to_action(direction_input: str) -> dict:
         "Type": "Move"
     }
     try:
-        action["Data"] = DIRECTION_MAPPING[direction_input.upper()]
+        action["Data"] = dict_from_tuple_of_tuples(DIRECTION_MAPPING)[direction_input.upper()]
     except KeyError:
         raise ValueError("Invalid direction input")
     else:
