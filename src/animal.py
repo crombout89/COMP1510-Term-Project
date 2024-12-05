@@ -2,7 +2,7 @@ from .config import BERRY_TREATMENTS
 from .description import sick_animal_description, cured_animal_description
 from .entity import generate_reward
 from .ui import get_berry_input
-from .sfx import play_heal_sfx, play_finale_music
+from .sfx import play_heal_sfx, play_finale_music, play_sad_animal_music
 
 
 def validate_berry(color: str, ailments: list[str]) -> bool:
@@ -62,6 +62,7 @@ def help_animal_success(character: dict, entity: dict):
         character["FinalChallengeCompleted"] = True
         play_finale_music()
         print("Congratulations! You have completed the Final Challenge! 🎉")
+    print("Press ENTER to continue...")
 
 
 def help_animal(character: dict, entity: dict):
@@ -88,6 +89,7 @@ def help_animal(character: dict, entity: dict):
                     appropriately.
     :postcondition: If "FinalChallenge" is completed, character["FinalChallengeCompleted"] is set to True.
     """
+    play_sad_animal_music()
     # Special handling for the Final Challenge
     if entity["Name"] == "FinalChallenge":
         print("You are accepting the Final Challenge!")

@@ -4,6 +4,7 @@ from .character import get_item_from_inventory
 from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING, BERRY_TREATMENTS
 from .entity import item_input_to_entity
 from .action import check, direction_input_to_action
+from .sfx import play_finale_music
 from .util import dict_from_tuple_of_tuples
 
 # Actions that require function calls in perform_action
@@ -118,7 +119,7 @@ def game_over():
 
 def game_complete():
     """ Print a congratulatory message to the player for completing the game. """
-
+    play_finale_music()
     print("🎉 Congratulations! You've completed Whisker Woods Rescue! 🎉")
     print("Thanks to your purr-severance and kindness, the forest is thriving again.")
     print(f"You've become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
