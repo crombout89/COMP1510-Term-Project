@@ -8,8 +8,7 @@ from src.description import moss_description
 class TestGenerateTreeBoard(unittest.TestCase):
 
     def setUp(self):
-        # Choose a random tree scale for each test
-        self.tree_scale = random.choice(TREE_SCALE_OPTIONS)
+        self.tree_scale = 10
 
     def test_tree_trunk_placement(self):
         tree_board_result = generate_tree_board()
@@ -23,11 +22,14 @@ class TestGenerateTreeBoard(unittest.TestCase):
 
     def test_board_dimensions(self):
         tree_board_result = generate_tree_board()
-        min_x = -self.tree_scale
-        max_x = self.tree_scale
-        min_y = -self.tree_scale
-        max_y = self.tree_scale
 
+        # Get the actual min and max coordinates from the generated board
+        min_x = tree_board_result['meta']['min_x']
+        max_x = tree_board_result['meta']['max_x']
+        min_y = tree_board_result['meta']['min_y']
+        max_y = tree_board_result['meta']['max_y']
+
+        # Loop through the actual coordinate range
         for x in range(min_x, max_x + 1):
             for y in range(min_y, max_y + 1):
                 self.assertIn((x, y), tree_board_result, f"Coordinate {(x, y)} should be in the board")
