@@ -26,8 +26,8 @@ def game():
     player = create_character("Mittens")
     logging.info("Game started.")
     logging.info("Ground board: " + str(ground))
+    play_main_game_music()
     while not update_level(player):
-        play_main_game_music()  # Ensure the music is reset when the player returns to the main game loop
         describe_current_location(player, current_board)
         logging.info("Character: " + str(player))
         action = get_action_input(player)
@@ -51,6 +51,7 @@ def game():
                 logging.info("Entity: " + str(entity))
                 if entity and entity["Type"] == "Animal":
                     help_animal(player, entity)
+                    play_main_game_music()
                 elif entity and entity["Type"] == "Item":
                     pick_up_item(player, entity)
             else:

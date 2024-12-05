@@ -22,7 +22,7 @@ def play_sad_animal_music():
     """ Play the sad animal music once. """
     pygame.mixer.music.stop()
     pygame.mixer.music.load(SAD_ANIMAL_MUSIC)
-    pygame.mixer.music.play()
+    pygame.mixer.music.play(loops=-1)
 
 
 def play_finale_music():
@@ -35,9 +35,8 @@ def play_finale_music():
 def play_heal_sfx():
     """ Play the healed animal sound effect. """
     pygame.mixer.music.stop()
-    animal_healed_sfx = pygame.mixer.Sound(HEAL_SFX)
-    animal_healed_sfx.set_volume(1.0)
-    animal_healed_sfx.play()
+    pygame.mixer.music.load(HEAL_SFX)
+    pygame.mixer.music.play()
 
 
 def stop_music():
