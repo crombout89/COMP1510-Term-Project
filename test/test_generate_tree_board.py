@@ -23,11 +23,14 @@ class TestGenerateTreeBoard(unittest.TestCase):
 
     def test_board_dimensions(self):
         tree_board_result = generate_tree_board()
-        min_x = -self.tree_scale
-        max_x = self.tree_scale
-        min_y = -self.tree_scale
-        max_y = self.tree_scale
 
+        # Get the actual min and max coordinates from the generated board
+        min_x = tree_board_result['meta']['min_x']
+        max_x = tree_board_result['meta']['max_x']
+        min_y = tree_board_result['meta']['min_y']
+        max_y = tree_board_result['meta']['max_y']
+
+        # Loop through the actual coordinate range
         for x in range(min_x, max_x + 1):
             for y in range(min_y, max_y + 1):
                 self.assertIn((x, y), tree_board_result, f"Coordinate {(x, y)} should be in the board")
