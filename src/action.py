@@ -1,4 +1,5 @@
 import itertools
+import logging
 
 from .board import valid_location
 from .character import current_location, get_item_from_inventory, subtract_from_tummy, restore_points
@@ -215,16 +216,17 @@ def climb(character: dict, board) -> bool:
     🚫 You can't climb because you're not at a tree trunk!
     """
     location = current_location(character)
-    print(f"Current location: {location}")  # Debug output
-
-    # Check if the character is in a tree and the current location is moss
-    if character["InTree"] and board.get(location) == "Moss":
-        restore_points(character, extra_energy=NAP_EXTRA_ENERGY)  # Only restore extra energy
-        print("😴 You took a nap on the moss.")
-        print(f"⚡ You now have extra energy for {NAP_EXTRA_ENERGY} moves!")
+    if board[location] == "TreeTrunk":
+        if character["InTree"]:
+            character["InTree"] = False
+            logging.info(f"Climbing down, Character: {character}")
+        else:
+            character["TreeCoordinates"] = (0, 0)
+            character["InTree"] = True
+            logging.info(f"Climbing up, Character: {character}")
         return True
     else:
-        print("🚫 You can't nap here because you're not in a tree or not on moss!")
+        print("🚫 You can't climb because you're not at a tree trunk!")
         return False
 
 
