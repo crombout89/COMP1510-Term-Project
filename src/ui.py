@@ -87,7 +87,7 @@ def print_game_help():
 def game_over():
     """ Print a game over message indicating the player has passed out from hunger. """
 
-    print("💔 Oh no! You've passed out from hunger!")
+    print("\n💔 Oh no! You've passed out from hunger!")
     print("Without the energy to continue, your adventure comes to an end.")
     print("But don’t worry —- every hero gets another chance!")
     return
@@ -96,15 +96,15 @@ def game_over():
 def game_complete():
     """ Print a congratulatory message to the player for completing the game. """
     play_finale_music()
-    print("🎉 Congratulations! You've completed Whisker Woods Rescue! 🎉")
+    print("\n🎉 Congratulations! You've completed Whisker Woods Rescue! 🎉")
     print("Thanks to your purr-severance and kindness, the forest is thriving again.")
     print(f"You've become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
-    print(
-        "Your trusty owner, Professor Whiskers, praises you for earning the trust and love of all creatures in the forest.")
-    print(
-        "You've forged bonds with both real and imaginary friends, and now the forest is a place of joy and laughter!")
-    print("While the main challenges may have ended, your adventures in Whisker Woods continue.")
-    print("Feel free to explore, help new friends, and create your own stories in this magical land! 🐾✨")
+    print("Your trusty owner, the Professor, praises you for earning the trust and love of all creatures in"
+          "the forest.")
+    print("You've forged bonds with both real and imaginary friends, and now the forest is a place of joy and "
+          "laughter!")
+    # print("While the main challenges may have ended, your adventures in Whisker Woods continue.")
+    # print("Feel free to explore, help new friends, and create your own stories in this magical land! 🐾✨")
     return
 
 
