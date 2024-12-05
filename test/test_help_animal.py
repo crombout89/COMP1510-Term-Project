@@ -33,7 +33,7 @@ class TestHelpAnimal(unittest.TestCase):
         with patch('src.character.get_item_from_inventory', return_value=True), \
                 patch('src.animal.validate_berry', return_value=True), \
                 patch('src.entity.stringify_item', return_value="Red Berry"), \
-                patch('src.entity.generate_item', return_value={"Type": "Item", "Name": "SilverVine"}):
+                patch('src.entity.generate_item', return_value={"Type": "Item", "Name": "Silvervine"}):
             help_animal(self.character, self.animal)
 
             # Assertions to verify the expected outcomes

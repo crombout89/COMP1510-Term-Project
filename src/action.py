@@ -249,7 +249,7 @@ def eat(character: dict, item: dict) -> bool:
     ... }
     >>> game_item = {
     ...     "Type": "Item",
-    ...     "Name": "SilverVine"
+    ...     "Name": "Silvervine"
     ... }
     >>> eat(game_character, game_item)
     True
@@ -370,7 +370,7 @@ def perform_action(character: dict, board: dict, action: dict) -> bool:
     >>> perform_action(character, board, action_climb)  # Climb a tree
     True
 
-    >>> action_eat = {"Type": "Eat", "data": {"Type": "Item", "Name": "SilverVine"}}
+    >>> action_eat = {"Type": "Eat", "data": {"Type": "Item", "Name": "Silvervine"}}
     >>> character["Inventory"].append(action_eat["data"])  # Add item to inventory
     >>> perform_action(character, board, action_eat)
     True

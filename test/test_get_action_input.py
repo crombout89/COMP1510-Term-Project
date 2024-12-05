@@ -11,7 +11,7 @@ class TestActionInput(unittest.TestCase):
             "Position": (0, 0),
             "Tummy": 50,
             "ExtraEnergy": 0,
-            "Inventory": ["Catnip", "SilverVine"],
+            "Inventory": ["Catnip", "Silvervine"],
             "Level": 2
         }
         self.board = {

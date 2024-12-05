@@ -573,7 +573,7 @@ class TestEat(TestCase):
             "ExtraEnergy": 0,
             "Inventory": {
                 "Catnip": 1,
-                "SilverVine": 1,
+                "Silvervine": 1,
                 "Berries": {
                     "Red": 1
                 }
@@ -595,7 +595,7 @@ class TestEat(TestCase):
             "ExtraEnergy": 0,
             "Inventory": {
                 "Catnip": 1,
-                "SilverVine": 1,
+                "Silvervine": 1,
                 "Berries": {
                     "Red": 1
                 }
@@ -618,7 +618,7 @@ class TestEat(TestCase):
             "ExtraEnergy": 0,
             "Inventory": {
                 "Catnip": 1,
-                "SilverVine": 1,
+                "Silvervine": 1,
                 "Berries": {
                     "Red": 1
                 }

@@ -10,7 +10,7 @@ class TestPickUpItem(unittest.TestCase):
         self.character = {
             "Inventory": {
                 "Catnip": 0,
-                "SilverVine": 0,
+                "Silvervine": 0,
                 "Berries": {
                     "Red": 0,
                     "Green": 0,
@@ -27,7 +27,7 @@ class TestPickUpItem(unittest.TestCase):
         }
         self.valid_item_silvervine = {
             "Type": "Item",
-            "Name": "SilverVine",
+            "Name": "Silvervine",
             "Data": None
         }
         self.valid_item_berry = {
@@ -50,8 +50,8 @@ class TestPickUpItem(unittest.TestCase):
     @patch('builtins.print')
     def test_pick_up_valid_silvervine(self, mock_print):
         pick_up_item(self.character, self.valid_item_silvervine)
-        self.assertEqual(self.character["Inventory"]["SilverVine"], 1)
-        mock_print.assert_called_once_with("💼 You picked up a SilverVine.")
+        self.assertEqual(self.character["Inventory"]["Silvervine"], 1)
+        mock_print.assert_called_once_with("💼 You picked up a Silvervine.")
 
     @patch('builtins.print')
     def test_pick_up_berry(self, mock_print):

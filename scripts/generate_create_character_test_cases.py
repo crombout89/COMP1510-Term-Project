@@ -13,7 +13,7 @@ def main():
 
     top_level_inventory = {
         "Catnip": 0,
-        "SilverVine": 0
+        "Silvervine": 0
     }
 
     berries = {

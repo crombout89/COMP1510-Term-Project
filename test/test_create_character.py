@@ -74,7 +74,7 @@ class TestCreateCharacter(TestCase):
 
     def test_create_character_silvervine_default_value(self):
         test_character = create_character("TestCharacterName")
-        actual = test_character["Inventory"]["SilverVine"]
+        actual = test_character["Inventory"]["Silvervine"]
         expected = 0
         self.assertEqual(expected, actual)
 
