@@ -215,14 +215,15 @@ def climb(character: dict, board) -> bool:
     False
     🚫 You can't climb because you're not at a tree trunk!
     """
-    location = current_location(character)
-    if board[location] == "TreeTrunk":
+    if board[current_location(character)] == "TreeTrunk":
         if character["InTree"]:
             character["InTree"] = False
+            print("You climbed down the tree.")
             logging.info(f"Climbing down, Character: {character}")
         else:
             character["TreeCoordinates"] = (0, 0)
             character["InTree"] = True
+            print("You climbed up the tree.")
             logging.info(f"Climbing up, Character: {character}")
         return True
     else:
