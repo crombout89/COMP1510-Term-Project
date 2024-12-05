@@ -126,12 +126,12 @@ def forest_patch_description() -> str:
 
     # Combine all descriptions into one list
     all_descriptions = (
-        grass_descriptions +
-        flower_descriptions +
-        rock_descriptions +
-        dirt_descriptions +
-        leaf_descriptions +
-        mushroom_descriptions
+            grass_descriptions +
+            flower_descriptions +
+            rock_descriptions +
+            dirt_descriptions +
+            leaf_descriptions +
+            mushroom_descriptions
     )
 
     # Return a random choice

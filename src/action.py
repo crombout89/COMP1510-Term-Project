@@ -275,4 +275,3 @@ def perform_action(character: dict, board: dict, action: dict) -> bool:
     else:
         print("🚫 You can't perform this action!")
         return False
-

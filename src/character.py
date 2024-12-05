@@ -106,6 +106,7 @@ def update_level(character: dict) -> bool:
     >>> test_character["FinalChallengeCompleted"] is None
     True  # Indicates the final challenge has started
     """
+
     def print_level_up_message():
         print("\n✨ You Leveled Up! ✨\n")
         if character["Level"] == 2:
@@ -221,4 +222,3 @@ def restore_points(character: dict, tummy: int = 0, extra_energy: int = 0):
         raise ValueError("extra_energy must be an integer greater than or equal to 0")
     character["Tummy"] += tummy
     character["ExtraEnergy"] += extra_energy
-

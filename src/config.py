@@ -52,8 +52,8 @@ CHARACTER_DEFAULT_ATTRIBUTES = (
     ("FinalChallengeCompleted", None),
 )
 CHARACTER_DEFAULT_INVENTORY_TOP_LEVEL = (
-        ("Catnip", 0),
-        ("Silvervine", 0)
+    ("Catnip", 0),
+    ("Silvervine", 0)
 )
 CHARACTER_DEFAULT_INVENTORY_BERRIES = (
     ("Red", 1),

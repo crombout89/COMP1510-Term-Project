@@ -34,6 +34,7 @@ def start_final_challenge(character: dict) -> None:
     >>> game_character["FinalChallengeCompleted"]
     False
     """
+
     def print_final_challenge_instructions():
         print("\n🗣️ You suddenly hear the professor calling you from the center of the forest.")
         print("You drop what you're doing and run to him.")
@@ -46,6 +47,7 @@ def start_final_challenge(character: dict) -> None:
               "It's up to you to get the berries!\n"
               "The fate of the forest rests in your paws!\n")
         input("Press Enter to continue...")
+
     # Ensure required keys are in the character dictionary
     required_keys = ["InTree", "GroundCoordinates", "FinalChallengeCompleted"]
     for key in required_keys:

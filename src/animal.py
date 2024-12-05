@@ -3,8 +3,8 @@ import logging
 from .config import BERRY_TREATMENTS
 from .description import sick_animal_description, cured_animal_description
 from .entity import generate_reward
-from .ui import get_berry_input
 from .sfx import play_heal_sfx, play_finale_music, play_sad_animal_music
+from .ui import get_berry_input
 from .util import dict_from_tuple_of_tuples
 
 
@@ -96,12 +96,14 @@ def help_animal(character: dict, entity: dict):
                     appropriately.
     :postcondition: If "FinalChallenge" is completed, character["FinalChallengeCompleted"] is set to True.
     """
+
     def print_final_challenge_instructions():
         print("You are attempting the Final Challenge!\n"
               "You need to give the the Moonlit Lynx two of each berry.\n"
               "If you don't have enough berries, press ENTER to skip for now, and go find the berries you need.\n"
               "Once you have everything you need, come back to the center of the forest to help the Lynx!\n"
               "If you get lost, type 'Check Location' for how to get back to the center!")
+
     play_sad_animal_music()
     # Special handling for the Final Challenge
     if entity["Name"] == "FinalChallenge":

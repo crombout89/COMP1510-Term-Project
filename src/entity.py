@@ -1,12 +1,11 @@
-import copy
 import itertools
 import logging
 import random
 import typing
 
+from .board import current_location
 from .config import (ANIMAL_OPTIONS, AILMENT_OPTIONS, BERRY_COLOR_OPTIONS,
                      ANIMAL_PROBABILITY, SILVERVINE_PROBABILITY, CATNIP_PROBABILITY, BERRY_PROBABILITY)
-from .board import current_location
 from .description import sick_animal_description
 
 
@@ -64,6 +63,7 @@ def generate_item(character: dict, always: bool = False) -> typing.Optional[dict
     >>> item["Name"] == "Berry" and item["Data"] in BERRY_COLOR_OPTIONS
     True  # If the item is a Berry, it should have a valid color
     """
+
     def generate_berry_decision() -> bool:
         # Normally, berries can only be found in trees, so we only generate a berry if the character
         # is in a tree.
@@ -117,6 +117,7 @@ def generate_entity(board: dict, character: dict) -> typing.Optional[dict]:
     >>> generate_entity(board, character) is None
     True  # Should not generate an entity if the final challenge is completed
     """
+
     def generate_final_challenge_entity() -> dict:
         # Generate a list of ailments where each ailment except "Starving" appears twice
         # The resultant list of ailments will require two of each berry to treat
