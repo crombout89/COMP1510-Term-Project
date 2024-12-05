@@ -1,5 +1,6 @@
 import unittest
-from src.character import start_final_challenge
+from src.final_challenge import start_final_challenge
+
 
 class TestStartFinalChallenge(unittest.TestCase):
 
