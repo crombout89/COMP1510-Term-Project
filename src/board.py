@@ -132,7 +132,7 @@ def generate_ground_board() -> dict:
     30 <= tree_trunk_count <= 60  # Randomized, skip the exact count check
     """
     ground_board = generate_board(-GROUND_X_SCALE, GROUND_X_SCALE, -GROUND_Y_SCALE, GROUND_Y_SCALE)
-    tree_trunk_count = random.randint(30, 60)
+    tree_trunk_count = random.randint(100, 200)
 
     # Populate board with tree trunks
     populate_board(ground_board, "TreeTrunk", tree_trunk_count)
