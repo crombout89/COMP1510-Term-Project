@@ -3,6 +3,7 @@ from .description import sick_animal_description, cured_animal_description
 from .entity import generate_reward
 from .ui import get_berry_input
 from .sfx import play_heal_sfx, play_finale_music, play_sad_animal_music
+from .util import dict_from_tuple_of_tuples
 
 
 def validate_berry(color: str, ailments: list[str]) -> bool:
@@ -38,8 +39,12 @@ def validate_berry(color: str, ailments: list[str]) -> bool:
     >>> validate_berry("Yellow", ["Starving"])  # Yellow berry does not exist in BERRY_TREATMENTS
     False  # No treatment available
     """
-    if BERRY_TREATMENTS[color] in ailments or "Starving" in ailments:
-        ailments.remove(BERRY_TREATMENTS[color]) if BERRY_TREATMENTS[color] in ailments else ailments.remove("Starving")
+    berry_treatments = dict_from_tuple_of_tuples(BERRY_TREATMENTS)
+    if berry_treatments[color] in ailments or "Starving" in ailments:
+        if berry_treatments[color] in ailments:
+            ailments.remove(berry_treatments[color])
+        else:
+            ailments.remove("Starving")
         print(f"The {color} Berry successfully treated one of the animal's ailments! 🩹")
         return True
     else:
