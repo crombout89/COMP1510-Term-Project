@@ -1,7 +1,6 @@
 import os
 
 from src import game
-from src.animal import help_animal_success
 
 
 def main():
