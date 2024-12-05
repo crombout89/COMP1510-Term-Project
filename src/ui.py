@@ -146,8 +146,8 @@ def get_action_input(character: dict) -> dict:
     while True:
         user_input = input("\nWhat do you want to do? (Just press ENTER if you don't know) \n> ")
         selected_action = user_input.strip().title().split()
-
-        action = {"Type": selected_action[0] or [""], "Data": selected_action[1:] or [""]}
+        selected_action += [""] * (2 - len(selected_action))  # Pad the selected_action list to prevent an IndexError
+        action = {"Type": selected_action[0], "Data": selected_action[1:]}
         logging.info(f"User input: '{user_input}', Parsed as: {selected_action}, Generated proto-action: {action}")
 
         if action["Type"] in dict_from_tuple_of_tuples(EXTERNAL_ACTIONS):
