@@ -20,3 +20,27 @@ def plural(how_many: int) -> str:
         return "s"
     else:
         return ""
+
+
+def dict_from_tuple_of_tuples(tuple_of_tuples: tuple) -> dict:
+    """
+    Convert a tuple of tuples into a dictionary.
+
+    :param tuple_of_tuples: the tuple of tuples to be converted
+    :precondition: tuple_of_tuples must be a tuple of tuples, each nested tuple must only be of length two
+                   and have the key as the first element and the value as the second element
+    :postcondition: constructs a dictionary from the tuple of tuples
+    :return: the dictionary corresponding to the tuple of tuples
+
+    >>> example_structure = (
+    ...     ("key1", "value1"),
+    ...     ("key2", 2),
+    ...     ("key3", False),
+    ...     (4, "value4"),
+    ...     ((1, 2), (3, 4)),
+    ...     (None, None),
+    ... )
+    >>> dict_from_tuple_of_tuples(example_structure)
+    {'key1': 'value1', 'key2': 2, 'key3': False, 4: 'value4', (1, 2): (3, 4), None: None}
+    """
+    return dict((key, value) for key, value in tuple_of_tuples)
