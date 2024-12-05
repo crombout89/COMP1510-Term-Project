@@ -2,6 +2,8 @@ import itertools
 import logging
 import typing
 
+import pygame
+
 from .board import current_location
 
 from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING, BERRY_TREATMENTS
@@ -96,7 +98,10 @@ def game_over():
 
 def game_complete():
     """ Print a congratulatory message to the player for completing the game. """
-    play_finale_music()
+    try:
+        play_finale_music()
+    except pygame.error:
+        pass
     print("\n🎉 Congratulations! You've completed Whisker Woods Rescue! 🎉")
     print("Thanks to your purr-severance and kindness, the forest is thriving again.")
     print(f"You've become the ultimate Meowgical Healer, and all the animals are healthy and happy!")
