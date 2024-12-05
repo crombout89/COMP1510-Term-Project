@@ -133,9 +133,30 @@ def update_level(character: dict) -> bool:
     >>> test_character["FinalChallengeCompleted"] is None
     True  # Indicates the final challenge has started
     """
+    def print_level_up_message():
+        print("\n✨ You Leveled Up! ✨\n")
+        if character["Level"] == 2:
+            print("You've mastered the art of healing with single berries, and the animals are so grateful!\n"
+                  "As you continue your journey, you discover that some ailments require a bit more.\n"
+                  "Now, you can use up to 2 berries to create more powerful remedies for your furry friends.\n"
+                  "Gather different berries and experiment with combinations to cure even the toughest ailments!\n"
+                  "The forest is becoming more vibrant, and your skills are truly blossoming!")
+        elif character["Level"] == 3:
+            print("\n🌟 Congratulations on reaching Level 3! 🌟")
+            print("Your healing abilities have grown immensely!\n"
+                  "You've learned how to combine berries and other ingredients from"
+                  "your inventory to create unique recipes.")
+            # print("Now, you can mix and match items to craft powerful remedies that "
+            #       "can help any creature in Whisker Woods.")
+            print("The animals are counting on your creativity and wisdom!")
+        else:
+            print(f"🌟 You are now at level {character['Level']}! 🌟")
+        input("Press Enter to continue...")
+
     if character["UntilNextLevel"] <= 0:
         character["Level"] += 1
         character["UntilNextLevel"] = UNTIL_NEXT_LEVEL_MULTIPLIER * character["Level"]
+        print_level_up_message()
     if character["Level"] == 3 and character["FinalChallengeCompleted"] is None:
         start_final_challenge(character)
     else:

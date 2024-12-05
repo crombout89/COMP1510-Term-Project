@@ -37,23 +37,6 @@ def final_challenge():
     print("Gather your best items and craft a powerful remedy to save this majestic creature!")
 
 
-def level_up_to_2():
-    print("\n✨ Level Up! ✨")
-    print("You've mastered the art of healing with single berries, and the animals are so grateful!")
-    print("As you continue your journey, you discover that some ailments require a bit more.")
-    print("Now, you can use up to 3 berries to create more powerful remedies for your furry friends.")
-    print("Gather different berries and experiment with combinations to cure even the toughest ailments!")
-    print("The forest is becoming more vibrant, and your skills are truly blossoming!")
-
-
-def level_up_to_3():
-    print("\n🌟 Congratulations on reaching Level 3! 🌟")
-    print("Your healing abilities have grown immensely!")
-    print("You've learned how to combine berries and other ingredients from your inventory to create unique recipes.")
-    print("Now, you can mix and match items to craft powerful remedies that can help any creature in Whisker Woods.")
-    print("The animals are counting on your creativity and wisdom!")
-
-
 def print_game_instructions():
     print(" ✨ Your Mission: ✨")
     print("- Use your purr-oblem-solving skills to figure out which berry cures each animal’s ailment.")
