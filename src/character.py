@@ -36,34 +36,6 @@ def create_character(name: str) -> dict:
     return new_character
 
 
-def current_location(character: dict) -> tuple[int, int]:
-    """
-    Retrieve the current coordinates of the character based on their position.
-
-    :param character: A dictionary representing the character's state, including location attributes.
-    :precondition: character must have keys "InTree", "TreeCoordinates", and "GroundCoordinates".
-    :postcondition: Returns a tuple representing the current coordinates of the character.
-    :return: A tuple of two integers representing the character's current location (x, y).
-
-    >>> test_character = {
-    ...     "InTree": False,
-    ...     "GroundCoordinates": (5, 5),
-    ...     "TreeCoordinates": (0, 0)
-    ... }
-    >>> current_location(test_character)
-    (5, 5)
-
-    >>> test_character["InTree"] = True
-    >>> test_character["TreeCoordinates"] = (3, 4)
-    >>> current_location(character)
-    (3, 4)
-    """
-    if character["InTree"]:
-        return character["TreeCoordinates"]
-    else:
-        return character["GroundCoordinates"]
-
-
 def check_tummy(character: dict) -> bool:
     """
     Check the character's tummy level and determine if they are in a hungry state.

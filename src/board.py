@@ -1,7 +1,6 @@
 import random
 import logging
 
-from .character import current_location
 from .config import GROUND_X_SCALE, GROUND_Y_SCALE, TREE_SCALE_OPTIONS
 from .description import forest_patch_description, tree_patch_description, moss_description
 
@@ -216,3 +215,30 @@ def describe_current_location(character: dict, board: dict) -> str:
     else:
         print(forest_patch_description())
 
+
+def current_location(character: dict) -> tuple[int, int]:
+    """
+    Retrieve the current coordinates of the character based on their position.
+
+    :param character: A dictionary representing the character's state, including location attributes.
+    :precondition: character must have keys "InTree", "TreeCoordinates", and "GroundCoordinates".
+    :postcondition: Returns a tuple representing the current coordinates of the character.
+    :return: A tuple of two integers representing the character's current location (x, y).
+
+    >>> test_character = {
+    ...     "InTree": False,
+    ...     "GroundCoordinates": (5, 5),
+    ...     "TreeCoordinates": (0, 0)
+    ... }
+    >>> current_location(test_character)
+    (5, 5)
+
+    >>> test_character["InTree"] = True
+    >>> test_character["TreeCoordinates"] = (3, 4)
+    >>> current_location(character)
+    (3, 4)
+    """
+    if character["InTree"]:
+        return character["TreeCoordinates"]
+    else:
+        return character["GroundCoordinates"]

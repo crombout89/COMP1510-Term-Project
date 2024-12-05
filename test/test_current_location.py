@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from src.character import current_location
+from src.board import current_location
 
 
 class TestCurrentLocation(TestCase):
