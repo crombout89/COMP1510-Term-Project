@@ -4,7 +4,7 @@ import pygame
 MAIN_GAME_MUSIC = "assets/sfx/main-game-music.mp3"
 SAD_ANIMAL_MUSIC = "assets/sfx/sad-music-01.mp3"
 FINALE_MUSIC = "assets/sfx/finale-music.mp3"
-HEAL_SFX = "assets/sfx/cure-animal-sfx.mp3"
+HEAL_SFX = "assets/sfx/cured-animal-02.wav"
 
 
 def sfx_setup():
@@ -19,7 +19,7 @@ def play_main_game_music():
 
 
 def play_sad_animal_music():
-    """ Play the sad animal music once. """
+    """ Play the sad animal music indefinitely. """
     pygame.mixer.music.stop()
     pygame.mixer.music.load(SAD_ANIMAL_MUSIC)
     pygame.mixer.music.play(loops=-1)
