@@ -67,7 +67,7 @@ def help_animal_success(character: dict, entity: dict):
         character["FinalChallengeCompleted"] = True
         play_finale_music()
         print("Congratulations! You have completed the Final Challenge! 🎉")
-    print("Press ENTER to continue...")
+    input("Press ENTER to continue...")
 
 
 def help_animal(character: dict, entity: dict):
