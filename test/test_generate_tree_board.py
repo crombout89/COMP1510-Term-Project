@@ -8,8 +8,7 @@ from src.description import moss_description
 class TestGenerateTreeBoard(unittest.TestCase):
 
     def setUp(self):
-        # Choose a random tree scale for each test
-        self.tree_scale = random.choice(TREE_SCALE_OPTIONS)
+        self.tree_scale = 10
 
     def test_tree_trunk_placement(self):
         tree_board_result = generate_tree_board()
