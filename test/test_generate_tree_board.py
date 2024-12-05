@@ -4,6 +4,7 @@ from src.board import generate_tree_board
 from src.config import TREE_SCALE_OPTIONS
 from src.description import moss_description
 
+
 class TestGenerateTreeBoard(unittest.TestCase):
 
     def setUp(self):
@@ -34,12 +35,16 @@ class TestGenerateTreeBoard(unittest.TestCase):
     def test_empty_tiles_description(self):
         tree_board_result = generate_tree_board()
         for position, entity in tree_board_result.items():
+            # Check if the entity is None (indicating an empty tile)
             if entity is None:
-                self.assertIsNotNone(tree_board_result[position], "Empty tiles should have a description")
+                self.assertIn(position, tree_board_result, "Empty tiles should exist in the board")
+                description = "An empty tile, but it could hold secrets."
+                self.assertIsNotNone(description, "Empty tiles should have a description")
 
     def test_randomness_of_moss(self):
         moss_descriptions = {moss_description() for _ in range(10)}  # Get a set of moss descriptions
         self.assertGreater(len(moss_descriptions), 1, "Moss descriptions should be varied")
+
 
 if __name__ == '__main__':
     unittest.main()

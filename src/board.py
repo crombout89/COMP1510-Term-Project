@@ -128,7 +128,7 @@ def generate_ground_board() -> dict:
     >>> "TreeTrunk" in ground_board_result.values()  # Check that TreeTrunks exist
     True
     >>> test_tree_trunk_count = sum(1 for tile in ground_board_result.values() if tile == "TreeTrunk")  # Count TreeTrunks
-    30 <= tree_trunk_count <= 60  # Randomized, skip the exact count check
+    100 <= tree_trunk_count <= 200  # Randomized, skip the exact count check
     """
     ground_board = generate_board(-GROUND_X_SCALE, GROUND_X_SCALE, -GROUND_Y_SCALE, GROUND_Y_SCALE)
     tree_trunk_count = random.randint(100, 200)

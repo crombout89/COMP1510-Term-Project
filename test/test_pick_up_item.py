@@ -31,9 +31,9 @@ class TestPickUpItem(unittest.TestCase):
             "Data": None
         }
         self.valid_item_berry = {
-            "Type": "Item",
-            "Name": "Berries",
-            "Data": "Red"
+            'Type': 'Item',
+            'Name': 'Berries',  # Correct name for the inventory
+            'Data': 'Red'  # Data indicating the color
         }
         self.invalid_item_type = {
             "Type": "NotItem",
@@ -62,6 +62,7 @@ class TestPickUpItem(unittest.TestCase):
     def test_invalid_item_type(self):
         with self.assertRaises(TypeError):
             pick_up_item(self.character, self.invalid_item_type)
+
 
 if __name__ == '__main__':
     unittest.main()
