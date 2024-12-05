@@ -2,9 +2,9 @@ import itertools
 
 from .board import valid_location
 from .character import current_location, get_item_from_inventory, subtract_from_tummy, restore_points
-from .config import (SUBTRACT_FROM_TUMMY_IF_CLIMB, SUBTRACT_FROM_TUMMY_IF_MOVE,
-                     ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY, SILVERVINE_EXTRA_ENERGY, NAP_EXTRA_ENERGY,
-                     CATNIP_TUMMY_MULTIPLIER, SILVERVINE_TUMMY_MULTIPLIER, DIRECTION_MAPPING)
+from .config import (SUBTRACT_FROM_TUMMY_IF_MOVE, ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY,
+                     SILVERVINE_EXTRA_ENERGY, NAP_EXTRA_ENERGY, CATNIP_TUMMY_MULTIPLIER, SILVERVINE_TUMMY_MULTIPLIER,
+                     DIRECTION_MAPPING)
 from .entity import stringify_item
 from .util import plural, dict_from_tuple_of_tuples
 

@@ -1,4 +1,3 @@
-import pygame
 from .config import BERRY_TREATMENTS
 from .description import sick_animal_description, cured_animal_description
 from .entity import generate_reward

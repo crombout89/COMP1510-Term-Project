@@ -5,7 +5,6 @@ from src.entity import generate_entity, pick_up_item
 from src.ui import (print_game_backstory, get_action_input, game_over,
                     game_complete)
 from src.animal import help_animal
-from src.sfx import
 
 
 def game():
