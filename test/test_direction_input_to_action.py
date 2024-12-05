@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from src.action import direction_input_to_action
+from src.ui import direction_input_to_action
 
 
 class TestDirectionInputToAction(TestCase):

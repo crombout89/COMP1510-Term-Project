@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 from io import StringIO
-from src.action import check
+from src.ui import check
 
 
 class TestCheckFunction(unittest.TestCase):

@@ -1,13 +1,10 @@
-import itertools
 import logging
 
 from .board import valid_location, current_location
 from .character import subtract_from_tummy, restore_points
 from .config import (SUBTRACT_FROM_TUMMY_IF_MOVE, ADD_TO_TUMMY_IF_EAT_ITEM, CATNIP_EXTRA_ENERGY,
-                     SILVERVINE_EXTRA_ENERGY, NAP_EXTRA_ENERGY, CATNIP_TUMMY_MULTIPLIER, SILVERVINE_TUMMY_MULTIPLIER,
-                     DIRECTION_MAPPING)
+                     SILVERVINE_EXTRA_ENERGY, NAP_EXTRA_ENERGY, CATNIP_TUMMY_MULTIPLIER, SILVERVINE_TUMMY_MULTIPLIER)
 from .entity import stringify_item, get_item_from_inventory
-from .util import plural, dict_from_tuple_of_tuples
 
 
 def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
@@ -52,127 +49,6 @@ def move(character: dict, board: dict, direction: tuple[int, int]) -> bool:
     else:
         print("🚫 You're at the edge of the map and can't move in that direction!")
         return False
-
-
-def how_to_get_to_center(location: tuple[int, int]) -> str:
-    """
-    Tells the user how to get to the center of the board.
-
-    Assumes that the center of the board is at coordinates (0, 0).
-
-    Returns an empty string if location is already at the center
-
-    :param location: a tuple representing a coordinate
-    :precondition: location must be a tuple of two integers where
-    :postcondition: determines how to get to the center of the board
-    :return: a string telling the user how many tiles to move and in what direction to get to the center of the board
-
-    >>> how_to_get_to_center((-2, -1))
-    "2 tiles right and 1 tile down"
-    >>> how_to_get_to_center((3, 0))
-    "3 tiles left"
-    >>> how_to_get_to_center((0, 4))
-    "4 tiles up"
-    """
-    instruction_tokens = []
-    if location[0] < 0:
-        # If x coordinate is negative, they are in the left half of the map and need to go right
-        instruction_tokens.append(f"{abs(location[0])} tile{plural(abs(location[0]))} right")
-    elif location[0] > 0:
-        # If x coordinate is positive, they are in the right half of the map and need to go left
-        instruction_tokens.append(f"{abs(location[0])} tile{plural(abs(location[0]))} left")
-
-    if location[1] < 0:
-        # If x coordinate is negative, they are in the top half of the map and need to go down
-        instruction_tokens.append(f"{abs(location[1])} tile{plural(abs(location[1]))} down")
-    elif location[1] > 0:
-        # If x coordinate is positive, they are in the bottom half of the map and need to go up
-        instruction_tokens.append(f"{abs(location[1])} tile{plural(abs(location[1]))} up")
-
-    if len(instruction_tokens) == 2:
-        return f"{instruction_tokens[0]} and {instruction_tokens[1]}"
-    elif len(instruction_tokens) == 1:
-        return instruction_tokens[0]
-    else:
-        return ""
-
-
-def check(character: dict, attribute: str) -> None:
-    """
-    Check a specific attribute of the character and display its value.
-
-    :param character: A dictionary containing information about the player character.
-    :param attribute: The attribute to check (e.g., 'Tummy', 'Level', 'Inventory').
-    :precondition: character must be a dictionary containing the relevant attributes.
-    :precondition: attribute must be a string representing a valid character attribute.
-    :postcondition: Displays the value of the specified attribute.
-    :raises ValueError: If the specified attribute does not exist in the character dictionary.
-    :raises ValueError: If the attribute name is invalid or unsupported.
-
-    >>> game_character = {
-    ...     "Tummy": 50,
-    ...     "Level": 2,
-    ...     "Inventory": ["Catnip", "Silvervine"]
-    ... }
-    >>> check(character, "Tummy")
-    Your tummy level is: 50
-    >>> check(character, "Level")
-    Your current level is: 2
-    >>> check(character, "Inventory")
-    Your inventory contains:
-     - Catnip
-     - Silvervine
-    """
-    def check_tummy_and_extra_energy():
-        print(f"Your tummy level is: {character['Tummy']}")
-        if character['ExtraEnergy'] > 0:
-            print(f"You have extra energy for the next {character['ExtraEnergy']} move(s).")
-
-    def check_level():
-        print(f"Your current level is: {character['Level']}.\n"
-              f"You have to help {character['UntilNextLevel']} more animals to level up.")
-
-    def check_inventory():
-        print("Your inventory contains:")
-        top_level_items = [item for item in character["Inventory"].items() if type(item[1]) is int]
-        berries = map(lambda b: (f"{b[0]} Berry" if b[1] == 1 else f"{b[0]} Berries", b[1]),
-                      character["Inventory"]["Berries"].items())
-        for inventory_item in itertools.chain(top_level_items, berries):
-            print(f" - {inventory_item[1]} {inventory_item[0]}")
-
-    def check_location():
-        location = current_location(character)
-        if character["InTree"]:
-            print("You're in a tree.")
-            print(f"Your current coordinates are {location}")
-            if location == (0, 0):
-                print("You're at the center of the tree and can climb down.")
-            else:
-                print("If you want to climb down, you have to go to the center of the tree at (0, 0)\n"
-                      f"  Hint: Go {how_to_get_to_center(location)}.")
-        else:
-            print("You're on the ground.")
-            print(f"Your current coordinates are {location}")
-            if location == (0, 0):
-                print("You're at the center of the forest.")
-            elif character["FinalChallengeCompleted"] is False:
-                print("If you want to attempt the final challenge,"
-                      "you need to go to the center of the forest at (0, 0).\n"
-                      f"  Hint: Go {how_to_get_to_center(location)}.")
-
-    valid_attributes = {
-        # "Attribute name": the_closure_to_call
-        "Tummy": check_tummy_and_extra_energy,
-        "Level": check_level,
-        "Inventory": check_inventory,
-        "Location": check_location,
-    }
-
-    # Ensure the attribute is valid
-    if attribute in valid_attributes:
-        valid_attributes[attribute]()
-    else:
-        print(f"🚫 '{attribute}' is not a supported attribute to check!")
 
 
 def climb(character: dict, board) -> bool:
@@ -400,32 +276,3 @@ def perform_action(character: dict, board: dict, action: dict) -> bool:
         print("🚫 You can't perform this action!")
         return False
 
-
-def direction_input_to_action(direction_input: str) -> dict:
-    """
-    Determines the correct action dictionary for a selected movement direction.
-
-    Uses WASD mapping, where W is up, A is left, S is down, and D is right.
-
-    :param direction_input: a string representing the selected direction
-    :precondition: direction_input must be one of "W", "A", "S" or "D" (non-case-sensitive)
-    :postcondition: determines the correct action for the chosen direction
-    :raises ValueError: if direction_input is not one of "W", "A", "S" or "D"
-    :return: an action dictionary with "Move" as the key "Type" and the correct direction vector as the key "Data"
-
-    >>> direction_input_to_action("W")
-    {'Type': 'Move', 'Data': (0, -1)}
-    >>> direction_input_to_action("A")
-    {'Type': 'Move', 'Data': (-1, 0)}
-    >>> direction_input_to_action("S")
-    {'Type': 'Move', 'Data': (0, 1)}
-    """
-    action = {
-        "Type": "Move"
-    }
-    try:
-        action["Data"] = dict_from_tuple_of_tuples(DIRECTION_MAPPING)[direction_input.upper()]
-    except KeyError:
-        raise ValueError("Invalid direction input")
-    else:
-        return action
