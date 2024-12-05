@@ -168,17 +168,15 @@ def get_action_input(character: dict) -> dict:
     Your tummy level is: 50
     {'Type': 'Check', 'Data': ['Tummy']}
     """
-    action = {}
     while True:
         user_input = input("\nWhat do you want to do? (Just press ENTER if you don't know) \n> ")
         selected_action = user_input.strip().title().split()
-        logging.info(f"User input: '{user_input}', Parsed as: {selected_action}")
-        if len(selected_action) < 2:
-            # If the selected action has less than 2 tokens, pad it with empty strings to prevent an index error
-            selected_action += [""] * (2 - len(selected_action))
-        action["Type"], action["Data"] = selected_action[0], selected_action[1:]
+
+        action = {"Type": selected_action[0] or [""], "Data": selected_action[1:] or [""]}
+        logging.info(f"User input: '{user_input}', Parsed as: {selected_action}, Generated proto-action: {action}")
 
         if action["Type"] in dict_from_tuple_of_tuples(EXTERNAL_ACTIONS):
+            action["Data"] = dict_from_tuple_of_tuples(EXTERNAL_ACTIONS)[action["Type"]](action["Data"])
             return action
         elif action["Type"] in dict_from_tuple_of_tuples(DIRECTION_MAPPING).keys():
             return direction_input_to_action(action["Type"])
