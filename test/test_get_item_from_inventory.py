@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from src.character import get_item_from_inventory
+from src.entity import get_item_from_inventory
 
 
 class TestUpdateLevel(TestCase):

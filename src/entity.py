@@ -282,3 +282,66 @@ def pick_up_item(character: dict, entity: dict):
         print(f"The item is malformed and could not be picked up!")
         logging.warning("MALFORMED ITEM: " + str(entity))
 
+
+def get_item_from_inventory(character: dict, item: dict) -> bool:
+    """
+    Retrieve an item from the character's inventory if available.
+
+    :param character: A dictionary representing the character's state, including their inventory.
+    :param item: A dictionary representing the item to be retrieved, including its type and name.
+    :precondition: character must have an "Inventory" key with appropriate item counts.
+    :raises TypeError: if value of key "Type" of item is not "Item".
+    :postcondition: Decreases the count of the specified item in the character's inventory if available.
+    :return: True if the item was successfully retrieved, False if the item is not available.
+
+    >>> test_character = {
+    ...     "Inventory": {
+    ...         "Catnip": 2,
+    ...         "Silvervine": 1,
+    ...         "Berries": {"Red": 3, "Blue": 5}
+    ...     }
+    ... }
+    >>> item_catnip = {"Type": "Item", "Name": "Catnip"}
+    >>> get_item_from_inventory(test_character, item_catnip)
+    True
+    >>> test_character["Inventory"]["Catnip"]
+    1  # One less Catnip
+
+    >>> item_silvervine = {"Type": "Item", "Name": "Silvervine"}
+    >>> get_item_from_inventory(test_character, item_silvervine)
+    True
+    >>> character["Inventory"]["Silvervine"]
+    0  # Silvervine is now depleted
+
+    >>> item_berry = {"Type": "Item", "Name": "Berry", "Data": "Red"}
+    >>> get_item_from_inventory(test_character, item_berry)
+    True
+    >>> test_character["Inventory"]["Berries"]["Red"]
+    2  # One less Red Berry
+
+    >>> item_invalid = {"Type": "Item", "Name": "InvalidItem"}
+    >>> get_item_from_inventory(test_character, item_invalid)
+    False  # Item is not in the inventory
+    """
+    logging.info(f"Character: {character}, Item: {item}")
+    if item["Type"] != "Item":
+        raise TypeError(f"Expected entity type 'Item', got '{item['Type']}'")
+    if item["Name"] == "Catnip" or item["Name"] == "Silvervine":
+        if character["Inventory"][item["Name"]] > 0:
+            character["Inventory"][item["Name"]] -= 1
+            return True
+        else:
+            return False
+    elif item["Name"] == "Berry":
+        try:
+            berry_in_inventory = character["Inventory"]["Berries"][item["Data"]]
+        except KeyError:
+            return False
+        else:
+            if berry_in_inventory > 0:
+                character["Inventory"]["Berries"][item["Data"]] -= 1
+                return True
+            else:
+                return False
+    else:
+        return False

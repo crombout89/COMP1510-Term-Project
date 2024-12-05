@@ -1,9 +1,8 @@
 import logging
 import typing
 
-from .character import get_item_from_inventory
 from .config import ADD_TO_TUMMY_IF_EAT_ITEM, DIRECTION_MAPPING, BERRY_TREATMENTS
-from .entity import item_input_to_entity
+from .entity import item_input_to_entity, get_item_from_inventory
 from .action import check, direction_input_to_action
 from .sfx import play_finale_music
 from .util import dict_from_tuple_of_tuples

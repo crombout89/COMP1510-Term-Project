@@ -1,7 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from src.character import get_item_from_inventory
-from src.entity import stringify_item, generate_item
+from src.entity import stringify_item, generate_item, get_item_from_inventory
 from src.animal import validate_berry, help_animal
 
 
