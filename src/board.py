@@ -212,7 +212,7 @@ def describe_current_location(character: dict, board: dict) -> str:
     elif board_description == "Moss":
         print("🌿 You're in a patch of moss. You can take a nap to get extra energy.")
     elif character["InTree"]:
-        print(f"You are in a treetop: {tree_patch_description()}.")
+        print(tree_patch_description())
     else:
-        print(f"You are on the forest floor: {forest_patch_description()}")
+        print(forest_patch_description())
 
