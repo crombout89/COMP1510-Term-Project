@@ -130,7 +130,7 @@ def generate_entity(board: dict, character: dict) -> typing.Optional[dict]:
         }
 
     location = current_location(character)
-    if character["FinalChallengeCompleted"] is False and location == (0, 0):
+    if character["FinalChallengeCompleted"] is False and character["InTree"] is False and location == (0, 0):
         return generate_final_challenge_entity()
     if board.get(location) in ["TreeTrunk", "Moss"]:
         return None
