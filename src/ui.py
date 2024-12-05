@@ -28,15 +28,6 @@ INFORMATION_ACTIONS = (
 )
 
 
-def final_challenge():
-    print("\n🎓 Time for Your Final Challenge! 🎓")
-    print("You return to your professor, a wise old cat named Professor Whiskers.")
-    print("He has heard of your amazing feats and calls you to the ancient oak tree at the center of the forest.")
-    print("Professor Whiskers informs you of a legendary creature, the Moonlit Lynx, who is gravely ill.")
-    print("Located at the mystical coordinates (0, 0), the Lynx needs a special recipe made from rare ingredients.")
-    print("Gather your best items and craft a powerful remedy to save this majestic creature!")
-
-
 def print_game_instructions():
     print(" ✨ Your Mission: ✨")
     print("- Use your purr-oblem-solving skills to figure out which berry cures each animal’s ailment.")

@@ -346,6 +346,18 @@ def start_final_challenge(character: dict) -> None:
     >>> game_character["FinalChallengeCompleted"]
     False
     """
+    def print_final_challenge_instructions():
+        print("\n🗣️ You suddenly hear the professor calling you from the center of the forest.")
+        print("You drop what you're doing and run to him.")
+        print("The Professor is tending to a legendary creature, the Moonlit Lynx, the great protector of the forest.")
+        print("The Professor tells you that the Moonlit Lynx is gravely ill.\n"
+              "Without the forest's guardian to watch over it, everything will soon wither away.\n"
+              "The only way to cure the Lynx is a special recipe of all the different berries in the forest.\n"
+              "The recipe needs need two of each coloured berry. No more, no less.\n"
+              "The Professor can use his technology to stabilize the Lynx, for now. \n"
+              "It's up to you to get the berries!\n"
+              "The fate of the forest rests in your paws!\n")
+        input("Press Enter to continue...")
     # Ensure required keys are in the character dictionary
     required_keys = ["InTree", "GroundCoordinates", "FinalChallengeCompleted"]
     for key in required_keys:
@@ -357,4 +369,4 @@ def start_final_challenge(character: dict) -> None:
     character["GroundCoordinates"] = (0, 0)
     character["FinalChallengeCompleted"] = False
 
-    # Print the final challenge instructions
+    print_final_challenge_instructions()

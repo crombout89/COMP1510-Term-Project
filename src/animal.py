@@ -96,12 +96,16 @@ def help_animal(character: dict, entity: dict):
                     appropriately.
     :postcondition: If "FinalChallenge" is completed, character["FinalChallengeCompleted"] is set to True.
     """
+    def print_final_challenge_instructions():
+        print("You are attempting the Final Challenge!\n"
+              "You need to give the the Moonlit Lynx two of each berry.\n"
+              "If you don't have enough berries, press ENTER to skip for now, and go find the berries you need.\n"
+              "Once you have everything you need, come back to the center of the forest to help the Lynx!\n"
+              "If you get lost, type 'Check Location' for how to get back to the center!")
     play_sad_animal_music()
     # Special handling for the Final Challenge
     if entity["Name"] == "FinalChallenge":
-        print("You are accepting the Final Challenge!")
-        print("You need to give the sick animal a special medicine made from a recipe of berries to cure them,"
-              "or press ENTER to skip.")
+        print_final_challenge_instructions()
     else:
         print(sick_animal_description(entity))
         print("You need to give them the correct berries to cure their ailments! Or, press ENTER to skip.")
