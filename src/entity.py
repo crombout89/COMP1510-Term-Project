@@ -160,7 +160,6 @@ def generate_reward(character: dict, animal_name: str):
         reward_item = generate_item(character, True)  # Generate a random item
         logging.info("Reward item:" + str(reward_item))
         pick_up_item(character, reward_item)  # Add the item to the player's inventory
-        print(f" {reward[1]}. a {stringify_item(reward_item)}")
 
 
 def stringify_item(entity: dict) -> str:
