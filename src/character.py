@@ -1,7 +1,9 @@
 import logging
 
+from .animal import help_animal
 from .config import (CHARACTER_DEFAULT_ATTRIBUTES, CHARACTER_DEFAULT_INVENTORY_TOP_LEVEL,
                      CHARACTER_DEFAULT_INVENTORY_BERRIES, UNTIL_NEXT_LEVEL_MULTIPLIER)
+from .entity import generate_entity
 from .util import dict_from_tuple_of_tuples
 
 
@@ -370,3 +372,5 @@ def start_final_challenge(character: dict) -> None:
     character["FinalChallengeCompleted"] = False
 
     print_final_challenge_instructions()
+
+    help_animal(character, generate_entity({(0, 0): None}, character))
