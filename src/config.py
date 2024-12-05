@@ -50,17 +50,17 @@ CHARACTER_DEFAULT_ATTRIBUTES = (
     ("ExtraEnergy", 0),
     ("AnimalsHelped", 0),
     ("FinalChallengeCompleted", None),
-    ("Inventory", (
-        ("Berries", (
-            ("Red", 1),
-            ("Green", 1),
-            ("Blue", 1),
-            ("Yellow", 1),
-            ("Purple", 1)
-        )),
+)
+CHARACTER_DEFAULT_INVENTORY_TOP_LEVEL = (
         ("Catnip", 0),
         ("Silvervine", 0)
-    ))
+)
+CHARACTER_DEFAULT_INVENTORY_BERRIES = (
+    ("Red", 1),
+    ("Green", 1),
+    ("Blue", 1),
+    ("Yellow", 1),
+    ("Purple", 1)
 )
 DIRECTION_MAPPING = (
     # "Direction input": (Direction vector)
