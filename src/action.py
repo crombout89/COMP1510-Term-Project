@@ -323,7 +323,6 @@ def nap(character: dict, board: dict) -> bool:
     False
     """
     location = current_location(character)
-    print(f"Current location: {location}")  # Debug output
 
     # Check if the character is in a tree and the current location is moss
     if character["InTree"] and board.get(location) == "Moss":
