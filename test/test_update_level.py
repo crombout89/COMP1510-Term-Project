@@ -1,10 +1,13 @@
 from unittest import TestCase
-
+import pygame
 from src.character import update_level
 
 
 class TestUpdateLevel(TestCase):
     def setUp(self):
+        # Initialize Pygame mixer for sound effects
+        pygame.mixer.init()
+
         self.base_character = {
             "Level": 1,
             "UntilNextLevel": 1,
