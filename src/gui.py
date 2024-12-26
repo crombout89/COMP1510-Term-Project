@@ -33,7 +33,7 @@ class Main(QtWidgets.QWidget):
         play_main_game_music()
 
         self.button = QtWidgets.QPushButton("Show Version")
-        self.text = QtWidgets.QLabel(str(current_board) + str(player))
+        self.text = QtWidgets.QTextEdit(str(current_board) + str(player))
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.addWidget(self.text)
